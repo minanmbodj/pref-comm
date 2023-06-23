@@ -43,7 +43,7 @@ export default function AdvisorDetails(props) {
 					</Row>
 					<Row style={{ border: "1px solid" }}>
 						<h3>
-							{advisor.name}
+							{advisor.name}'s recommended movie
 						</h3>
 					</Row>
 					<Row style={{ border: "1px solid" }}>
@@ -120,6 +120,18 @@ function UserRecommendationFormModal(props) {
 						<Form.Control
 							placeholder="Movie name ..."
 							autoFocus />
+					</Form.Group>
+					<Form.Group controlId="rating">
+						<Form.Label style={{ marginTop: "10px" }}>
+							How would you rate the advice?
+						</Form.Label>
+						<Form.Select>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3" selected>3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						</Form.Select>
 					</Form.Group>
 					<Form.Group controlId="rationale">
 						<Form.Label style={{ marginTop: "10px" }}>
