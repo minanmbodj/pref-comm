@@ -1,0 +1,53 @@
+.AdvisorPanel-list-item {
+	text-align: left;
+	display: flex;
+	border: 1px solid;
+	margin: 3px;
+	cursor: pointer;
+}
+
+.AdvisorPanel-list-item:hover {
+	background-color: #282c34;
+	color: white;
+}
+
+.selected {
+	background-color: #282c34;
+	color: white;
+}
+
+.AdvisorPanel-list-item-image {
+	height: 90px;
+	width: 72px;
+	margin-left: 9px;
+	margin-right: 3px;
+}
+
+.AdvisorPanel-list-item-desc {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.AdvisorsDetails-poster {
+	height: 300px;
+	width: 300px;
+	margin: 0 auto;
+}
+
+.AdvisorsDetails-button-reject {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.AdvisorsDetails-button-accept {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.AdvisorProfile-list-item {
+	text-align: left;
+	display: flex;
+	border: 1px solid;
+	margin: 3px;
+}
