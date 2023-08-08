@@ -51,3 +51,24 @@
 	border: 1px solid;
 	margin: 3px;
 }
+
+.AdvisorPanel-list-item-status-label {
+	margin: auto 10px auto auto;
+	border-radius: 0.5em;
+	text-align: center;
+	width: 81px;
+}
+
+.AdvisorPanel-list-item-status-label.pending {
+	background-color: #cccccccc;
+}
+
+.AdvisorPanel-list-item-status-label.accepted {
+	background-color: #198754;
+	color: white;
+}
+
+.AdvisorPanel-list-item-status-label.rejected {
+	background-color: #dc3545;
+	color: white;
+}

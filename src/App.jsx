@@ -1,7 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import logo from './logo.svg';
+import { Suspense } from 'react';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
 import AdvisorsPage from './pages/advisors/AdvisorsPage';
+import MainLandingPage from './pages/MainLandingPage';
+import MovieRatingPage from './pages/ratemovies/MovieRatingPage';
 
 function App() {
   return (
@@ -9,7 +12,15 @@ function App() {
       <header className="App-header">
         <h1>Preference Community</h1>
       </header>
-      <AdvisorsPage className="Main-content" />
+      <Router basename='/preference-community'>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<MainLandingPage />} />
+            <Route path="/ratemovies" element={<MovieRatingPage />} />
+            <Route path="/advisors" element={<AdvisorsPage />} />
+          </Routes>
+        </Suspense>
+      </Router>
     </div>
   );
 }
