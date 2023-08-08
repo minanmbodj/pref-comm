@@ -75,11 +75,16 @@ export default function AdvisorDetails({ advisor, acceptCallback, rejectCallback
 		setShowRecommendationFormModal(false);
 	}
 
+	const handleClose = () => {
+		setAdvisorProfile(undefined);
+		setShowRecommendationFormModal(false);
+	}
+
 	return (
 		<Container style={{ border: "2px solid" }}>
 			<LoaderDialog show={loading} />
 			<UserRecommendationFormModal show={showRecommendationFormModal}
-				handleClose={() => setShowRecommendationFormModal(false)}
+				handleClose={handleClose}
 				handleSubmit={submitHandler}
 				advisor={advisorProfile} />
 			<Row>
