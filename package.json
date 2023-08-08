@@ -40,5 +40,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "i# Getting Started with Create React App",
+  "main": "index.js",
+  "devDependencies": {},
+  "keywords": [
+    "rssa"
+  ],
+  "author": "Mehtab (Shahan) Iqbal",
+  "license": "ISC"
 }
