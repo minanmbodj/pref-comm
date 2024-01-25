@@ -46,7 +46,7 @@ export default function AdvisorsPage(props) {
 					loadingMessage={'Please wait while the system prepares your recommendations'}
 					loadingByline={"This may take a while."} />
 				:
-				<Container className="Main-content">
+				<Container className="Main-content">	
 					<AdvisorsWidget currentAdvisors={recommendations} />
 				</Container>
 			}

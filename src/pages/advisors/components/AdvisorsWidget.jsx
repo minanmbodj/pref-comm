@@ -58,7 +58,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
 
   return (
     <Row>
-      <Col sm={4}>
+      <Col sm={3}>
         <AdvisorsPanel
           advisors={advisors}
           activeSelection={activeSelection && activeSelection.id}

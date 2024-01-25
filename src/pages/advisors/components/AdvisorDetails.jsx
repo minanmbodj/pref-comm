@@ -4,7 +4,7 @@ import parse from "html-react-parser";
 import { imgurl, post } from "../../../middleware/requests";
 
 const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
-  const [advisorProfile, setAdvisorProfile] = useState(undefined);
+  const [advisorProfile, setAdvisorProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [showAdvisorProfile, setShowAdvisorProfile] = useState(false);
@@ -12,10 +12,12 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
 
   useEffect(() => {
     if (advisor) {
-      setButtonDisabled(advisor.status.toLowerCase() !== "pending");
-    }
-  }, [advisor]);
+       setButtonDisabled(advisor.status.toLowerCase() !== "pending");
 
+       // Fetch initial profile data
+       getAdvisorProfile(advisor.movie_id);
+    }
+ }, [advisor]);
   const getAdvisorProfile = (advisor_id) => {
     setLoading(true);
     post("prefComm/advisor/profile/", { advisor_id })
