@@ -40,10 +40,10 @@ const AdvisorListItem = ({ advisor, selected, selectCallback }) => {
 					{advisor.advice_preview}
 				</p>
 			</div>
-			<div className={"AdvisorPanel-list-item-status-label " +
+			{/* <div className={"AdvisorPanel-list-item-status-label " +
 				advisor.status.toLowerCase()}>
 				{advisor.status}
-			</div>
+			</div> */}
 		</li>
 	)
 }
