@@ -89,6 +89,7 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
           {showAdvisorProfile && advisorProfile && (
             <Row>
               <Col>
+                <h2>Advisor</h2>
                 <ul>
                   {Object.entries(advisorProfile.profile).map(
                     ([key, value]) => (
