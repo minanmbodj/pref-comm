@@ -28,28 +28,24 @@ const RecommendationForm = ({ advisor, onSubmit }) => {
 
   return (
     <div>
-      <h5>Recommendation Form</h5>
-      {isSubmitted ? (
-        <>
-          <Alert variant="success">
-            Recommendation submitted successfully!
-          </Alert>
-        </>
-      ) : (
-        <Form>
-          <Form.Group controlId="recommendation">
-            <Form.Label>What do you recommend for the advisor?</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Movie name ..."
-              value={movieName}
-              onChange={(e) => setMovieName(e.target.value)}
-            />
-          </Form.Group>
-          <Button variant="primary" onClick={handleSubmit}>
-            Submit
-          </Button>
-        </Form>
+      {!isSubmitted && (
+        <div>
+          <h5>Recommendation Form</h5>
+          <Form>
+            <Form.Group controlId="recommendation">
+              <Form.Label>What do you recommend for the advisor?</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Movie name ..."
+                value={movieName}
+                onChange={(e) => setMovieName(e.target.value)}
+              />
+            </Form.Group>
+            <Button variant="primary" onClick={handleSubmit}>
+              Submit
+            </Button>
+          </Form>
+        </div>
       )}
     </div>
   );
