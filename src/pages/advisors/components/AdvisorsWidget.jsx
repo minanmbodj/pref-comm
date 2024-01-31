@@ -1,10 +1,10 @@
 import { useState } from "react";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
 import AdvisorDetails from "./AdvisorDetails";
 import AdvisorsPanel from "./AdvisorsPanel";
 import RecommendationForm from "./RecommendationForm";
+import AdvisorRecommendations from "./AdvisorRecommendations";
 import "./AdvisorsWidget.css";
+import {Button, Col, Row} from "react-bootstrap";
 
 function mapReplace(arr, prop, propval, callback) {
   return arr.map((item) => {
@@ -19,12 +19,12 @@ function mapReplace(arr, prop, propval, callback) {
 export default function AdvisorsWidget({ currentAdvisors }) {
   const [advisors, setAdvisors] = useState(currentAdvisors || []);
   const [activeSelection, setActiveSelection] = useState(null);
-  const [showRecommendationFormPanel, setShowRecommendationFormPanel] = useState(false);
+  const [approvalPressed, setApprovalPressed] = useState(false);
 
   const handleSelect = (advisorid) => {
     const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorid);
     setActiveSelection(selectedAdvisor);
-    setShowRecommendationFormPanel(false); // Reset the state when selecting a new advisor
+    setApprovalPressed(false); // Reset the state when selecting a new advisor
   };
 
   const handleRating = (rating, advisorid) => {
@@ -39,7 +39,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
   const handleAccept = (advisorid) => {
     const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorid);
     selectedAdvisor.status = "Accepted";
-    setShowRecommendationFormPanel(true);
+    setApprovalPressed(true);
     const newAdvisors = mapReplace(advisors, "id", advisorid, (advisor) => {
       return selectedAdvisor;
     });
@@ -49,7 +49,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
   const handleReject = (advisorid) => {
     const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorid);
     selectedAdvisor.status = "Rejected";
-    setShowRecommendationFormPanel(true);
+    setApprovalPressed(true);
     const newAdvisors = mapReplace(advisors, "id", advisorid, (advisor) => {
       return selectedAdvisor;
     });
@@ -74,16 +74,23 @@ export default function AdvisorsWidget({ currentAdvisors }) {
         />
       </Col>
       <Col sm={4}>
-  {showRecommendationFormPanel && activeSelection && (
-    <RecommendationForm
-      advisor={activeSelection}  // Pass the correct advisor prop
-      onSubmit={(formData) => {
-        // Handle form submission logic here
-        console.log("Form data:", formData);
-      }}
-    />
-  )}
-</Col>
+        {!approvalPressed && (
+          <AdvisorRecommendations
+            advisor={activeSelection}
+            acceptCallback={handleAccept}
+            rejectCallback={handleReject}
+          />
+        )}
+          {approvalPressed && activeSelection && (
+            <RecommendationForm
+              advisor={activeSelection}  // Pass the correct advisor prop
+              onSubmit={(formData) => {
+                // Handle form submission logic here
+                console.log("Form data:", formData);
+              }}
+            />
+          )}
+      </Col>
     </Row>
   );
 }

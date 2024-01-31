@@ -116,38 +116,6 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
                       alt={advisor.name}
                     />
                   </Row>
-                  <Row style={{ border: "1px solid" }}>
-                    <h3>Advisor is recommending "{advisor.name}"</h3>
-                  </Row>
-                  <Row
-                    className="AdvisorsDetails-button-panel"
-                    style={{ border: "1px solid" }}
-                  >
-                    {!buttonsHidden && ( // Conditionally render buttons
-                      <>
-                        <Col style={{ border: "1px solid" }}>
-                          <Button
-                            className="AdvisorsDetails-button-accept"
-                            variant="success"
-                            disabled={buttonDisabled}
-                            onClick={handleAccept}
-                          >
-                            Accept Recommendation
-                          </Button>
-                        </Col>
-                        <Col style={{ border: "1px solid" }}>
-                          <Button
-                            className="AdvisorsDetails-button-reject"
-                            variant="danger"
-                            disabled={buttonDisabled}
-                            onClick={handleReject}
-                          >
-                            Reject Recommendation
-                          </Button>
-                        </Col>
-                      </>
-                    )}
-                  </Row>
                 </div>
               </Row>
             </Col>
