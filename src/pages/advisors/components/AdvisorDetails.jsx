@@ -4,7 +4,7 @@ import parse from "html-react-parser";
 import { imgurl, post } from "../../../middleware/requests";
 
 const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
-  const [advisorProfile, setAdvisorProfile] = useState(undefined);
+  const [advisorProfile, setAdvisorProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [showAdvisorProfile, setShowAdvisorProfile] = useState(false);
@@ -12,10 +12,12 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
 
   useEffect(() => {
     if (advisor) {
-      setButtonDisabled(advisor.status.toLowerCase() !== "pending");
-    }
-  }, [advisor]);
+       setButtonDisabled(advisor.status.toLowerCase() !== "pending");
 
+       // Fetch initial profile data
+       getAdvisorProfile(advisor.movie_id);
+    }
+ }, [advisor]);
   const getAdvisorProfile = (advisor_id) => {
     setLoading(true);
     post("prefComm/advisor/profile/", { advisor_id })
@@ -87,6 +89,7 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
           {showAdvisorProfile && advisorProfile && (
             <Row>
               <Col>
+                <h2>Advisor</h2>
                 <ul>
                   {Object.entries(advisorProfile.profile).map(
                     ([key, value]) => (
@@ -113,38 +116,6 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
                       src={imgurl(advisor.poster_identifier)}
                       alt={advisor.name}
                     />
-                  </Row>
-                  <Row style={{ border: "1px solid" }}>
-                    <h3>Advisor is recommending "{advisor.name}"</h3>
-                  </Row>
-                  <Row
-                    className="AdvisorsDetails-button-panel"
-                    style={{ border: "1px solid" }}
-                  >
-                    {!buttonsHidden && ( // Conditionally render buttons
-                      <>
-                        <Col style={{ border: "1px solid" }}>
-                          <Button
-                            className="AdvisorsDetails-button-accept"
-                            variant="success"
-                            disabled={buttonDisabled}
-                            onClick={handleAccept}
-                          >
-                            Accept Recommendation
-                          </Button>
-                        </Col>
-                        <Col style={{ border: "1px solid" }}>
-                          <Button
-                            className="AdvisorsDetails-button-reject"
-                            variant="danger"
-                            disabled={buttonDisabled}
-                            onClick={handleReject}
-                          >
-                            Reject Recommendation
-                          </Button>
-                        </Col>
-                      </>
-                    )}
                   </Row>
                 </div>
               </Row>
