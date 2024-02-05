@@ -65,7 +65,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
           selectCallback={handleSelect}
         />
       </Col>
-      <Col sm={4}>
+      <Col sm={5}>
         <AdvisorDetails
           advisor={activeSelection}
           ratingCallback={handleRating}
