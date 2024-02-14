@@ -6,6 +6,7 @@ const RecommendationForm = ({ advisor, onSubmit }) => {
   const [rating, setRating] = useState(3);
   const [rationale, setRationale] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [advisorName, setAdvisorName] = useState("Advisor Name"); //TODO: change when we get the advisors name
 
   const handleSubmit = () => {
     // Add any additional validation or processing logic here
@@ -28,12 +29,19 @@ const RecommendationForm = ({ advisor, onSubmit }) => {
 
   return (
     <div>
-      {!isSubmitted && (
+      <h5>Recommendation Form</h5>
+      {isSubmitted  ? (
+        <>
+          <Alert variant="success">
+           Your recommendation has been saved; thank you!
+          </Alert>
+        </>
+      ) : (
         <div>
-          <h5>Recommendation Form</h5>
+            
           <Form>
             <Form.Group controlId="recommendation">
-              <Form.Label>What do you recommend for the advisor?</Form.Label>
+              <Form.Label>Please input the movie you wish to recommend to {advisorName} and why.</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Movie name ..."
@@ -41,25 +49,11 @@ const RecommendationForm = ({ advisor, onSubmit }) => {
                 onChange={(e) => setMovieName(e.target.value)}
               />
             </Form.Group>
-            <Form.Group controlId="rating">
-              <Form.Label>How would you rate the advice?</Form.Label>
-              <Form.Control
-                as="select"
-                value={rating}
-                onChange={(e) => setRating(e.target.value)}
-              >
-                {[1, 2, 3, 4, 5].map((value) => (
-                  <option key={value} value={value}>
-                    {value}
-                  </option>
-                ))}
-              </Form.Control>
-            </Form.Group>
             <Form.Group controlId="rationale">
-              <Form.Label>
-                In five sentences or less, explain why {advisor.name} should watch
+              {/* <Form.Label>
+                In five sentences or less, explain why {advisorName} should watch
                 the movie you have chosen.
-              </Form.Label>
+              </Form.Label> */}
               <Form.Control
                 as="textarea"
                 rows={5}
@@ -67,7 +61,8 @@ const RecommendationForm = ({ advisor, onSubmit }) => {
                 onChange={(e) => setRationale(e.target.value)}
               />
             </Form.Group>
-            <Button variant="primary" onClick={handleSubmit}>
+            <Button variant="primary" onClick={handleSubmit}
+            disabled={rationale === "" || movieName === ""}>
               Submit
             </Button>
           </Form>

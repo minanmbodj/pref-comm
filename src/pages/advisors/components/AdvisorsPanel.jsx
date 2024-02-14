@@ -9,7 +9,7 @@ export default function AdvisorsPanel({ activeSelection, advisors, selectCallbac
 	return (
 		<div style={{ border: "2px solid" }}>
 			<Row>
-				<h2>Advisors</h2>
+				<h2>Your Advisors</h2>
 			</Row>
 			<Row>
 				<ul>

@@ -7,6 +7,7 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
     const [advisorProfile, setAdvisorProfile] = useState(null);
     const [loading, setLoading] = useState(false);
     const [showAdvisorProfile, setShowAdvisorProfile] = useState(false);
+    const [advisorName, setAdvisorName] = useState("Advisor Name"); //TODO: change when we get the advisors name
 
   useEffect(() => {
     if (advisor) {
@@ -56,7 +57,7 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
       ) : (
         <>
         <Row style={{ border: "1px solid" }}>
-            <h3>Advisor is recommending "{advisor.name}"</h3>
+            <h3>How do you feel about {advisorName}'s recommendation?</h3>
         </Row>
         <Row
             className="AdvisorsDetails-button-panel"
