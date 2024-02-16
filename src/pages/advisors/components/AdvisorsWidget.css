@@ -41,16 +41,6 @@
 	justify-content: center;
 }
 
-.AdvisorsDetails-button-reject {
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
-.AdvisorsDetails-button-accept {
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
 .AdvisorProfile-list-item {
 	text-align: left;
 	display: flex;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Image } from "react-bootstrap";
 import parse from "html-react-parser";
 import { imgurl, post } from "../../../middleware/requests";
+import "./Recommendations.css";
 
 const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
     const [advisorProfile, setAdvisorProfile] = useState(null);
@@ -63,7 +64,7 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
             className="AdvisorsDetails-button-panel"
             style={{ border: "1px solid" }}
         >
-            <Col style={{ border: "1px solid" }}>
+            <Col className="button-container1">
                 <Button
                 className="AdvisorsDetails-button-accept"
                 variant="success"
@@ -72,7 +73,7 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
                 Accept Recommendation
                 </Button>
             </Col>
-            <Col style={{ border: "1px solid" }}>
+            <Col className="button-container2">
                 <Button
                 className="AdvisorsDetails-button-reject"
                 variant="danger"

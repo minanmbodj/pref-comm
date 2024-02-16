@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button, Alert} from "react-bootstrap";
+import "./Recommendations.css";
 
 const RecommendationForm = ({ advisor, onSubmit }) => {
   const [movieName, setMovieName] = useState("");
@@ -28,8 +29,8 @@ const RecommendationForm = ({ advisor, onSubmit }) => {
   };
 
   return (
-    <div>
-      <h5>Recommendation Form</h5>
+    <div className="form-container">
+      <h3>Recommendation Form</h3>
       {isSubmitted  ? (
         <>
           <Alert variant="success">
@@ -37,11 +38,10 @@ const RecommendationForm = ({ advisor, onSubmit }) => {
           </Alert>
         </>
       ) : (
-        <div>
-            
+        <div>  
           <Form>
-            <Form.Group controlId="recommendation">
-              <Form.Label>Please input the movie you wish to recommend to {advisorName} and why.</Form.Label>
+            <Form.Group className="recommendation-form-name" controlId="recommendation">
+              <Form.Label>Please input the movie name you wish to recommend to {advisorName}.</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Movie name ..."
@@ -49,11 +49,10 @@ const RecommendationForm = ({ advisor, onSubmit }) => {
                 onChange={(e) => setMovieName(e.target.value)}
               />
             </Form.Group>
-            <Form.Group controlId="rationale">
-              {/* <Form.Label>
-                In five sentences or less, explain why {advisorName} should watch
-                the movie you have chosen.
-              </Form.Label> */}
+            <Form.Group className="recommendation-form-why" controlId="rationale">
+              <Form.Label>
+                Why do you want to recommend said movie to {advisorName}?
+              </Form.Label>
               <Form.Control
                 as="textarea"
                 rows={5}
@@ -61,7 +60,7 @@ const RecommendationForm = ({ advisor, onSubmit }) => {
                 onChange={(e) => setRationale(e.target.value)}
               />
             </Form.Group>
-            <Button variant="primary" onClick={handleSubmit}
+            <Button className="submit-btn" variant="primary" onClick={handleSubmit}
             disabled={rationale === "" || movieName === ""}>
               Submit
             </Button>

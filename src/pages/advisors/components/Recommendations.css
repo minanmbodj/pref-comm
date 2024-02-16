@@ -1,0 +1,44 @@
+.form-container {
+    border: 2px solid;
+}
+
+.recommendation-form-name {
+    margin-top: 7%;
+}
+
+.recommendation-form-why {
+	margin-top: 20%;
+}
+
+.submit-btn {
+    margin-top: 5%;
+    margin-bottom: 3%;
+    width:50%;
+    height:50%;
+}
+
+.AdvisorsDetails-button-panel{
+    height: 30vh;
+    justify-content: space-between;
+    margin-top: 40%;
+}
+
+.button-container1{
+    border: 1px solid;
+}
+
+.button-container2{
+    border: 1px solid;
+}
+
+.AdvisorsDetails-button-accept{
+    margin-top: 7vh;
+    height: 50%;
+    font-size: 1.2em;
+}
+
+.AdvisorsDetails-button-reject{
+    margin-top: 7vh;
+    height: 50%;
+    font-size: 1.2em;
+}
