@@ -8,7 +8,6 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
   const [loading, setLoading] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [showAdvisorProfile, setShowAdvisorProfile] = useState(false);
-  const [buttonsHidden, setButtonsHidden] = useState(false); // New state variable
 
   useEffect(() => {
     if (advisor) {
@@ -34,21 +33,21 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
       });
   };
 
-  const handleAccept = () => {
-    acceptCallback(advisor.id);
-    setButtonDisabled(advisor.status.toLowerCase() !== "pending");
-	setButtonDisabled(true);
-    getAdvisorProfile(advisor.movie_id);
-	setButtonsHidden(true); // Set buttonsHidden to true when accept is clicked
-  };
+  // const handleAccept = () => {
+  //   acceptCallback(advisor.id);
+  //   setButtonDisabled(advisor.status.toLowerCase() !== "pending");
+	// setButtonDisabled(true);
+  //   getAdvisorProfile(advisor.movie_id);
+	// setButtonsHidden(true); // Set buttonsHidden to true when accept is clicked
+  // };
 
-  const handleReject = () => {
-    rejectCallback(advisor.id);
-    setButtonDisabled(advisor.status.toLowerCase() !== "pending");
-	setButtonDisabled(true);
-    getAdvisorProfile(advisor.movie_id);
-	setButtonsHidden(true); // Set buttonsHidden to true when accept is clicked
-  };
+  // const handleReject = () => {
+  //   rejectCallback(advisor.id);
+  //   setButtonDisabled(advisor.status.toLowerCase() !== "pending");
+	// setButtonDisabled(true);
+  //   getAdvisorProfile(advisor.movie_id);
+	// setButtonsHidden(true); // Set buttonsHidden to true when accept is clicked
+  // };
 
 
   const advisorProfileLabels = (key, value) => {
