@@ -8,7 +8,8 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
   const [loading, setLoading] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [showAdvisorProfile, setShowAdvisorProfile] = useState(false);
-  const [buttonsHidden, setButtonsHidden] = useState(false); // New state variable
+  const [advisorName, setAdvisorName] = useState("Advisor Name"); //Placeholder for advisor name
+  const [recommendationSubmitted, setRecommendationSubmitted] = useState(false);
 
   useEffect(() => {
     if (advisor) {
@@ -34,24 +35,8 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
       });
   };
 
-  const handleAccept = () => {
-    acceptCallback(advisor.id);
-    setButtonDisabled(advisor.status.toLowerCase() !== "pending");
-	setButtonDisabled(true);
-    getAdvisorProfile(advisor.movie_id);
-	setButtonsHidden(true); // Set buttonsHidden to true when accept is clicked
-  };
 
-  const handleReject = () => {
-    rejectCallback(advisor.id);
-    setButtonDisabled(advisor.status.toLowerCase() !== "pending");
-	setButtonDisabled(true);
-    getAdvisorProfile(advisor.movie_id);
-	setButtonsHidden(true); // Set buttonsHidden to true when accept is clicked
-  };
-
-
-  const advisorProfileLabels = (key, value) => {
+  const advisorProfileLabels = (key, value, isSubmitted, rationale) => {
     switch (key) {
       case "likes":
         return `<strong>The advisor likes</strong> ${value}`;
@@ -89,7 +74,17 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
           {showAdvisorProfile && advisorProfile && (
             <Row>
               <Col>
-                <h2>Advisor</h2>
+                <div className="profile-heading">
+                  {/* the image url is a placeholder for now */}
+                  <img className="profImg" src={imgurl(advisor.poster_identifier)} alt="profile description" />
+                  <p className="profHead">{advisorName}</p>
+                </div>
+              </Col>
+            </Row>
+          )}
+          { showAdvisorProfile && advisorProfile && (
+            <Row style={{border: "2px solid"}}>
+              <Col>
                 <ul>
                   {Object.entries(advisorProfile.profile).map(
                     ([key, value]) => (
@@ -121,6 +116,14 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
               </Row>
             </Col>
           </Row>
+          {/* {{isSubmitted} && (
+            <Row style={{ border: "1px solid" }}>
+              <Col>
+                <h2>Your Recommendation to {advisorName}</h2>
+                <p> {rationale}</p>
+              </Col>
+            </Row>
+          )} */}
         </>
       )}
     </Container>

@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Form, Button, Alert} from "react-bootstrap";
+import "./Recommendations.css";
 
 const RecommendationForm = ({ advisor, onSubmit }) => {
   const [movieName, setMovieName] = useState("");
   const [rating, setRating] = useState(3);
   const [rationale, setRationale] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [advisorName, setAdvisorName] = useState("Advisor Name"); //TODO: change when we get the advisors name
 
   const handleSubmit = () => {
     // Add any additional validation or processing logic here
@@ -27,13 +29,19 @@ const RecommendationForm = ({ advisor, onSubmit }) => {
   };
 
   return (
-    <div>
-      {!isSubmitted && (
-        <div>
-          <h5>Recommendation Form</h5>
+    <div className="form-container">
+      <h3>Recommendation Form</h3>
+      {isSubmitted  ? (
+        <>
+          <Alert variant="success">
+           Your recommendation has been saved; thank you!
+          </Alert>
+        </>
+      ) : (
+        <div>  
           <Form>
-            <Form.Group controlId="recommendation">
-              <Form.Label>What do you recommend for the advisor?</Form.Label>
+            <Form.Group className="recommendation-form-name" controlId="recommendation">
+              <Form.Label>Please input the movie name you wish to recommend to {advisorName}.</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Movie name ..."
@@ -41,24 +49,9 @@ const RecommendationForm = ({ advisor, onSubmit }) => {
                 onChange={(e) => setMovieName(e.target.value)}
               />
             </Form.Group>
-            <Form.Group controlId="rating">
-              <Form.Label>How would you rate the advice?</Form.Label>
-              <Form.Control
-                as="select"
-                value={rating}
-                onChange={(e) => setRating(e.target.value)}
-              >
-                {[1, 2, 3, 4, 5].map((value) => (
-                  <option key={value} value={value}>
-                    {value}
-                  </option>
-                ))}
-              </Form.Control>
-            </Form.Group>
-            <Form.Group controlId="rationale">
+            <Form.Group className="recommendation-form-why" controlId="rationale">
               <Form.Label>
-                In five sentences or less, explain why {advisor.name} should watch
-                the movie you have chosen.
+                Why do you want to recommend said movie to {advisorName}?
               </Form.Label>
               <Form.Control
                 as="textarea"
@@ -67,7 +60,8 @@ const RecommendationForm = ({ advisor, onSubmit }) => {
                 onChange={(e) => setRationale(e.target.value)}
               />
             </Form.Group>
-            <Button variant="primary" onClick={handleSubmit}>
+            <Button className="submit-btn" variant="primary" onClick={handleSubmit}
+            disabled={rationale === "" || movieName === ""}>
               Submit
             </Button>
           </Form>

@@ -30,45 +30,41 @@
 }
 
 .AdvisorsDetails-poster {
-	height: 300px;
-	width: 300px;
-	margin: 0 auto;
+	height: 150px;
+	width: 150px;
+	margin-left: 7px;
 }
 
-.AdvisorsDetails-button-reject {
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
-.AdvisorsDetails-button-accept {
-	margin-top: 10px;
-	margin-bottom: 10px;
+.AdvisorDetails-desc {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .AdvisorProfile-list-item {
 	text-align: left;
-	display: flex;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	grid-gap: 10px;
 	border: 1px solid;
 	margin: 3px;
+  }
+
+.profImg{
+	float: left;
+	width: 60px;
+	height: 60px;
+	background: #555;
 }
 
-.AdvisorPanel-list-item-status-label {
-	margin: auto 10px auto auto;
-	border-radius: 0.5em;
-	text-align: center;
-	width: 81px;
+.profHead {
+	float: left;
+	margin-left: 10px;
 }
 
-.AdvisorPanel-list-item-status-label.pending {
-	background-color: #cccccccc;
-}
-
-.AdvisorPanel-list-item-status-label.accepted {
-	background-color: #198754;
-	color: white;
-}
-
-.AdvisorPanel-list-item-status-label.rejected {
-	background-color: #dc3545;
-	color: white;
+.profile-heading {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: calc(10px + 2vh); /* Adjust the base font size and scaling factor as needed */
 }

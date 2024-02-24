@@ -20,6 +20,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
   const [advisors, setAdvisors] = useState(currentAdvisors || []);
   const [activeSelection, setActiveSelection] = useState(null);
   const [approvalPressed, setApprovalPressed] = useState(false);
+  //TODO: set the advisor name here eventually
 
   const handleSelect = (advisorid) => {
     const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorid);
@@ -65,7 +66,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
           selectCallback={handleSelect}
         />
       </Col>
-      <Col sm={4}>
+      <Col sm={5}>
         <AdvisorDetails
           advisor={activeSelection}
           ratingCallback={handleRating}
