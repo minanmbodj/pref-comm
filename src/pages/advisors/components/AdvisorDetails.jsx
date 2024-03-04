@@ -3,13 +3,15 @@ import { Container, Row, Col, Button, Image } from "react-bootstrap";
 import parse from "html-react-parser";
 import { imgurl, post } from "../../../middleware/requests";
 
-const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
+const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback, formData}) => {
   const [advisorProfile, setAdvisorProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [showAdvisorProfile, setShowAdvisorProfile] = useState(false);
   const [advisorName, setAdvisorName] = useState("Advisor Name"); //Placeholder for advisor name
   const [recommendationSubmitted, setRecommendationSubmitted] = useState(false);
+  const [showRating, setShowRating] = useState(false);
+  const [rationale, setRationale] = useState("");
 
   useEffect(() => {
     if (advisor) {
@@ -35,8 +37,15 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
       });
   };
 
+  useEffect(() => {
+    if (formData) {
+      setShowRating(formData.rating !== undefined);
+      setRationale(formData.rationale);
+    }
+ }, [formData]);
 
-  const advisorProfileLabels = (key, value, isSubmitted, rationale) => {
+
+  const advisorProfileLabels = (key, value, isSubmitted) => {
     switch (key) {
       case "likes":
         return `<strong>The advisor likes</strong> ${value}`;
@@ -116,14 +125,14 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
               </Row>
             </Col>
           </Row>
-          {/* {{isSubmitted} && (
+          {showRating ? (
             <Row style={{ border: "1px solid" }}>
               <Col>
                 <h2>Your Recommendation to {advisorName}</h2>
                 <p> {rationale}</p>
               </Col>
             </Row>
-          )} */}
+          ) : console.log(formData)}
         </>
       )}
     </Container>

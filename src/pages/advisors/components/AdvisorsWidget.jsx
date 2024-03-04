@@ -20,12 +20,14 @@ export default function AdvisorsWidget({ currentAdvisors }) {
   const [advisors, setAdvisors] = useState(currentAdvisors || []);
   const [activeSelection, setActiveSelection] = useState(null);
   const [approvalPressed, setApprovalPressed] = useState(false);
+  const [formData, setFormData] = useState({});
   //TODO: set the advisor name here eventually
 
   const handleSelect = (advisorid) => {
     const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorid);
     setActiveSelection(selectedAdvisor);
     setApprovalPressed(false); // Reset the state when selecting a new advisor
+    setFormData({}); // Reset the form data when selecting a new advisor
   };
 
   const handleRating = (rating, advisorid) => {
@@ -72,6 +74,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
           ratingCallback={handleRating}
           acceptCallback={handleAccept}
           rejectCallback={handleReject}
+          formData={formData}
         />
       </Col>
       <Col sm={4}>
@@ -85,7 +88,8 @@ export default function AdvisorsWidget({ currentAdvisors }) {
           {approvalPressed && activeSelection && (
             <RecommendationForm
               advisor={activeSelection}  // Pass the correct advisor prop
-              onSubmit={(formData) => {
+              onSubmit={(newFormData) => {
+                setFormData(newFormData);
                 // Handle form submission logic here
                 console.log("Form data:", formData);
               }}
