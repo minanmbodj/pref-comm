@@ -60,15 +60,15 @@ export default function AdvisorsWidget({ currentAdvisors }) {
   };
 
   return (
-    <Row>
-      <Col sm={3}>
+    <Row style={{ display: 'flex', flexDirection: 'row', alignItems: 'stretch' }}>
+      <Col style={{ display: 'flex', flex: 1.5}}>
         <AdvisorsPanel
           advisors={advisors}
           activeSelection={activeSelection && activeSelection.id}
           selectCallback={handleSelect}
         />
       </Col>
-      <Col sm={5}>
+      <Col style={{ display: 'flex', flex: 3}}>
         <AdvisorDetails
           advisor={activeSelection}
           ratingCallback={handleRating}
@@ -77,7 +77,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
           formData={formData}
         />
       </Col>
-      <Col sm={4}>
+      <Col style={{ display: 'flex', flex: 1}}>
         {!approvalPressed && (
           <AdvisorRecommendations
             advisor={activeSelection}
@@ -85,16 +85,16 @@ export default function AdvisorsWidget({ currentAdvisors }) {
             rejectCallback={handleReject}
           />
         )}
-          {approvalPressed && activeSelection && (
-            <RecommendationForm
-              advisor={activeSelection}  // Pass the correct advisor prop
-              onSubmit={(newFormData) => {
-                setFormData(newFormData);
-                // Handle form submission logic here
-                console.log("Form data:", formData);
-              }}
-            />
-          )}
+        {approvalPressed && activeSelection && (
+          <RecommendationForm
+            advisor={activeSelection}  // Pass the correct advisor prop
+            onSubmit={(newFormData) => {
+              setFormData(newFormData);
+              // Handle form submission logic here
+              console.log("Form data:", formData);
+            }}
+          />
+        )}
       </Col>
     </Row>
   );

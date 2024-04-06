@@ -112,9 +112,9 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback, formData}) =>
           <Row>
             <Col>
               <h2>Advisor Details</h2>
-              <Row style={{ border: "1px solid" }}>
+              <Row style={{ border: "1px solid"}}>
                 <div>
-                  <Row style={{ border: "1px solid" }}>
+                  <Row style={{ border: "1px solid"}}>
                     <Image
                       className="AdvisorsDetails-poster"
                       src={imgurl(advisor.poster_identifier)}
@@ -126,7 +126,7 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback, formData}) =>
             </Col>
           </Row>
           {showRating ? (
-            <Row style={{ border: "1px solid" }}>
+            <Row style={{ border: "1px solid"}}>
               <Col>
                 <h2>Your Recommendation to {advisorName}</h2>
                 <p> {rationale}</p>
