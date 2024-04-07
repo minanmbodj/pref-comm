@@ -92,7 +92,7 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback, formData}) =>
             </Row>
           )}
           { showAdvisorProfile && advisorProfile && (
-            <Row style={{border: "2px solid"}}>
+            <Row style={{border: "2px solid", margin: "2px"}}>
               <Col>
                 <ul>
                   {Object.entries(advisorProfile.profile).map(
@@ -109,26 +109,26 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback, formData}) =>
               </Col>
             </Row>
           )}
-          <Row>
-            <Col>
               <h2>Advisor Details</h2>
-              <Row style={{ border: "1px solid"}}>
-                <div>
-                  <Row style={{ border: "1px solid"}}>
+              <Row style={{ border: "2px solid", margin: "2px"}}>
+                  <Col style={{ margin: "1px", width: "50%"}}>
                     <Image
                       className="AdvisorsDetails-poster"
                       src={imgurl(advisor.poster_identifier)}
                       alt={advisor.name}
                     />
-                  </Row>
-                </div>
+                  </Col>
+                  <Col style={{ margin: "1px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                    <p style={{ width: "100%", height: "100%", whiteSpace: "pre-wrap", fontSize: "1.5vw"}}>
+                      Description of the advisor's recommendation to the user.
+                      Will include extra details specified later on.
+                    </p>
+                  </Col>
               </Row>
-            </Col>
-          </Row>
           {showRating ? (
-            <Row style={{ border: "1px solid"}}>
-              <Col>
-                <h2>Your Recommendation to {advisorName}</h2>
+            <Row >
+              <h3>Your Recommendation to {advisorName}</h3>
+              <Col style={{ border: "2px solid", margin: "2px"}}>
                 <p> {rationale}</p>
               </Col>
             </Row>
