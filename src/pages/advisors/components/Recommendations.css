@@ -18,27 +18,31 @@
 }
 
 .AdvisorsDetails-button-panel{
-    height: 30vh;
-    justify-content: space-between;
-    margin-top: 40%;
+    justify-content: space-evenly;
+    flex: 2;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    padding: 10px;
+    border: 1px solid;
 }
 
 .button-container1{
-    border: 1px solid;
+    flex: 1;
+    margin: 2px;
+    padding-top: 50px;
 }
 
 .button-container2{
-    border: 1px solid;
+    flex: 1;
+    margin: 2px;
 }
-
 .AdvisorsDetails-button-accept{
-    margin-top: 7vh;
-    height: 50%;
     font-size: 1.2em;
+    height: 70%;
 }
 
 .AdvisorsDetails-button-reject{
-    margin-top: 7vh;
-    height: 50%;
     font-size: 1.2em;
+    height: 70%;
 }

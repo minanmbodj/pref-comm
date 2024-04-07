@@ -68,15 +68,18 @@ export default function AdvisorsWidget({ currentAdvisors }) {
           selectCallback={handleSelect}
         />
       </Col>
-      <Col style={{ display: 'flex', flex: 3}}>
-        <AdvisorDetails
-          advisor={activeSelection}
-          ratingCallback={handleRating}
-          acceptCallback={handleAccept}
-          rejectCallback={handleReject}
-          formData={formData}
-        />
-      </Col>
+      {activeSelection && (
+        <Col style={{ display: 'flex', flex: 3}}>
+          <AdvisorDetails
+            advisor={activeSelection}
+            ratingCallback={handleRating}
+            acceptCallback={handleAccept}
+            rejectCallback={handleReject}
+            formData={formData}
+          />
+        </Col>
+      )}
+      {activeSelection && (
       <Col style={{ display: 'flex', flex: 1}}>
         {!approvalPressed && (
           <AdvisorRecommendations
@@ -85,7 +88,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
             rejectCallback={handleReject}
           />
         )}
-        {approvalPressed && activeSelection && (
+        {approvalPressed && (
           <RecommendationForm
             advisor={activeSelection}  // Pass the correct advisor prop
             onSubmit={(newFormData) => {
@@ -96,6 +99,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
           />
         )}
       </Col>
+      )}
     </Row>
   );
 }

@@ -111,14 +111,14 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback, formData}) =>
           )}
               <h2>Advisor Details</h2>
               <Row style={{ border: "2px solid", margin: "2px"}}>
-                  <Col style={{ margin: "1px", width: "50%"}}>
+                  <Col style={{ margin: "2px", width: "50%"}}>
                     <Image
                       className="AdvisorsDetails-poster"
                       src={imgurl(advisor.poster_identifier)}
                       alt={advisor.name}
                     />
                   </Col>
-                  <Col style={{ margin: "1px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                  <Col style={{ margin: "2px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
                     <p style={{ width: "100%", height: "100%", whiteSpace: "pre-wrap", fontSize: "1.5vw"}}>
                       Description of the advisor's recommendation to the user.
                       Will include extra details specified later on.

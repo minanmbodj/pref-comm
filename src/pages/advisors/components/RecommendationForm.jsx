@@ -35,7 +35,7 @@ const RecommendationForm = ({ advisor, onSubmit }) => {
       <h3>Recommendation Form</h3>
       {isSubmitted  ? (
         <>
-          <Alert variant="success">
+          <Alert variant="success" style={{ padding: "10px", marginTop: "25%", margin: "20px", height: "30%", fontSize: "1.2em"}}>
            Your recommendation has been saved; thank you!
           </Alert>
         </>
