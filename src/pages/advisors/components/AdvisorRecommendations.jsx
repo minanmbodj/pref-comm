@@ -52,17 +52,16 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
   }
 
   return (
-    <Container style={{ border: "2px solid" }}>
+    <Container style={{ display: 'flex', flexDirection: 'column', border: "2px solid" }}>
       {loading ? (
         <div>Loading advisor details...</div>
       ) : (
         <>
-        <Row style={{ border: "1px solid" }}>
-            <h3>How do you feel about {advisorName}'s recommendation?</h3>
+        <Row style={{ border: "1px solid", flex: 1 }}>
+            <h4>How do you feel about {advisorName}'s recommendation?</h4>
         </Row>
         <Row
             className="AdvisorsDetails-button-panel"
-            style={{ border: "1px solid" }}
         >
             <Col className="button-container1">
                 <Button

@@ -3,13 +3,15 @@ import { Container, Row, Col, Button, Image } from "react-bootstrap";
 import parse from "html-react-parser";
 import { imgurl, post } from "../../../middleware/requests";
 
-const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
+const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback, formData}) => {
   const [advisorProfile, setAdvisorProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [showAdvisorProfile, setShowAdvisorProfile] = useState(false);
   const [advisorName, setAdvisorName] = useState("Advisor Name"); //Placeholder for advisor name
   const [recommendationSubmitted, setRecommendationSubmitted] = useState(false);
+  const [showRating, setShowRating] = useState(false);
+  const [rationale, setRationale] = useState("");
 
   useEffect(() => {
     if (advisor) {
@@ -35,8 +37,15 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
       });
   };
 
+  useEffect(() => {
+    if (formData) {
+      setShowRating(formData.rating !== undefined);
+      setRationale(formData.rationale);
+    }
+ }, [formData]);
 
-  const advisorProfileLabels = (key, value, isSubmitted, rationale) => {
+
+  const advisorProfileLabels = (key, value, isSubmitted) => {
     switch (key) {
       case "likes":
         return `<strong>The advisor likes</strong> ${value}`;
@@ -83,7 +92,7 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
             </Row>
           )}
           { showAdvisorProfile && advisorProfile && (
-            <Row style={{border: "2px solid"}}>
+            <Row style={{border: "2px solid", margin: "2px"}}>
               <Col>
                 <ul>
                   {Object.entries(advisorProfile.profile).map(
@@ -100,30 +109,30 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
               </Col>
             </Row>
           )}
-          <Row>
-            <Col>
               <h2>Advisor Details</h2>
-              <Row style={{ border: "1px solid" }}>
-                <div>
-                  <Row style={{ border: "1px solid" }}>
+              <Row style={{ border: "2px solid", margin: "2px"}}>
+                  <Col style={{ margin: "2px", width: "50%"}}>
                     <Image
                       className="AdvisorsDetails-poster"
                       src={imgurl(advisor.poster_identifier)}
                       alt={advisor.name}
                     />
-                  </Row>
-                </div>
+                  </Col>
+                  <Col style={{ margin: "2px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                    <p style={{ width: "100%", height: "100%", whiteSpace: "pre-wrap", fontSize: "1.5vw"}}>
+                      Description of the advisor's recommendation to the user.
+                      Will include extra details specified later on.
+                    </p>
+                  </Col>
               </Row>
-            </Col>
-          </Row>
-          {/* {{isSubmitted} && (
-            <Row style={{ border: "1px solid" }}>
-              <Col>
-                <h2>Your Recommendation to {advisorName}</h2>
+          {showRating ? (
+            <Row >
+              <h3>Your Recommendation to {advisorName}</h3>
+              <Col style={{ border: "2px solid", margin: "2px"}}>
                 <p> {rationale}</p>
               </Col>
             </Row>
-          )} */}
+          ) : console.log(formData)}
         </>
       )}
     </Container>

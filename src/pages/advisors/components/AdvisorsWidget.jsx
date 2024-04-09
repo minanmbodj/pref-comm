@@ -20,12 +20,14 @@ export default function AdvisorsWidget({ currentAdvisors }) {
   const [advisors, setAdvisors] = useState(currentAdvisors || []);
   const [activeSelection, setActiveSelection] = useState(null);
   const [approvalPressed, setApprovalPressed] = useState(false);
+  const [formData, setFormData] = useState({});
   //TODO: set the advisor name here eventually
 
   const handleSelect = (advisorid) => {
     const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorid);
     setActiveSelection(selectedAdvisor);
     setApprovalPressed(false); // Reset the state when selecting a new advisor
+    setFormData({}); // Reset the form data when selecting a new advisor
   };
 
   const handleRating = (rating, advisorid) => {
@@ -58,23 +60,27 @@ export default function AdvisorsWidget({ currentAdvisors }) {
   };
 
   return (
-    <Row>
-      <Col sm={3}>
+    <Row style={{ display: 'flex', flexDirection: 'row', alignItems: 'stretch' }}>
+      <Col style={{ display: 'flex', flex: 1.5}}>
         <AdvisorsPanel
           advisors={advisors}
           activeSelection={activeSelection && activeSelection.id}
           selectCallback={handleSelect}
         />
       </Col>
-      <Col sm={5}>
-        <AdvisorDetails
-          advisor={activeSelection}
-          ratingCallback={handleRating}
-          acceptCallback={handleAccept}
-          rejectCallback={handleReject}
-        />
-      </Col>
-      <Col sm={4}>
+      {activeSelection && (
+        <Col style={{ display: 'flex', flex: 3}}>
+          <AdvisorDetails
+            advisor={activeSelection}
+            ratingCallback={handleRating}
+            acceptCallback={handleAccept}
+            rejectCallback={handleReject}
+            formData={formData}
+          />
+        </Col>
+      )}
+      {activeSelection && (
+      <Col style={{ display: 'flex', flex: 1}}>
         {!approvalPressed && (
           <AdvisorRecommendations
             advisor={activeSelection}
@@ -82,16 +88,18 @@ export default function AdvisorsWidget({ currentAdvisors }) {
             rejectCallback={handleReject}
           />
         )}
-          {approvalPressed && activeSelection && (
-            <RecommendationForm
-              advisor={activeSelection}  // Pass the correct advisor prop
-              onSubmit={(formData) => {
-                // Handle form submission logic here
-                console.log("Form data:", formData);
-              }}
-            />
-          )}
+        {approvalPressed && (
+          <RecommendationForm
+            advisor={activeSelection}  // Pass the correct advisor prop
+            onSubmit={(newFormData) => {
+              setFormData(newFormData);
+              // Handle form submission logic here
+              console.log("Form data:", formData);
+            }}
+          />
+        )}
       </Col>
+      )}
     </Row>
   );
 }
