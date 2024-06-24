@@ -43,7 +43,7 @@ const RecommendationForm = ({ advisor, onSubmit }) => {
         <div>  
           <Form>
             <Form.Group className="recommendation-form-name" controlId="recommendation">
-              <Form.Label>Please input the movie name you wish to recommend to {advisorName}.</Form.Label>
+              <Form.Label>Please input the movie you wish to recommend to {advisorName}.</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Movie name ..."
@@ -53,7 +53,7 @@ const RecommendationForm = ({ advisor, onSubmit }) => {
             </Form.Group>
             <Form.Group className="recommendation-form-why" controlId="rationale">
               <Form.Label>
-                Why do you want to recommend said movie to {advisorName}?
+                Why do you recommend this movie to {advisorName}?
               </Form.Label>
               <Form.Control
                 as="textarea"
