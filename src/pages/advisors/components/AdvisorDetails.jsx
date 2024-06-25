@@ -93,6 +93,9 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback, formData}) =>
           )}
           { showAdvisorProfile && advisorProfile && (
             <Row style={{border: "2px solid", margin: "2px"}}>
+              <div className="movie-profile-heading">
+                <h3>{advisorName} Profile Details</h3>
+              </div>
               <Col>
                 <ul>
                   {Object.entries(advisorProfile.profile).map(
@@ -109,7 +112,7 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback, formData}) =>
               </Col>
             </Row>
           )}
-              <h2>Advisor Details</h2>
+              <h2>{advisorName}'s Reccomendation to You</h2>
               <Row style={{ border: "2px solid", margin: "2px"}}>
                   <Col style={{ margin: "2px", width: "50%"}}>
                     <Image
