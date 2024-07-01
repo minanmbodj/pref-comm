@@ -61,7 +61,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
 
   return (
     <Row style={{ display: 'flex', flexDirection: 'row', alignItems: 'stretch' }}>
-      <Col style={{ display: 'flex', flex: 1.5}}>
+      <Col style={{ display: 'flex', flex: 1}}>
         <AdvisorsPanel
           advisors={advisors}
           activeSelection={activeSelection && activeSelection.id}
@@ -69,7 +69,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
         />
       </Col>
       {activeSelection && (
-        <Col style={{ display: 'flex', flex: 3}}>
+        <Col style={{ display: 'flex', flex: 3.5}}>
           <AdvisorDetails
             advisor={activeSelection}
             ratingCallback={handleRating}
