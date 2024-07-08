@@ -15,7 +15,12 @@ function App() {
       <Router basename='/preference-community'>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
-            <Route path="/" element={<MainLandingPage />} />
+            {/* change next when consent form is done */}
+            <Route path="/" element={<MainLandingPage next="presurvey"/>} />
+            {/* <Route path="/consentform" element={<Form next="presurvey"/>} /> */}
+            {/* change when overview is done */}
+            <Route path="/presurvey" element={<Survey next="ratemovies"/>} /> 
+            {/* <Route path="/description" element={<Overview next="ratemovies"/>} /> */}
             <Route path="/ratemovies" element={<MovieRatingPage />} />
             <Route path="/advisors" element={<AdvisorsPage />} />
           </Routes>
