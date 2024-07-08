@@ -17,12 +17,14 @@ function App() {
           <Routes>
             {/* change next when consent form is done */}
             <Route path="/" element={<MainLandingPage next="presurvey"/>} />
-            {/* <Route path="/consentform" element={<Form next="presurvey"/>} /> */}
+            {/* <Route path="/consentform" element={<ConsentForm next="presurvey"/>} /> */}
             {/* change when overview is done */}
             <Route path="/presurvey" element={<Survey next="ratemovies"/>} /> 
             {/* <Route path="/description" element={<Overview next="ratemovies"/>} /> */}
-            <Route path="/ratemovies" element={<MovieRatingPage />} />
+            <Route path="/ratemovies" element={<MovieRatingPage next="advisors"/>} />
+            {/* add a next when feedback is done */}
             <Route path="/advisors" element={<AdvisorsPage />} />
+            {/* <Route path="/feedback" element={<feedbackPage />} /> */}
           </Routes>
         </Suspense>
       </Router>
