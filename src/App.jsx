@@ -5,6 +5,7 @@ import './App.css';
 import AdvisorsPage from './pages/advisors/AdvisorsPage';
 import MainLandingPage from './pages/MainLandingPage';
 import MovieRatingPage from './pages/ratemovies/MovieRatingPage';
+import Survey from './pages/survey';
 
 function App() {
   return (
