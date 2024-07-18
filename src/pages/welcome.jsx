@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import {
 	createTestUser, createUser, getFirstStudyStep,
 	getStudy, sendLog
-} from '../utils/api-middleware';
+} from '../middleware/api-middleware';
 import InformedConsentModal from '../widgets/dialogs/informedConsent';
 import HeaderJumbotron from '../widgets/headerJumbotron';
 

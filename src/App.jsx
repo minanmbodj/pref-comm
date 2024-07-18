@@ -3,7 +3,8 @@ import { Suspense } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
 import AdvisorsPage from './pages/advisors/AdvisorsPage';
-import MainLandingPage from './pages/MainLandingPage';
+// import MainLandingPage from './pages/MainLandingPage';
+import Welcome from './pages/welcome';
 import MovieRatingPage from './pages/ratemovies/MovieRatingPage';
 import Survey from './pages/survey';
 
@@ -17,7 +18,7 @@ function App() {
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             {/* change next when consent form is done */}
-            <Route path="/" element={<MainLandingPage next="presurvey"/>} />
+            <Route path="/" element={<Welcome next="presurvey"/>} />
             {/* <Route path="/consentform" element={<ConsentForm next="presurvey"/>} /> */}
             {/* change when overview is done */}
             <Route path="/presurvey" element={<Survey next="ratemovies"/>} /> 
