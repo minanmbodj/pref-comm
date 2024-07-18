@@ -62,7 +62,7 @@ export default function Welcome(props) {
 					})
 					.catch((error) => console.log(error));
 			} else {
-				createTestUser('ersStudy', study.id, condition)
+				createTestUser('prefComStudy', study.id, condition)
 					.then((response): Promise<user> => response.json())
 					.then((user: user) => {
 						setUserdata(user);

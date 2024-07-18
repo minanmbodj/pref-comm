@@ -29,18 +29,29 @@ export function put(path: string, data: any, userdata) {
 
 function bodyRequest(method: string, path: string, data: any, headers) {
 	return fetch(API + path, {
-		method: method,
-		headers: headers,
-		body: JSON.stringify(data)
+	  method: method,
+	  headers: headers,
+	  body: JSON.stringify(data)
+	}).then(response => {
+	  if (!response.ok) {
+		throw new Error(`HTTP error! status: ${response.status}`);
+	  }
+	  return response;
 	});
-}
-
-export function get(path: string, userdata) {
+  }
+  
+  export function get(path: string, userdata) {
 	return fetch(API + path, {
-		method: 'GET',
-		headers: getHeaders(userdata)
+	  method: 'GET',
+	  headers: getHeaders(userdata)
+	}).then(response => {
+	  if (!response.ok) {
+		throw new Error(`HTTP error! status: ${response.status}`);
+	  }
+	  return response;
 	});
-}
+  }
+  
 
 export function createUser(userType: string, studyId: int) {
 	return post('user/consent/', {
