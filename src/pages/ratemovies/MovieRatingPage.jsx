@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import { get, post, getNextStudyStep, sendLog, updateSeen } from '../../middleware/api-middleware';
+import { get, post } from '../../middleware/requests';
 import MovieGrid from './components/MovieGrid';
 
 import Button from 'react-bootstrap/Button';
@@ -28,9 +28,6 @@ export default function MovieRatingPage(props) {
 	const [movieIds, setMovieIds] = useState([]);
 
 	const [moviesToFetch, setMoviesToFetch] = useState([]);
-
-	const [studyStep, setStudyStep] = useState(props.studyStep);
-	useEffect(() => { setStudyStep(props.studyStep) }, [props.studyStep]);
 
 
 	function handleNavigate(recType, ratedMoviesData, next) {
