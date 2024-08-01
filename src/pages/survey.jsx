@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import { useLocation, useNavigate } from "react-router-dom";
-import { get, getNextStudyStep, sendLog, submitResponse } from "../utils/api-middleware";
+// import { useLocation, useNavigate } from "react-router-dom";
+// import { get, getNextStudyStep, sendLog, submitResponse } from "../utils/api-middleware";
 import HeaderJumbotron from "../widgets/headerJumbotron";
 import NextButton from "../widgets/nextButton";
 import SurveyTemplate from "../widgets/survey/surveyTemplate";
 
 export default function Survey(props) {
-	const userdata = useLocation().state.user;
-	const stepid = useLocation().state.studyStep;
-	const navigate = useNavigate();
+	// const userdata = useLocation().state.user;
+	// const stepid = useLocation().state.studyStep;
+	// const navigate = useNavigate();
 
 	const [pageData, setPageData] = useState({});
 	const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
