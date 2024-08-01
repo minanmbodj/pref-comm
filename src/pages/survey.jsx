@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import { useLocation, useNavigate } from "react-router-dom";
-import { get, getNextStudyStep, sendLog, submitResponse } from "../middleware/api-middleware";
+import { get, getNextStudyStep, sendLog, submitResponse } from "../utils/api-middleware";
 import HeaderJumbotron from "../widgets/headerJumbotron";
 import NextButton from "../widgets/nextButton";
 import SurveyTemplate from "../widgets/survey/surveyTemplate";
