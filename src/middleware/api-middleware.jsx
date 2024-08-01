@@ -1,5 +1,5 @@
 export const API = process.env.NODE_ENV !== "production" ? "https://rssa.recsys.dev/newrs/api/v1/"
-	: "http://localhost:8000/";
+	: "http://localhost:3000/";
 
 export const CORSHeaders = {
 	'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ export function get(path: string, userdata) {
 export function createUser(userType: string, studyId: int) {
 	return post('user/consent/', {
 		study_id: studyId,
-		user_type: 'prefComStudy'
+		user_type: 'ersStudy'
 	}, { study_id: studyId })
 }
 
@@ -54,7 +54,7 @@ export function createUser(userType: string, studyId: int) {
 export function createTestUser(userType, studyId, conditionId) {
 	return post('user/consent/' + conditionId + '/', {
 		study_id: studyId,
-		user_type: 'prefComStudy'
+		user_type: 'ersStudy'
 	}, { study_id: studyId })
 }
 
@@ -134,6 +134,11 @@ export function updateRating(userdata, studyStep, pagelevel, ratings){
 	}
 	const url = 'user/' + userdata.id + '/itemrating/';
 	return put(url, data, userdata);
+}
+
+export function updateEmotionPreference(userdata, payload){
+	const url = 'user/' + userdata.id + '/emotionprefs/';
+	return put(url, payload, userdata);
 }
 
 export function submitSelection(userdata, pageData, selectedid){
