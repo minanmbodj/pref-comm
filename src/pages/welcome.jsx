@@ -55,14 +55,14 @@ export default function Welcome(props) {
 	const consentCallbackHandler = (consent, condition) => {
 		if (consent) {
 			if (condition === 0) {
-				createUser('ersStudy', study.id)
+				createUser('prefCommStudy', study.id)
 					.then((response): Promise<user> => response.json())
 					.then((user: user) => {
 						setUserdata(user);
 					})
 					.catch((error) => console.log(error));
 			} else {
-				createTestUser('prefComStudy', study.id, condition)
+				createTestUser('prefCommStudy', study.id, condition)
 					.then((response): Promise<user> => response.json())
 					.then((user: user) => {
 						setUserdata(user);
