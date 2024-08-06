@@ -17,16 +17,12 @@ function App() {
       <Router basename='/preference-community'>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
-            {/* change next when consent form is done */}
             <Route path="/" element={<Welcome next="presurvey"/>} />
-            {/* <Route path="/consentform" element={<ConsentForm next="presurvey"/>} /> */}
-            {/* change when overview is done */}
-            <Route path="/presurvey" element={<Survey next="ratemovies"/>} /> 
-            {/* <Route path="/description" element={<Overview next="ratemovies"/>} /> */}
+            <Route path="/presurvey" element={<Survey next="systemintro"/>} /> 
+            <Route path="/systemintro" element={<SystemIntro next="ratemovies"/>} />
             <Route path="/ratemovies" element={<MovieRatingPage next="advisors"/>} />
-            {/* add a next when feedback is done */}
             <Route path="/advisors" element={<AdvisorsPage />} />
-            {/* <Route path="/feedback" element={<feedbackPage />} /> */}
+            <Route path="/feedback" element={<FeedbackPage />} />
           </Routes>
         </Suspense>
       </Router>
