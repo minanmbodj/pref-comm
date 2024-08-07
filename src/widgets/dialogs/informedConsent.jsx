@@ -14,7 +14,7 @@ export default function InformedConsentModal(props) {
 	const [isConsentGiven, setIsConsentGiven] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
-	const condition = Math.floor(Math.random() * 6);
+	const condition = Math.floor(Math.random() * 2) + 12;
 
 	const handleConsent = (e) => {
 		setIsLoading(true);
