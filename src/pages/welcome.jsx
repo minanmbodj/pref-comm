@@ -54,21 +54,21 @@ export default function Welcome(props) {
 
 	const consentCallbackHandler = (consent, condition) => {
 		if (consent) {
-			if (condition === 0) {
-				createUser('prefCommStudy', study.id)
-					.then((response): Promise<user> => response.json())
-					.then((user: user) => {
-						setUserdata(user);
-					})
-					.catch((error) => console.log(error));
-			} else {
+			// if (condition === 0) {
+			// 	createUser('prefCommStudy', study.id)
+			// 		.then((response): Promise<user> => response.json())
+			// 		.then((user: user) => {
+			// 			setUserdata(user);
+			// 		})
+			// 		.catch((error) => console.log(error));
+			// } else {
 				createTestUser('prefCommStudy', study.id, condition)
 					.then((response): Promise<user> => response.json())
 					.then((user: user) => {
 						setUserdata(user);
 					})
 					.catch((error) => console.log(error));
-			}
+			// }
 		}
 	}
 
