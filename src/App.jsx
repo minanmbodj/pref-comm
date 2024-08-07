@@ -7,6 +7,8 @@ import AdvisorsPage from './pages/advisors/AdvisorsPage';
 import Welcome from './pages/welcome';
 import MovieRatingPage from './pages/ratemovies/MovieRatingPage';
 import Survey from './pages/survey';
+import SystemIntro from './pages/SystemIntro';
+import FeedbackPage from './pages/feedbackPage';
 
 function App() {
   return (
@@ -17,6 +19,7 @@ function App() {
       <Router basename='/preference-community'>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
+            {/* <Route path="/" element={<SystemIntro next="presurvey"/>} /> */}
             <Route path="/" element={<Welcome next="presurvey"/>} />
             <Route path="/presurvey" element={<Survey next="systemintro"/>} /> 
             <Route path="/systemintro" element={<SystemIntro next="ratemovies"/>} />

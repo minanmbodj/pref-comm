@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { get, getNextStudyStep, sendLog, submitResponse } from '../utils/api-middleware';
+import { get, getNextStudyStep, sendLog, submitResponse } from '../middleware/api-middleware';
 import NextButton from '../widgets/nextButton';
 
 
