@@ -18,10 +18,6 @@ export default function SystemIntro(props) {
         getNextStudyStep(userdata.study_id, stepid)
             .then((value) => { setStudyStep(value) });
     }, []);
-    // useEffect(() => {
-    //     getNextStudyStep( stepid)
-    //         .then((value) => { setStudyStep(value) });
-    // }, []);
 
 
 
