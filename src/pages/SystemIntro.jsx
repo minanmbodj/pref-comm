@@ -26,7 +26,7 @@ export default function SystemIntro(props) {
 
 	const handleNextClick = () => {
         // Log the action or do other tasks if necessary
-        sendLog(userdata, studyStep.id, new Date() - new Date(), 'clicked next', 'navigate', null, null);
+        // sendLog(userdata, studyStep.id, new Date() - new Date(), 'clicked next', 'navigate', null, null);
         
         // Navigate to the next page specified by props.next
         navigate(props.next, {
