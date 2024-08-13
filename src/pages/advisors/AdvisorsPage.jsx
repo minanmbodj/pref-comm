@@ -1,16 +1,32 @@
 import { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
-import { useLocation } from "react-router-dom";
-import { post } from "../../middleware/requests";
+import { post, getNextStudyStep } from '../../middleware/api-middleware';
+
 import { LoadingScreen } from "../ratemovies/MovieRatingPage";
 import AdvisorsWidget from "./components/AdvisorsWidget";
 import '../ratemovies/components/MovieGrid.css';
 
+import { useLocation, useNavigate } from 'react-router-dom';
+
 export default function AdvisorsPage(props) {
+
+	const userdata = useLocation().state.user;
+	const stepid = useLocation().state.studyStep;
+
+	const navigate = useNavigate();
+	const [studyStep, setStudyStep] = useState(props.studyStep);
+
+	const [starttime, setStarttime] = useState(new Date());
 
 	const state = useLocation().state;
 	const [loading, setLoading] = useState(true);
 	const [recommendations, setRecommendations] = useState([]);
+
+	useEffect(() => {
+        getNextStudyStep(userdata.study_id, stepid)
+            .then((value) => { setStudyStep(value) });
+		setStarttime(new Date());
+    }, []);
 
 	useEffect(() => {
 		const ratedMoviesData = state ? state.ratings : [];
