@@ -35,6 +35,7 @@ export default function AdvisorsPage(props) {
 			post('prefComm/advisors/', {
 				ratings: ratedMoviesData,
 				rec_type: recType,
+				
 				num_rec: 7,
 				user_id: 1
 			})
