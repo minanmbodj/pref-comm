@@ -1,90 +1,107 @@
 import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import { post, getNextStudyStep, sendLog } from '../../middleware/api-middleware';
-import { LoadingScreen } from "../ratemovies/MovieRatingPage";
+import { LoadingScreen } from '../ratemovies/MovieRatingPage';
 import AdvisorsWidget from "./components/AdvisorsWidget";
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../ratemovies/components/MovieGrid.css';
 
 export default function AdvisorsPage(props) {
-    const userdata = useLocation().state.user;
-    const stepid = useLocation().state.studyStep;
-    const navigate = useNavigate();
+	const userdata = useLocation().state.user;
+	const stepid = useLocation().state.studyStep;
 
-    const [studyStep, setStudyStep] = useState(props.studyStep);
-    const [starttime] = useState(new Date());
-    const [loading, setLoading] = useState(true);
-    const [recommendations, setRecommendations] = useState([]);
+	const navigate = useNavigate();
+	const [studyStep, setStudyStep] = useState(props.studyStep);
 
-    const state = useLocation().state;
+	const [starttime] = useState(new Date());
 
-    useEffect(() => {
-        getNextStudyStep(userdata.study_id, stepid)
-            .then((value) => { 
-                setStudyStep(value);
-                fetchRecommendations();
-            });
-    }, [userdata.study_id, stepid]);
+	const state = useLocation().state;
+	const [loading, setLoading] = useState(true);
+	const [recommendations, setRecommendations] = useState([]);
 
-    const fetchRecommendations = () => {
-        const ratedMoviesData = state ? state.ratings : [];
-        const recType = state ? state.recType : 0;
-        
-        if (ratedMoviesData.length > 0) {
-            post('prefComm/advisors/', {
-                ratings: ratedMoviesData,
-                rec_type: recType,
-                num_rec: 7,
-                user_id: userdata.id
-            })
-            .then(response => response.json())
-            .then(advisors => {
-                setRecommendations(advisors);
-                setLoading(false);
-                sendLog(userdata, studyStep.id, null, new Date() - starttime, 
-                    'advisors_loaded', 'fetch', null, null);
-            })
-            .catch(error => {
-                console.log("Error:", error);
-                setLoading(false);
-            });
-        }
-    };
+	useEffect(() => {
+		getNextStudyStep(userdata.study_id, stepid)
+			.then((value) => { 
+				setStudyStep(value);
+				fetchRecommendations();
+			});
+	}, [userdata.study_id, stepid]);
 
-    const handleAdvisorSelection = (advisorId) => {
-        sendLog(userdata, studyStep.id, null, new Date() - starttime, 
-            'advisor_selected', 'select', advisorId, null);
-    };
+	const fetchRecommendations = () => {
+		const ratedMoviesData = state ? state.ratings : [];
+		const recType = state ? state.recType : 0;
+		
+		// Ensure each rating has an item_id
+		const formattedRatings = ratedMoviesData.map(rating => ({
+			item_id: rating.movie_id || rating.item_id, // Use movie_id if available, otherwise use item_id
+			rating: rating.rating
+		}));
 
-    const handleAdvisorRating = (advisorId, rating) => {
-        sendLog(userdata, studyStep.id, null, new Date() - starttime, 
-            'advisor_rated', 'rate', advisorId, rating);
-    };
+		console.log("Payload:", {
+			ratings: formattedRatings,
+			rec_type: recType,
+			num_rec: 7,
+			user_id: userdata.id
+		});
+	
+		if (formattedRatings.length > 0) {
+			post('prefComm/advisors/', {
+				ratings: formattedRatings,
+				rec_type: recType,
+				num_rec: 7,
+				user_id: userdata.id
+			})
+			.then(response => response.json())
+			.then(advisors => {
+				setRecommendations(advisors);
+				setLoading(false);
+				sendLog(userdata, studyStep.id, null, new Date() - starttime, 
+					'advisors_loaded', 'fetch', null, null);
+			})
+			.catch(error => {
+				console.log("Error:", error);
+				setLoading(false);
+			});
+		} else {
+			console.log("No ratings available");
+			setLoading(false);
+		}
+	};
 
-    const handleNextStep = () => {
-        sendLog(userdata, studyStep.id, null, new Date() - starttime, 
-            'advisors_complete', 'next', null, null);
-        navigate(props.next, { state: { user: userdata, studyStep: studyStep.id } });
-    };
+	const handleAdvisorSelection = (advisorId) => {
+		sendLog(userdata, studyStep.id, null, new Date() - starttime, 
+			'advisor_selected', 'select', advisorId, null);
+	};
 
-    return (
-        <>
-            {loading ? (
-                <LoadingScreen 
-                    loading={loading}
-                    loadingMessage={'Please wait while the system prepares your recommendations'}
-                    loadingByline={"This may take a while."}
-                />
-            ) : (
-                <Container className="Main-content">    
-                    <AdvisorsWidget 
-                        currentAdvisors={recommendations}
-                        onAdvisorSelect={handleAdvisorSelection}
-                        onAdvisorRate={handleAdvisorRating}
-                        onComplete={handleNextStep}
-                    />
-                </Container>
-            )}
-        </>
-    );
+	const handleAdvisorRating = (advisorId, rating) => {
+		sendLog(userdata, studyStep.id, null, new Date() - starttime, 
+			'advisor_rated', 'rate', advisorId, rating);
+	};
+
+	const handleNextStep = () => {
+		sendLog(userdata, studyStep.id, null, new Date() - starttime, 
+			'advisors_complete', 'next', null, null);
+		navigate(props.next, { state: { user: userdata, studyStep: studyStep.id } });
+	};
+
+	return (
+		<>
+			{loading || recommendations.length === 0 ?
+				<LoadingScreen 
+					loading={loading || recommendations.length === 0}
+					loadingMessage={'Please wait while the system prepares your recommendations'}
+					loadingByline={"This may take a while."} 
+				/>
+				:
+				<Container className="Main-content">	
+					<AdvisorsWidget 
+						currentAdvisors={recommendations}
+						onAdvisorSelect={handleAdvisorSelection}
+						onAdvisorRate={handleAdvisorRating}
+						onComplete={handleNextStep}
+					/>
+				</Container>
+			}
+		</>
+	)
 }

@@ -18,9 +18,6 @@ export default function MovieRatingPage(props) {
 	const navigate = useNavigate();
 	const [studyStep, setStudyStep] = useState(props.studyStep);
 	const [movieIds, setMovieIds] = useState([]);
-	// const [pageNum, setPageNum] = useState(1);
-
-	// const [starttime, setStarttime] = useState(new Date());
 
 	const [ratedMoviesData, setRatedMoviesData] = useState([]);
 	const [ratedMovies, setRatedMovies] = useState([]);
@@ -39,7 +36,7 @@ export default function MovieRatingPage(props) {
 		.then((value) => {
 			setStudyStep(value);
 		});
-	}, [userdata, stepid]);
+	}, [userdata.study_id, stepid]);
 
 
 	function handleNavigate(recType, recommendedMovies, ratedMoviesData) {
