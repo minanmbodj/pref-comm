@@ -23,6 +23,37 @@ export default function AdvisorsPage(props) {
 	const [recommendations, setRecommendations] = useState([]);
 
 	useEffect(() => {
+		const ratedMoviesData = state ? state.ratings : [];
+		const recType = state ? state.recType : 0;
+		
+		console.log("Payload:", {
+			ratings: ratedMoviesData,
+			rec_type: recType,
+			num_rec: 7,
+			user_id: 1
+		});
+	
+		if (ratedMoviesData.length > 0) {
+			post('prefComm/advisors/', {
+				ratings: ratedMoviesData,
+				rec_type: recType,
+				num_rec: 7,
+				user_id: 1
+			})
+			.then(response => response.json())
+			.then(advisors => {
+				setRecommendations(advisors);
+				setLoading(false);
+			})
+			.catch(error => {
+				console.log("Error:", error);
+				setLoading(false);
+			});
+		}
+	}, [state]);
+	
+
+	useEffect(() => {
         getNextStudyStep(userdata.study_id, stepid)
             .then((value) => { setStudyStep(value) });
 		setStarttime(new Date());
@@ -31,11 +62,12 @@ export default function AdvisorsPage(props) {
 	useEffect(() => {
 		const ratedMoviesData = state ? state.ratings : [];
 		const recType = state ? state.recType : 0;
+		console.log("state", state.recType);
 		if (ratedMoviesData.length > 0) {
 			post('prefComm/advisors/', {
 				ratings: ratedMoviesData,
 				rec_type: recType,
-				
+
 				num_rec: 7,
 				user_id: 1
 			})

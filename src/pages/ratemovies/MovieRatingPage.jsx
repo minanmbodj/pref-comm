@@ -42,14 +42,14 @@ export default function MovieRatingPage(props) {
 	}, [userdata, stepid]);
 
 
-	function handleNavigate(recommendedMovies, ratedMoviesData) {
-		// sendLog(userdata, studyStep.id, null, new Date() - starttime,
-		// 	'navigation', 'next', null, null)
+	function handleNavigate(recType, recommendedMovies, ratedMoviesData) {
+		console.log('rectype', recType);
 		navigate(props.next,
 			{
 				state: {
 					recommendations: recommendedMovies,
 					ratings: ratedMoviesData,
+					recType: recType,
 					user: userdata,
 					studyStep: studyStep.id
 				}
@@ -152,7 +152,7 @@ useEffect(() => {
 		setLoading(true);
 
 		if (ratedMovies.length > 0) {
-			handleNavigate(recType, ratedMoviesData, '/advisors');
+			handleNavigate(recType, ratedMoviesData, ratedMovies);
 		}
 	}
 
