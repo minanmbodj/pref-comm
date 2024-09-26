@@ -75,39 +75,75 @@ export default function Welcome(props) {
 	return (
 		<Container>
 			<Row>
-				<HeaderJumbotron title="Welcome"
-					content="Welcome to the study on movie recommendation." />
+				<HeaderJumbotron title="Welcome!"
+					content="Thank you for participating in The Peer Recommendation Platform study. Your involvement is crucial for our research." />
 			</Row>
 
 			<Row>
 				<Card bg="light">
 					<Card.Body className="instructionblurb">
-						<Card.Title>What can you expect?</Card.Title>
+						<Card.Title>What to expect?</Card.Title>
 						<p>
-							In this study you will test a new recommender system
-							for movies.
-						</p>
-						<p>
-							There are four steps to the study:
+							<em>Consent Form:</em>
 						</p>
 						<ol>
 							<li>
-								Complete a pre-survey.
+								Begin by reviewing and signing the consent form.
 							</li>
 							<li>
-								Rate a few movies you are familiar with to let
-								recommender system know about your movie
-								preferences.
+								Your participation is voluntary, and you can withdraw at any time.
 							</li>
-							<li>
-								Interact with the movie recommender system, then
-								pick one movie you would most like to watch.
-							</li>
-							<li>Complete a post-survey.</li>
 						</ol>
 						<p>
-							Thanks,<br />
-							Research Team
+							<em>Demographics</em>
+						</p>
+						<p>
+							<em>Pre-Survey:</em>
+						</p>
+						<ol>
+							<li>
+								Complete a brief pre-survey to help us understand your background and preferences.
+							</li>
+							<li>
+								This will take approximately 10 to 15 minutes.
+							</li>
+						</ol>
+						<p>
+							<em>Introduction to The Peer Recommendation Platform:</em>
+						</p>
+						<ol>
+							<li>
+								Learn about The Peer Recommendation Platform, our innovative community based movie recommender system.
+							</li>
+							<li>
+								Understand its purpose and how it will assist you throughout the study.
+							</li>
+						</ol>
+						<p>
+							<em>Complete the Study:</em>
+						</p>
+						<ol>
+							<li>
+								Navigate through the system following the guided steps.
+							</li>
+							<li>
+								Engage with the features and provide feedback as prompted.
+							</li>
+						</ol>
+						<p>
+							<em>Post-Survey:</em>
+						</p>
+						<ol>
+							<li>
+								After completing the study steps, you will be directed to a post-survey.
+							</li>
+							<li>
+								Your feedback will be invaluable for improving the system and understanding your experience.
+							</li>
+						</ol>
+						
+						<p>
+							We appreciate your time and insights. <strong>Let's get started!</strong>
 						</p>
 					</Card.Body>
 				</Card>
