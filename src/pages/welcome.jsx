@@ -70,6 +70,9 @@ export default function Welcome(props) {
 					.catch((error) => console.log(error));
 			// }
 		}
+		else {
+			navigate('/quit');
+		}
 	}
 
 	return (

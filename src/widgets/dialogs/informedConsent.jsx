@@ -6,7 +6,7 @@ import Spinner from "react-bootstrap/Spinner";
 import { Link } from 'react-router-dom';
 
 export default function InformedConsentModal(props) {
-  const [isConsentGiven, setIsConsentGiven] = useState(false);
+  const [consentChoice, setConsentChoice] = useState('');
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -15,7 +15,7 @@ export default function InformedConsentModal(props) {
 
   const handleConsent = (e) => {
     setIsLoading(true);
-    props.consentCallback(isConsentGiven, condition);
+    props.consentCallback(consentChoice === 'consent', condition);
   }
 
   return (
@@ -149,11 +149,6 @@ export default function InformedConsentModal(props) {
 
         <Form className="consent-form">
           <p className="informedConsent-title">Consent</p>
-          <p className="informedConsent-bold">
-            By participating in the study, you indicate that you have read the information written
-            above, been allowed to ask any questions, and you are voluntarily choosing to take part
-            in this research. You do not give up any legal rights by taking part in this research study.
-          </p>
 
           <Form.Group controlId="nameInput">
             <Form.Label>Name:</Form.Label>
@@ -176,13 +171,44 @@ export default function InformedConsentModal(props) {
             />
           </Form.Group>
 
-          <Form.Check
-            style={{ fontWeight: '500', marginTop: '9px' }}
-            label="I consent to being a participant in this study and the use of 
-			my educational records  for research purposes. "
-            onChange={(evt) => setIsConsentGiven(evt.target.checked)}
-            checked={isConsentGiven}
-          />
+          <div style={{ 
+            border: '2px solid #f9b05c', 
+            borderRadius: '5px', 
+            padding: '15px', 
+            marginTop: '20px',
+            backgroundColor: '#fff9e6'
+          }}>
+            <p className="informedConsent-bold" style={{ color: '#d9534f' }}>
+              IMPORTANT: Please carefully read and select one of the following options:
+            </p>
+
+            <Form.Check
+              type="radio"
+              id="consentChoice1"
+              label="I consent to being a participant in this study and the use of my educational records for research purposes."
+              name="consentGroup"
+              value="consent"
+              checked={consentChoice === 'consent'}
+              onChange={(e) => setConsentChoice(e.target.value)}
+            />
+
+            <Form.Check
+              type="radio"
+              id="consentChoice2"
+              label="I DO NOT consent to being a participant in this study and the use of my educational records for research purposes."
+              name="consentGroup"
+              value="doNotConsent"
+              checked={consentChoice === 'doNotConsent'}
+              onChange={(e) => setConsentChoice(e.target.value)}
+            />
+          </div>
+
+          {!consentChoice && (
+            <p style={{ color: '#d9534f', marginTop: '10px' }}>
+              You must select one of the above options to proceed.
+            </p>
+          )}
+
         </Form>
       </Modal.Body>
       <Modal.Footer>
@@ -193,7 +219,7 @@ export default function InformedConsentModal(props) {
         </Link>
         <Button 
           variant="ers" 
-          disabled={!isConsentGiven || isLoading}
+          disabled={!consentChoice || isLoading || !name || !date}
           onClick={(e) => handleConsent(e)}
         >
           {!isLoading ? 'Continue'
