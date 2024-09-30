@@ -19,8 +19,8 @@ function App() {
       <Router basename='/preference-community'>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
-            <Route path="/" element={<Welcome next="/demographics"/>} />
-            <Route path="/demographics" element={<DemographicsPage next="/presurvey"/>} /> // Add this line
+            <Route path="/" element={<Welcome next="/presurvey"/>} />
+            {/* <Route path="/demographics" element={<DemographicsPage next="/presurvey"/>} /> */}
             <Route path="/presurvey" element={<Survey next="/systemintro"/>} /> 
             <Route path="/systemintro" element={<SystemIntro next="/ratemovies"/>} />
             <Route path="/ratemovies" element={<MovieRatingPage next="/advisors"/>} />
