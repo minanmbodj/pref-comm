@@ -5,6 +5,7 @@ import { LoadingScreen } from '../ratemovies/MovieRatingPage';
 import AdvisorsWidget from "./components/AdvisorsWidget";
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../ratemovies/components/MovieGrid.css';
+import NextButton from "../../widgets/nextButton";
 
 export default function AdvisorsPage(props) {
 	const userdata = useLocation().state.user;
@@ -19,6 +20,9 @@ export default function AdvisorsPage(props) {
 	const [loading, setLoading] = useState(true);
 	const [recommendations, setRecommendations] = useState([]);
 
+	// New state for controlling the visibility of the next button
+	const [showNextButton, setShowNextButton] = useState(true);
+
 	useEffect(() => {
 		getNextStudyStep(userdata.study_id, stepid)
 			.then((value) => { 
@@ -31,9 +35,8 @@ export default function AdvisorsPage(props) {
 		const ratedMoviesData = state ? state.ratings : [];
 		const recType = state ? state.recType : 0;
 		
-		// Ensure each rating has an item_id
 		const formattedRatings = ratedMoviesData.map(rating => ({
-			item_id: rating.movie_id || rating.item_id, // Use movie_id if available, otherwise use item_id
+			item_id: rating.movie_id || rating.item_id,
 			rating: rating.rating
 		}));
 
@@ -100,6 +103,15 @@ export default function AdvisorsPage(props) {
 						onAdvisorRate={handleAdvisorRating}
 						onComplete={handleNextStep}
 					/>
+					{showNextButton && (
+						<div className="jumbotron jumbotron-footer">
+							<NextButton
+								disabled={false}
+								loading={false}
+								onClick={handleNextStep}
+							/>
+						</div>
+					)}
 				</Container>
 			}
 		</>

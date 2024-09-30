@@ -7,6 +7,7 @@ import Welcome from './pages/welcome';
 import MovieRatingPage from './pages/ratemovies/MovieRatingPage';
 import Survey from './pages/survey';
 import SystemIntro from './pages/SystemIntro';
+import PostSurvey from './pages/postSurvey';
 import FeedbackPage from './pages/feedbackPage';
 import DemographicsPage from './pages/demographics/DemographicsPage';
 
@@ -24,7 +25,8 @@ function App() {
             <Route path="/presurvey" element={<Survey next="/systemintro"/>} /> 
             <Route path="/systemintro" element={<SystemIntro next="/ratemovies"/>} />
             <Route path="/ratemovies" element={<MovieRatingPage next="/advisors"/>} />
-            <Route path="/advisors" element={<AdvisorsPage next="/feedback"/>} />
+            <Route path="/advisors" element={<AdvisorsPage next="/postsurvey"/>} />
+            <Route path="/postsurvey" element={<PostSurvey next="/feedback"/>} />
             <Route path="/feedback" element={<FeedbackPage next="/quit"/>} />
             <Route path="/quit" element={<h1>Thank you for participating!</h1>} />
           </Routes>
