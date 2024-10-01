@@ -13,7 +13,7 @@ export default function AdvisorsPanel({ activeSelection, advisors, selectCallbac
 			</Row>
 			<Row>
 				<ul>
-					{advisors.map((advisor) =>
+					{advisors && advisors.map((advisor) =>
 						<AdvisorListItem advisor={advisor}
 							key={advisor.id}
 							selected={advisor.id === activeSelection}
