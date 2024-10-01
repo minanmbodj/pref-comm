@@ -5,7 +5,6 @@ import './App.css';
 import AdvisorsPage from './pages/advisors/AdvisorsPage';
 import Welcome from './pages/welcome';
 import MovieRatingPage from './pages/ratemovies/MovieRatingPage';
-import Survey from './pages/survey';
 import SystemIntro from './pages/SystemIntro';
 import PostSurvey from './pages/postSurvey';
 import FeedbackPage from './pages/feedbackPage';
