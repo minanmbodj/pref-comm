@@ -60,8 +60,8 @@ export default function AdvisorsWidget({ currentAdvisors }) {
   };
 
   return (
-    <Row style={{ display: 'flex', flexDirection: 'row', alignItems: 'stretch' }}>
-      <Col style={{ display: 'flex', flex: 1}}>
+    <Row style={{ display: 'flex', height: '100%' }}>
+      <Col xs={3} style={{ height: '100%', paddingRight: 0 }}>
         <AdvisorsPanel
           advisors={advisors}
           activeSelection={activeSelection && activeSelection.id}
