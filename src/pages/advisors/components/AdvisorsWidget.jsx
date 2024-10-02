@@ -29,7 +29,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
   const [recommendationSubmitted, setRecommendationSubmitted] = useState(false);
 
   const getAdvisorName = (advisorId) => {
-    return `Anonymous ${anonymousAnimals[advisorId % anonymousAnimals.length]}`;
+    return `${anonymousAnimals[advisorId % anonymousAnimals.length]}`;
   };
 
   const handleSelect = (advisorId) => {
@@ -113,14 +113,6 @@ export default function AdvisorsWidget({ currentAdvisors }) {
             onSubmit={handleRecommendationSubmit}
             advisorName={getAdvisorName(activeSelection.id)}
           />
-        )}
-        {approvalPressed && recommendationSubmitted && (
-          <div className="recommendation-submitted">
-            <h5>Recommendation Submitted</h5>
-            <p>Thank you for your recommendation to {getAdvisorName(activeSelection.id)}.</p>
-            <p>You recommended: {formData.movieName}</p>
-            <p>Your rationale: {formData.rationale}</p>
-          </div>
         )}
       </Col>
       )}
