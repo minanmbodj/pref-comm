@@ -1,10 +1,10 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import AdvisorDetails from "./AdvisorDetails";
 import AdvisorsPanel from "./AdvisorsPanel";
 import RecommendationForm from "./RecommendationForm";
 import AdvisorRecommendations from "./AdvisorRecommendations";
+import { Col, Row } from "react-bootstrap";
 import "./AdvisorsWidget.css";
-import {Button, Col, Row} from "react-bootstrap";
 
 function mapReplace(arr, prop, propval, callback) {
   return arr.map((item) => {
@@ -21,13 +21,12 @@ export default function AdvisorsWidget({ currentAdvisors }) {
   const [activeSelection, setActiveSelection] = useState(null);
   const [approvalPressed, setApprovalPressed] = useState(false);
   const [formData, setFormData] = useState({});
-  //TODO: set the advisor name here eventually
 
   const handleSelect = (advisorid) => {
     const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorid);
     setActiveSelection(selectedAdvisor);
-    setApprovalPressed(false); // Reset the state when selecting a new advisor
-    setFormData({}); // Reset the form data when selecting a new advisor
+    setApprovalPressed(false);
+    setFormData({});
   };
 
   const handleRating = (rating, advisorid) => {
@@ -60,8 +59,8 @@ export default function AdvisorsWidget({ currentAdvisors }) {
   };
 
   return (
-    <Row style={{ display: 'flex', height: '100%' }}>
-      <Col xs={3} style={{ height: '100%', paddingRight: 0 }}>
+    <Row className="advisors-widget-row">
+      <Col xs={2} className="advisors-widget-column">
         <AdvisorsPanel
           advisors={advisors}
           activeSelection={activeSelection && activeSelection.id}
@@ -69,7 +68,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
         />
       </Col>
       {activeSelection && (
-        <Col style={{ display: 'flex', flex: 3.5}}>
+        <Col xs={8} className="advisors-widget-column">
           <AdvisorDetails
             advisor={activeSelection}
             ratingCallback={handleRating}
@@ -80,7 +79,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
         </Col>
       )}
       {activeSelection && (
-      <Col style={{ display: 'flex', flex: 1}}>
+      <Col xs={2} className="advisors-widget-column">
         {!approvalPressed && (
           <AdvisorRecommendations
             advisor={activeSelection}
@@ -90,10 +89,9 @@ export default function AdvisorsWidget({ currentAdvisors }) {
         )}
         {approvalPressed && (
           <RecommendationForm
-            advisor={activeSelection}  // Pass the correct advisor prop
+            advisor={activeSelection}
             onSubmit={(newFormData) => {
               setFormData(newFormData);
-              // Handle form submission logic here
               console.log("Form data:", formData);
             }}
           />

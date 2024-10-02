@@ -3,8 +3,8 @@ import { Image } from 'react-bootstrap';
 import './AdvisorsPanel.css';
 
 const anonymousAnimals = [
-  'Anonymous Alligator', 'Anonymous Buffalo', 'Anonymous Coyote',
-  'Anonymous Dolphin', 'Anonymous Elephant', 'Anonymous Frog', 'Anonymous Giraffe'
+  'Alligator', 'Buffalo', 'Coyote',
+  'Dolphin', 'Elephant', 'Frog', 'Giraffe'
 ];
 
 export default function AdvisorsPanel({ activeSelection, advisors, selectCallback }) {
@@ -37,7 +37,10 @@ const AdvisorListItem = ({ advisor, anonymousName, selected, selectCallback }) =
         src={advisor.poster_identifier ? `https://rssa.recsys.dev/movie/poster/${advisor.poster_identifier}` : '/api/placeholder/60/60'}
         roundedCircle
       />
-      <div className="advisor-name">{anonymousName}</div>
+      <div className="advisor-info">
+        <div className="advisor-anonymous">Anonymous</div>
+        <div className="advisor-name">{anonymousName}</div>
+      </div>
     </div>
   );
 }

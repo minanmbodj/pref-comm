@@ -1,91 +1,59 @@
-import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Button, Image } from "react-bootstrap";
-import parse from "html-react-parser";
-import { imgurl, post } from "../../../middleware/requests";
+import React, { useState } from "react";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import "./Recommendations.css";
 
-const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback }) => {
-    const [advisorProfile, setAdvisorProfile] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [showAdvisorProfile, setShowAdvisorProfile] = useState(false);
-    const [advisorName, setAdvisorName] = useState("Advisor Name"); //TODO: change when we get the advisors name
-
-  useEffect(() => {
-    if (advisor) {
-       // Fetch initial profile data
-       getAdvisorProfile(advisor.movie_id);
-    }
- }, [advisor]);
-
-  const getAdvisorProfile = (advisor_id) => {
-    setLoading(true);
-    post("prefComm/advisor/profile/", { advisor_id })
-      .then((response) => response.json())
-      .then((advisor) => {
-        setAdvisorProfile(advisor);
-        setShowAdvisorProfile(true);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+const AdvisorRecommendations = ({ advisor, acceptCallback, rejectCallback }) => {
+  const [selectedButton, setSelectedButton] = useState(null);
 
   const handleAccept = () => {
+    setSelectedButton('accept');
     acceptCallback(advisor.id);
-    getAdvisorProfile(advisor.movie_id);
   };
 
   const handleReject = () => {
+    setSelectedButton('reject');
     rejectCallback(advisor.id);
-    getAdvisorProfile(advisor.movie_id);
   };
 
-  if (!advisor) {
-    return (
-      <div style={{ border: "2px solid" }}>
-        <h2>Advisor Details</h2>
-      </div>
-    );
-  }
+  const anonymousAnimals = [
+    'Alligator', 'Buffalo', 'Coyote',
+    'Dolphin', 'Elephant', 'Frog', 'Giraffe'
+  ];
+
+  const advisorName = anonymousAnimals[advisor.id % 7];
 
   return (
-    <Container style={{ display: 'flex', flexDirection: 'column', border: "2px solid" }}>
-      {loading ? (
-        <div>Loading advisor details...</div>
-      ) : (
-        <>
-        <Row style={{ border: "1px solid", flex: 1 }}>
-            <h4>How do you feel about {advisorName}'s recommendation?</h4>
-        </Row>
-        <Row
-            className="AdvisorsDetails-button-panel"
-        >
-            <Col className="button-container1">
-                <Button
-                className="AdvisorsDetails-button-accept"
-                variant="success"
+    <Container className="advisor-recommendations-container">
+      <Row className="advisor-recommendations-header">
+        <Col>
+          <h4>Recommendations</h4>
+        </Col>
+      </Row>
+      <Row className="advisor-recommendations-content">
+        <Col className="content-wrapper">
+          <div className="centered-content">
+            <div className="question-container">
+              <p>How do you feel about {advisorName}'s recommendation?</p>
+            </div>
+            <div className="buttons-container">
+              <Button
+                className={`recommendation-button accept-button ${selectedButton === 'accept' ? 'selected' : ''}`}
                 onClick={handleAccept}
-                >
+              >
                 Accept Recommendation
-                </Button>
-            </Col>
-            <Col className="button-container2">
-                <Button
-                className="AdvisorsDetails-button-reject"
-                variant="danger"
+              </Button>
+              <Button
+                className={`recommendation-button reject-button ${selectedButton === 'reject' ? 'selected' : ''}`}
                 onClick={handleReject}
-                >
+              >
                 Reject Recommendation
-                </Button>
-            </Col>
-          </Row>
-        </>
-      )}
+              </Button>
+            </div>
+          </div>
+        </Col>
+      </Row>
     </Container>
   );
 };
 
-export default AdvisorDetails;
+export default AdvisorRecommendations;
