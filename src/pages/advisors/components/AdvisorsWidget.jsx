@@ -4,7 +4,7 @@ import AdvisorsPanel from "./AdvisorsPanel";
 import RecommendationForm from "./RecommendationForm";
 import AdvisorRecommendations from "./AdvisorRecommendations";
 import { Col, Row } from "react-bootstrap";
-import "./AdvisorsWidget.css";
+import "./css/AdvisorsWidget.css";
 
 const anonymousAnimals = [
   'Alligator', 'Buffalo', 'Coyote',
@@ -26,9 +26,10 @@ export default function AdvisorsWidget({ currentAdvisors }) {
   const [activeSelection, setActiveSelection] = useState(null);
   const [approvalPressed, setApprovalPressed] = useState(false);
   const [formData, setFormData] = useState({});
+  const [recommendationSubmitted, setRecommendationSubmitted] = useState(false);
 
   const getAdvisorName = (advisorId) => {
-    return `${anonymousAnimals[advisorId % anonymousAnimals.length]}`;
+    return `Anonymous ${anonymousAnimals[advisorId % anonymousAnimals.length]}`;
   };
 
   const handleSelect = (advisorId) => {
@@ -36,6 +37,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
     setActiveSelection(selectedAdvisor);
     setApprovalPressed(false);
     setFormData({});
+    setRecommendationSubmitted(false);
   };
 
   const handleRating = (rating, advisorId) => {
@@ -65,6 +67,12 @@ export default function AdvisorsWidget({ currentAdvisors }) {
       return selectedAdvisor;
     });
     setAdvisors(newAdvisors);
+  };
+
+  const handleRecommendationSubmit = (newFormData) => {
+    setFormData(newFormData);
+    setRecommendationSubmitted(true);
+    console.log("Form data:", newFormData);
   };
 
   return (
@@ -99,15 +107,20 @@ export default function AdvisorsWidget({ currentAdvisors }) {
             advisorName={getAdvisorName(activeSelection.id)}
           />
         )}
-        {approvalPressed && (
+        {approvalPressed && !recommendationSubmitted && (
           <RecommendationForm
             advisor={activeSelection}
-            onSubmit={(newFormData) => {
-              setFormData(newFormData);
-              console.log("Form data:", formData);
-            }}
+            onSubmit={handleRecommendationSubmit}
             advisorName={getAdvisorName(activeSelection.id)}
           />
+        )}
+        {approvalPressed && recommendationSubmitted && (
+          <div className="recommendation-submitted">
+            <h5>Recommendation Submitted</h5>
+            <p>Thank you for your recommendation to {getAdvisorName(activeSelection.id)}.</p>
+            <p>You recommended: {formData.movieName}</p>
+            <p>Your rationale: {formData.rationale}</p>
+          </div>
         )}
       </Col>
       )}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image } from 'react-bootstrap';
-import './AdvisorsPanel.css';
+import './css/AdvisorsPanel.css';
 
 export default function AdvisorsPanel({ activeSelection, advisors, selectCallback, getAdvisorName }) {
   return (

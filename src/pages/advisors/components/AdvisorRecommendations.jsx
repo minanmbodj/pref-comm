@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import "./Recommendations.css";
+import "./css/Recommendations.css";
 
 const AdvisorRecommendations = ({ advisor, acceptCallback, rejectCallback, advisorName }) => {
   const [selectedButton, setSelectedButton] = useState(null);

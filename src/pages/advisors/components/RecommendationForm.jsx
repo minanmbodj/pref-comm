@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button, Alert, Container, Row, Col } from "react-bootstrap";
-import "./Recommendations.css";
+import "./css/Recommendations.css";
 
 const RecommendationForm = ({ advisor, onSubmit, advisorName }) => {
   const [movieName, setMovieName] = useState("");
