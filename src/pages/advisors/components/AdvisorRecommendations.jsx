@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import "./Recommendations.css";
 
-const AdvisorRecommendations = ({ advisor, acceptCallback, rejectCallback }) => {
+const AdvisorRecommendations = ({ advisor, acceptCallback, rejectCallback, advisorName }) => {
   const [selectedButton, setSelectedButton] = useState(null);
 
   const handleAccept = () => {
@@ -14,13 +14,6 @@ const AdvisorRecommendations = ({ advisor, acceptCallback, rejectCallback }) => 
     setSelectedButton('reject');
     rejectCallback(advisor.id);
   };
-
-  const anonymousAnimals = [
-    'Alligator', 'Buffalo', 'Coyote',
-    'Dolphin', 'Elephant', 'Frog', 'Giraffe'
-  ];
-
-  const advisorName = anonymousAnimals[advisor.id % 7];
 
   return (
     <Container className="advisor-recommendations-container">

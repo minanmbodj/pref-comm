@@ -3,12 +3,11 @@ import { Container, Row, Col, Button, Image } from "react-bootstrap";
 import parse from "html-react-parser";
 import { imgurl, post } from "../../../middleware/requests";
 
-const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback, formData}) => {
+const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback, formData, advisorName}) => {
   const [advisorProfile, setAdvisorProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [showAdvisorProfile, setShowAdvisorProfile] = useState(false);
-  const [advisorName, setAdvisorName] = useState("Advisor Name"); //Placeholder for advisor name
   const [recommendationSubmitted, setRecommendationSubmitted] = useState(false);
   const [showRating, setShowRating] = useState(false);
   const [rationale, setRationale] = useState("");
@@ -112,7 +111,7 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback, formData}) =>
               </Col>
             </Row>
           )}
-              <h2>{advisorName}'s Reccomendation to You</h2>
+              <h2>{advisorName}'s Recommendation to You</h2>
               <Row style={{ border: "2px solid", margin: "2px"}}>
                   <Col style={{ margin: "2px", width: "50%"}}>
                     <Image

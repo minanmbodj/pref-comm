@@ -2,21 +2,16 @@ import React from 'react';
 import { Image } from 'react-bootstrap';
 import './AdvisorsPanel.css';
 
-const anonymousAnimals = [
-  'Alligator', 'Buffalo', 'Coyote',
-  'Dolphin', 'Elephant', 'Frog', 'Giraffe'
-];
-
-export default function AdvisorsPanel({ activeSelection, advisors, selectCallback }) {
+export default function AdvisorsPanel({ activeSelection, advisors, selectCallback, getAdvisorName }) {
   return (
     <div className="advisors-panel-container">
       <h2>Your Advisors</h2>
       <div className="advisors-list">
-        {advisors.map((advisor, index) => (
+        {advisors.map((advisor) => (
           <AdvisorListItem
             key={advisor.id}
             advisor={advisor}
-            anonymousName={anonymousAnimals[index]}
+            anonymousName={getAdvisorName(advisor.id)}
             selected={advisor.id === activeSelection}
             selectCallback={selectCallback}
           />
