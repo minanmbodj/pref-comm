@@ -58,6 +58,12 @@ export default function Welcome(props) {
         .then((response) => response.json())
         .then((user) => {
           setUserdata(user);
+          navigate(props.next, { 
+            state: { 
+              user: user, 
+              studyStep: studyStep.id 
+            } 
+          });
         })
         .catch((error) => console.log(error));
     }

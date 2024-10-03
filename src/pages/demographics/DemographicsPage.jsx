@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getNextStudyStep, sendLog, submitDemographicInfo } from '../../middleware/api-middleware';
 import HeaderJumbotron from '../../widgets/headerJumbotron';
 import { CountryDropdown } from 'react-country-region-selector';
+import './DemographicsPage.css';
 
 export default function DemographicsPage(props) {
   const userdata = useLocation().state.user;
@@ -29,21 +30,20 @@ export default function DemographicsPage(props) {
     event.preventDefault();
     sendLog(userdata, studyStep.id, null, new Date() - starttime, 'demographics_submitted', 'submit', null, null);
 
-    const processedRace = race.includes('Not listed') ? [...race, otherRace] : race;
-    const processedGender = gender === 'Prefer to self-describe' ? selfDescribedGender : gender;
+    // const processedRace = race.includes('Not listed') ? [...race, otherRace] : race;
+    // const processedGender = gender === 'Prefer to self-describe' ? selfDescribedGender : gender;
 
-    submitDemographicInfo(userdata, age, processedGender, education, country)
-      .then(() => {
-        navigate(props.next, { state: { user: userdata, studyStep: studyStep.id } });
-      })
-      .catch((error) => console.log(error));
+    // submitDemographicInfo(userdata, age, processedGender, education, country)
+    //   .then(() => {
+    navigate(props.next, { state: { user: userdata, studyStep: studyStep.id } });
+    //   })
+    //   .catch((error) => console.log(error));
   };
 
   return (
-    <Container>
+    <Container className="demographics-container">
       <HeaderJumbotron title="Demographics" content="Please provide the following demographic information." />
-      <Form onSubmit={handleSubmit}>
-        <Form.Group>
+      <Form onSubmit={handleSubmit} className="demographics-form">
           <Form.Label>What is your age?</Form.Label>
           <Form.Control as="select" value={age} onChange={(e) => setAge(e.target.value)} required>
             <option value="">Select age range</option>
@@ -57,7 +57,6 @@ export default function DemographicsPage(props) {
             <option value="55+">55+</option>
             <option value="prefer_not_to_say">Prefer not to say</option>
           </Form.Control>
-        </Form.Group>
 
         <Form.Group>
           <Form.Label>What is your gender?</Form.Label>
@@ -83,24 +82,27 @@ export default function DemographicsPage(props) {
           </Form.Group>
         )}
 
-        <Form.Group>
+        <Form.Group className="mb-3">
           <Form.Label>Choose one or more races that you consider yourself to be:</Form.Label>
-          {['White', 'Black or African American', 'American Indian or Alaska Native', 'Asian', 'Native Hawaiian or Pacific Islander', 'Hispanic', 'Two or more races', 'Not listed', 'Prefer not to answer'].map((option) => (
-            <Form.Check
-              type="checkbox"
-              label={option}
-              value={option}
-              checked={race.includes(option)}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setRace([...race, e.target.value]);
-                } else {
-                  setRace(race.filter(item => item !== e.target.value));
-                }
-              }}
-              key={option}
-            />
-          ))}
+          <div className="race-checkboxes">
+            {['White', 'Black or African American', 'American Indian or Alaska Native', 'Asian', 'Native Hawaiian or Pacific Islander', 'Hispanic', 'Two or more races', 'Not listed', 'Prefer not to answer'].map((option) => (
+              <Form.Check
+                key={option}
+                type="checkbox"
+                label={option}
+                value={option}
+                checked={race.includes(option)}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setRace([...race, e.target.value]);
+                  } else {
+                    setRace(race.filter(item => item !== e.target.value));
+                  }
+                }}
+                className="race-checkbox"
+              />
+            ))}
+          </div>
         </Form.Group>
 
         {race.includes('Not listed') && (

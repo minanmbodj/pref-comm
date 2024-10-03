@@ -1,5 +1,3 @@
-/* DemographicsPage.css */
-
 .demographics-container {
     max-width: 800px;
     margin: 0 auto;
@@ -15,11 +13,13 @@
 
 .demographics-form .form-group {
     margin-bottom: 20px;
+    text-align: left;
 }
 
 .demographics-form .form-label {
     font-weight: bold;
     margin-bottom: 10px;
+    display: block;
 }
 
 .demographics-form .form-control {
@@ -29,8 +29,20 @@
     border-radius: 4px;
 }
 
-.demographics-form .form-check {
-    margin-bottom: 10px;
+.race-checkboxes {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.race-checkbox {
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.other-race-input {
+    margin-top: 10px;
+    max-width: 300px;
 }
 
 .demographics-form .btn-primary {
@@ -50,24 +62,6 @@
 .demographics-form .btn-primary:disabled {
     background-color: #c0c0c0;
     border-color: #c0c0c0;
-}
-
-.demographics-header {
-    margin-bottom: 30px;
-}
-
-.demographics-header h1 {
-    font-size: 2rem;
-    color: #333;
-}
-
-.demographics-header p {
-    font-size: 1rem;
-    color: #666;
-}
-
-.other-input {
-    margin-top: 10px;
 }
 
 @media (max-width: 768px) {
