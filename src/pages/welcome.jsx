@@ -72,21 +72,6 @@ export default function Welcome(props) {
     }
   }
 
-  const handleSkipToMovies = () => {
-    createTestUser('prefCommStudy', study.id, 0)
-      .then((response) => response.json())
-      .then((user) => {
-        setUserdata(user);
-        navigate('/ratemovies', { 
-          state: { 
-            user: user, 
-            studyStep: studyStep.id 
-          } 
-        });
-      })
-      .catch((error) => console.log(error));
-  };
-
   return (
     <Container>
       <Row>
@@ -167,14 +152,7 @@ export default function Welcome(props) {
       <InformedConsentModal show={show}
         consentCallback={consentCallbackHandler} />
       <Row>
-        <div className="jumbotron jumbotron-footer d-flex justify-content-between align-items-center">
-          <Button 
-            variant="secondary" 
-            onClick={handleSkipToMovies}
-            style={{ marginRight: 'auto' }}
-          >
-            Skip to Movies
-          </Button>
+        <div className="jumbotron jumbotron-footer d-flex justify-content-end align-items-center">
           <Button 
             variant="ers" 
             size="lg" 
