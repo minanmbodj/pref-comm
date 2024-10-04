@@ -1,10 +1,15 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import AdvisorDetails from "./AdvisorDetails";
 import AdvisorsPanel from "./AdvisorsPanel";
 import RecommendationForm from "./RecommendationForm";
 import AdvisorRecommendations from "./AdvisorRecommendations";
-import "./AdvisorsWidget.css";
-import {Button, Col, Row} from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
+import "./css/AdvisorsWidget.css";
+
+const anonymousAnimals = [
+  'Alligator', 'Buffalo', 'Coyote',
+  'Dolphin', 'Elephant', 'Frog', 'Giraffe'
+];
 
 function mapReplace(arr, prop, propval, callback) {
   return arr.map((item) => {
@@ -21,81 +26,92 @@ export default function AdvisorsWidget({ currentAdvisors }) {
   const [activeSelection, setActiveSelection] = useState(null);
   const [approvalPressed, setApprovalPressed] = useState(false);
   const [formData, setFormData] = useState({});
-  //TODO: set the advisor name here eventually
+  const [recommendationSubmitted, setRecommendationSubmitted] = useState(false);
 
-  const handleSelect = (advisorid) => {
-    const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorid);
-    setActiveSelection(selectedAdvisor);
-    setApprovalPressed(false); // Reset the state when selecting a new advisor
-    setFormData({}); // Reset the form data when selecting a new advisor
+  const getAdvisorName = (advisorId) => {
+    return `${anonymousAnimals[advisorId % anonymousAnimals.length]}`;
   };
 
-  const handleRating = (rating, advisorid) => {
-    const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorid);
+  const handleSelect = (advisorId) => {
+    const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorId);
+    setActiveSelection(selectedAdvisor);
+    setApprovalPressed(false);
+    setFormData({});
+    setRecommendationSubmitted(false);
+  };
+
+  const handleRating = (rating, advisorId) => {
+    const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorId);
     selectedAdvisor.rating = rating;
-    const newAdvisors = mapReplace(advisors, "id", advisorid, (advisor) => {
+    const newAdvisors = mapReplace(advisors, "id", advisorId, (advisor) => {
       return selectedAdvisor;
     });
     setAdvisors(newAdvisors);
   };
 
-  const handleAccept = (advisorid) => {
-    const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorid);
+  const handleAccept = (advisorId) => {
+    const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorId);
     selectedAdvisor.status = "Accepted";
     setApprovalPressed(true);
-    const newAdvisors = mapReplace(advisors, "id", advisorid, (advisor) => {
+    const newAdvisors = mapReplace(advisors, "id", advisorId, (advisor) => {
       return selectedAdvisor;
     });
     setAdvisors(newAdvisors);
   };
 
-  const handleReject = (advisorid) => {
-    const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorid);
+  const handleReject = (advisorId) => {
+    const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorId);
     selectedAdvisor.status = "Rejected";
     setApprovalPressed(true);
-    const newAdvisors = mapReplace(advisors, "id", advisorid, (advisor) => {
+    const newAdvisors = mapReplace(advisors, "id", advisorId, (advisor) => {
       return selectedAdvisor;
     });
     setAdvisors(newAdvisors);
+  };
+
+  const handleRecommendationSubmit = (newFormData) => {
+    setFormData(newFormData);
+    setRecommendationSubmitted(true);
+    console.log("Form data:", newFormData);
   };
 
   return (
-    <Row style={{ display: 'flex', flexDirection: 'row', alignItems: 'stretch' }}>
-      <Col style={{ display: 'flex', flex: 1}}>
+    <Row className="advisors-widget-row">
+      <Col xs={2} className="advisors-widget-column">
         <AdvisorsPanel
           advisors={advisors}
           activeSelection={activeSelection && activeSelection.id}
           selectCallback={handleSelect}
+          getAdvisorName={getAdvisorName}
         />
       </Col>
       {activeSelection && (
-        <Col style={{ display: 'flex', flex: 3.5}}>
+        <Col xs={8} className="advisors-widget-column">
           <AdvisorDetails
             advisor={activeSelection}
             ratingCallback={handleRating}
             acceptCallback={handleAccept}
             rejectCallback={handleReject}
             formData={formData}
+            advisorName={getAdvisorName(activeSelection.id)}
           />
         </Col>
       )}
       {activeSelection && (
-      <Col style={{ display: 'flex', flex: 1}}>
+      <Col xs={2} className="advisors-widget-column">
         {!approvalPressed && (
           <AdvisorRecommendations
             advisor={activeSelection}
             acceptCallback={handleAccept}
             rejectCallback={handleReject}
+            advisorName={getAdvisorName(activeSelection.id)}
           />
         )}
-        {approvalPressed && (
+        {approvalPressed && !recommendationSubmitted && (
           <RecommendationForm
-            advisor={activeSelection}  // Pass the correct advisor prop
-            onSubmit={(newFormData) => {
-              setFormData(newFormData);
-              // Handle form submission logic here
-              console.log("Form data:", formData);
-            }}
+            advisor={activeSelection}
+            onSubmit={handleRecommendationSubmit}
+            advisorName={getAdvisorName(activeSelection.id)}
           />
         )}
       </Col>
