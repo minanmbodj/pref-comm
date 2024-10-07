@@ -86,7 +86,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
         />
       </Col>
       {activeSelection && (
-        <Col xs={8} className="advisors-widget-column">
+        <Col xs={6} className="advisors-widget-column">
           <AdvisorDetails
             advisor={activeSelection}
             ratingCallback={handleRating}
@@ -98,7 +98,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
         </Col>
       )}
       {activeSelection && (
-      <Col xs={2} className="advisors-widget-column">
+      <Col xs={4} className="advisors-widget-column">
         {!approvalPressed && (
           <AdvisorRecommendations
             advisor={activeSelection}
