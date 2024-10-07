@@ -1,26 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Button, Image } from "react-bootstrap";
+import { Container, Row, Col, Image } from "react-bootstrap";
 import parse from "html-react-parser";
 import { imgurl, post } from "../../../middleware/requests";
+import "./css/AdvisorDetails.css";
 
-const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback, formData}) => {
+const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback, formData, advisorName }) => {
   const [advisorProfile, setAdvisorProfile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [buttonDisabled, setButtonDisabled] = useState(false);
   const [showAdvisorProfile, setShowAdvisorProfile] = useState(false);
-  const [advisorName, setAdvisorName] = useState("Advisor Name"); //Placeholder for advisor name
-  const [recommendationSubmitted, setRecommendationSubmitted] = useState(false);
   const [showRating, setShowRating] = useState(false);
   const [rationale, setRationale] = useState("");
 
   useEffect(() => {
     if (advisor) {
-       setButtonDisabled(advisor.status.toLowerCase() !== "pending");
-
-       // Fetch initial profile data
-       getAdvisorProfile(advisor.movie_id);
+      getAdvisorProfile(advisor.movie_id);
     }
- }, [advisor]);
+  }, [advisor]);
+
   const getAdvisorProfile = (advisor_id) => {
     setLoading(true);
     post("prefComm/advisor/profile/", { advisor_id })
@@ -42,99 +38,85 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback, formData}) =>
       setShowRating(formData.rating !== undefined);
       setRationale(formData.rationale);
     }
- }, [formData]);
+  }, [formData]);
 
-
-  const advisorProfileLabels = (key, value, isSubmitted) => {
+  const advisorProfileLabels = (key, value) => {
     switch (key) {
       case "likes":
         return `<strong>The advisor likes</strong> ${value}`;
       case "dislikes":
         return `<strong>The advisor dislikes</strong> ${value}`;
       case "most_rated_genre":
-        return `<strong>The advisor gave the highest rating to</strong> 
-          ${value.toLowerCase()} movies`;
+        return `<strong>The advisor gave the highest rating to</strong> ${value.toLowerCase()} movies`;
       case "genretopten":
-        return `<strong>Top ten movies rated highly by the advisor 
-          are</strong> ${value.toLowerCase()} movies`;
+        return `<strong>Top ten movies rated highly by the advisor are</strong> ${value.toLowerCase()} movies`;
       case "genre_with_least_rating":
-        return `<strong>The advisor's lowest rated movie was 
-            a${['a', 'e', 'i', 'o', 'u'].includes(value[0].toLowerCase()) ?
-            'n' : ''}</strong> ${value.toLowerCase()} movie`;
+        return `<strong>The advisor's lowest rated movie was a${['a', 'e', 'i', 'o', 'u'].includes(value[0].toLowerCase()) ? 'n' : ''}</strong> ${value.toLowerCase()} movie`;
       default:
         return `The advisor's ${key} is ${value}`;
     }
   };
 
-  if (!advisor) {
-    return (
-      <div style={{ border: "2px solid" }}>
-        <h2>Advisor Details</h2>
-      </div>
-    );
-  }
-
   return (
-    <Container style={{ border: "2px solid" }}>
-      {loading ? (
-        <div>Loading advisor details...</div>
-      ) : (
-        <>
-          {showAdvisorProfile && advisorProfile && (
-            <Row>
-              <Col>
-                <div className="profile-heading">
-                  {/* the image url is a placeholder for now */}
-                  <img className="profImg" src={imgurl(advisor.poster_identifier)} alt="profile description" />
-                  <p className="profHead">{advisorName}</p>
-                </div>
-              </Col>
-            </Row>
-          )}
-          { showAdvisorProfile && advisorProfile && (
-            <Row style={{border: "2px solid", margin: "2px"}}>
-              <Col>
-                <ul>
-                  {Object.entries(advisorProfile.profile).map(
-                    ([key, value]) => (
-                      <li
-                        key={key}
-                        className="AdvisorProfile-list-item"
-                      >
-                        <p>{parse(advisorProfileLabels(key, value))}</p>
-                      </li>
-                    )
-                  )}
-                </ul>
-              </Col>
-            </Row>
-          )}
-              <h2>Advisor Details</h2>
-              <Row style={{ border: "2px solid", margin: "2px"}}>
-                  <Col style={{ margin: "2px", width: "50%"}}>
-                    <Image
-                      className="AdvisorsDetails-poster"
-                      src={imgurl(advisor.poster_identifier)}
-                      alt={advisor.name}
+    <Container className="advisor-details-container">
+      <Row className="advisor-details-header">
+        <Col>
+          <h4>{advisorName}'s Profile</h4>
+        </Col>
+      </Row>
+      <Row className="advisor-details-content">
+        <Col>
+          {loading ? (
+            <div>Loading advisor details...</div>
+          ) : (
+            <>
+              {showAdvisorProfile && advisorProfile && (
+                <div className="advisor-profile box">
+                  <div className="profile-heading">
+                    <Image 
+                      className="advisor-image" 
+                      src={imgurl(advisor.poster_identifier)} 
+                      alt="profile description" 
+                      roundedCircle
                     />
-                  </Col>
-                  <Col style={{ margin: "2px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                    <p style={{ width: "100%", height: "100%", whiteSpace: "pre-wrap", fontSize: "1.5vw"}}>
-                      Description of the advisor's recommendation to the user.
-                      Will include extra details specified later on.
-                    </p>
-                  </Col>
-              </Row>
-          {showRating ? (
-            <Row >
-              <h3>Your Recommendation to {advisorName}</h3>
-              <Col style={{ border: "2px solid", margin: "2px"}}>
-                <p> {rationale}</p>
-              </Col>
-            </Row>
-          ) : console.log(formData)}
-        </>
-      )}
+                    <h5>{advisorName}</h5>
+                  </div>
+                  <div className="profile-details">
+                    <h6 className="section-title">Profile Details</h6>
+                    <ul className="profile-list">
+                      {Object.entries(advisorProfile.profile).map(([key, value]) => (
+                        <li key={key} className="profile-item">
+                          {parse(advisorProfileLabels(key, value))}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
+              <div className="recommendation-section box">
+                <h6 className="section-title">{advisorName}'s Recommendation to You</h6>
+                <div className="recommendation-content">
+                  <Image
+                    className="recommendation-poster"
+                    src={imgurl(advisor.poster_identifier)}
+                    alt={advisor.name}
+                  />
+                  <p className="recommendation-description">
+                    Description of the advisor's recommendation to the user.
+                    Will include extra details specified later on.
+                  </p>
+                </div>
+              </div>
+              {showRating && (
+                <div className="user-recommendation box">
+                  <h6 className="section-title">Your Recommendation to {advisorName}</h6>
+                  <p>{rationale}</p>
+                </div>
+              )}
+            </>
+          )}
+        </Col>
+      </Row>
     </Container>
   );
 };

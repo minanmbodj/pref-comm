@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import { get, post } from '../../middleware/requests';
+import { get, post, getNextStudyStep } from '../../middleware/api-middleware';
 import MovieGrid from './components/MovieGrid';
 
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function MovieRatingPage(props) {
 	const itemsPerPage = 24;
 
+	const userdata = useLocation().state.user;
+	const stepid = useLocation().state.studyStep;
+
 	const navigate = useNavigate();
+	const [studyStep, setStudyStep] = useState(props.studyStep);
+	const [movieIds, setMovieIds] = useState([]);
 
 	const [ratedMoviesData, setRatedMoviesData] = useState([]);
 	const [ratedMovies, setRatedMovies] = useState([]);
@@ -24,15 +29,28 @@ export default function MovieRatingPage(props) {
 	const [loading, setLoading] = useState(false);
 	const [currentPage, setCurrentPage] = useState(1);
 
-
-	const [movieIds, setMovieIds] = useState([]);
-
 	const [moviesToFetch, setMoviesToFetch] = useState([]);
 
+	useEffect(() => { 
+		getNextStudyStep(userdata.study_id, stepid) 
+		.then((value) => {
+			setStudyStep(value);
+		});
+	}, [userdata.study_id, stepid]);
 
-	function handleNavigate(recType, ratedMoviesData, next) {
-		navigate(next,
-			{ state: { recType: recType, ratings: ratedMoviesData } });
+
+	function handleNavigate(recType, recommendedMovies, ratedMoviesData) {
+		console.log('rectype', recType);
+		navigate(props.next,
+			{
+				state: {
+					recommendations: recommendedMovies,
+					ratings: ratedMoviesData,
+					recType: recType,
+					user: userdata,
+					studyStep: studyStep.id
+				}
+			});
 	}
 
 
@@ -90,20 +108,28 @@ export default function MovieRatingPage(props) {
 		setMoviesToFetch(randomMovies);
 	}, [movieIds]);
 
-	useEffect(() => {
-		const getMoviesByIDs = async (ids) => {
-			console.log(ids);
-			post('ers/movies/', ids)
-				.then((response): Promise<movie[]> => response.json())
-				.then((newmovies: movie[]) => {
-					console.log(newmovies);
-					setMovies((prevMovies) => [...prevMovies, ...newmovies]);
-				})
-				.catch((error) => console.log(error));
-		}
-		getMoviesByIDs(moviesToFetch);
+	
+useEffect(() => {
+    const getMoviesByIDs = async (ids) => {
+        console.log('Fetching movies with IDs:', ids); // Log the IDs being fetched
+        try {
+            const response = await post('ers/movies/', ids);
+            console.log('Response received:', response); // Log the response object
+            const newmovies = await response.json();
+            console.log('Movies fetched:', newmovies); // Log the movies data
+            setMovies((prevMovies) => [...prevMovies, ...newmovies]);
+        } catch (error) {
+            console.error('Error fetching movies:', error); // Log any errors
+        }
+    };
 
-	}, [moviesToFetch]);
+    if (moviesToFetch.length > 0) {
+        getMoviesByIDs(moviesToFetch);
+    } else {
+        console.log('No movies to fetch.'); // Log if there are no movies to fetch
+    }
+
+}, [moviesToFetch]);
 
 	useEffect(() => {
 		const getAllMovieIds = async () => {
@@ -123,7 +149,7 @@ export default function MovieRatingPage(props) {
 		setLoading(true);
 
 		if (ratedMovies.length > 0) {
-			handleNavigate(recType, ratedMoviesData, '/advisors');
+			handleNavigate(recType, ratedMoviesData, ratedMovies);
 		}
 	}
 
