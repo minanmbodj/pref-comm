@@ -14,9 +14,6 @@ import DemographicsPage from './pages/demographics/DemographicsPage';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Preference Community</h1>
-      </header>
       <Router basename='/preference-community'>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
