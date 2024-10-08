@@ -44,17 +44,8 @@ export default function SystemIntro(props) {
                             The Peer Recommendation Platform is a platform where you will get to receive movie recommendations from members of your community and will be invited to give recommendations back.
                         </p>
                         <p>
-                            In the system, you will have seven peer recommenders who will remain anonymous and you will be anonymous to them. This will allow you to be free in your exploration of the system as well as in your recommendations. Your peer-recommenders will be:
+                            In the system, you will have seven peer recommenders who will remain anonymous and you will be anonymous to them. This will allow you to be free in your exploration of the system as well as in your recommendations.
                         </p>
-                        <ul>
-                            <li>Anonymous Alligator</li>
-                            <li>Anonymous Buffalo</li>
-                            <li>Anonymous Coyote</li>
-                            <li>Anonymous Dolphin</li>
-                            <li>Anonymous Elephant</li>
-                            <li>Anonymous Frog</li>
-                            <li>Anonymous Giraffe</li>
-                        </ul>
                     </Card.Body>
                 </Card>
             </Row>
