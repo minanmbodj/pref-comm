@@ -86,61 +86,58 @@ export default function Welcome(props) {
             <p>
               <em>Consent Form:</em>
             </p>
-            <ol>
+            <ul>
               <li>
                 Begin by reviewing and signing the consent form.
               </li>
               <li>
                 Your participation is voluntary, and you can withdraw at any time.
               </li>
-            </ol>
-            <p>
-              <em>Demographics</em>
-            </p>
+            </ul>
             <p>
               <em>Pre-Survey:</em>
             </p>
-            <ol>
+            <ul>
               <li>
                 Complete a brief pre-survey to help us understand your background and preferences.
               </li>
               <li>
                 This will take approximately 10 to 15 minutes.
               </li>
-            </ol>
+            </ul>
             <p>
               <em>Introduction to The Peer Recommendation Platform:</em>
             </p>
-            <ol>
+            <ul>
               <li>
                 Learn about The Peer Recommendation Platform, our innovative community based movie recommender system.
               </li>
               <li>
                 Understand its purpose and how it will assist you throughout the study.
               </li>
-            </ol>
+            </ul>
             <p>
               <em>Complete the Study:</em>
             </p>
-            <ol>
+            <ul>
               <li>
                 Navigate through the system following the guided steps.
               </li>
               <li>
                 Engage with the features and provide feedback as prompted.
               </li>
-            </ol>
+            </ul>
             <p>
               <em>Post-Survey:</em>
             </p>
-            <ol>
+            <ul>
               <li>
                 After completing the study steps, you will be directed to a post-survey.
               </li>
               <li>
                 Your feedback will be invaluable for improving the system and understanding your experience.
               </li>
-            </ol>
+            </ul>
             
             <p>
               We appreciate your time and insights. <strong>Let's get started!</strong>
