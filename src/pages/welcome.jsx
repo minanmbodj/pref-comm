@@ -73,22 +73,6 @@ export default function Welcome(props) {
     setShowInformedConsent(false);
   }
 
-  const handleSkipToMovies = () => {
-    // Create a test user and navigate directly to the movie rating page
-    createTestUser('prefCommStudy', study.id, Math.floor(Math.random() * 2) + 12)
-      .then((response) => response.json())
-      .then((user) => {
-        setUserdata(user);
-        navigate('/ratemovies', { 
-          state: { 
-            user: user, 
-            studyStep: studyStep.id 
-          } 
-        });
-      })
-      .catch((error) => console.log(error));
-  }
-
   return (
     <Container>
       <Row>
@@ -182,15 +166,7 @@ export default function Welcome(props) {
         }}
       />
       <Row>
-      <div className="jumbotron jumbotron-footer d-flex justify-content-between align-items-center">
-          <Button 
-            variant="secondary" 
-            size="lg" 
-            className="footer-btn"
-            onClick={handleSkipToMovies}
-          >
-            Skip to Movies
-          </Button>
+        <div className="jumbotron jumbotron-footer d-flex justify-content-end align-items-center">
           <Button 
             variant="ers" 
             size="lg" 
