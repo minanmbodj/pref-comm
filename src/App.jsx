@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Suspense } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
-import AdvisorsPage from './pages/advisors/PeerRec';
+import AdvisorsPage from './pages/advisors/AdvisorsPage';
 import Welcome from './pages/welcome';
 import MovieRatingPage from './pages/ratemovies/MovieRatingPage';
 import Survey from './pages/survey';
@@ -17,7 +17,7 @@ function App() {
       <header className="App-header">
         <h1>Preference Community</h1>
       </header>
-      <Router basename='/peer-recommendation-platform'>
+      <Router basename='/preference-community'>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route path="/" element={<Welcome next="/presurvey"/>} />
@@ -25,7 +25,7 @@ function App() {
             <Route path="/presurvey" element={<Survey next="/systemintro"/>} /> 
             <Route path="/systemintro" element={<SystemIntro next="/ratemovies"/>} />
             <Route path="/ratemovies" element={<MovieRatingPage next="/advisors"/>} />
-            <Route path="/peer-recommendations" element={<AdvisorsPage next="/postsurvey"/>} />
+            <Route path="/advisors" element={<AdvisorsPage next="/postsurvey"/>} />
             <Route path="/postsurvey" element={<PostSurvey next="/feedback"/>} />
             <Route path="/feedback" element={<FeedbackPage next="/quit"/>} />
             <Route path="/quit" element={<h1>Thank you for participating!</h1>} />
