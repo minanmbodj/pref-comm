@@ -3,7 +3,6 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Spinner from "react-bootstrap/Spinner";
-import { Link } from 'react-router-dom';
 
 export default function InformedConsentModal(props) {
   const [consentChoice, setConsentChoice] = useState('');
@@ -15,11 +14,30 @@ export default function InformedConsentModal(props) {
 
   const handleConsent = (e) => {
     setIsLoading(true);
-    props.consentCallback(consentChoice === 'consent', condition);
+    if (consentChoice === 'consent') {
+      props.consentCallback(true, condition);
+    } else {
+      // Reset the form
+      setConsentChoice('');
+      setName('');
+      setDate('');
+      setIsLoading(false);
+      // Notify parent component that user didn't consent
+      props.onClose(false);
+    }
+  }
+
+  const handleClose = () => {
+    // Reset the form
+    setConsentChoice('');
+    setName('');
+    setDate('');
+    // Notify parent component to close the modal
+    props.onClose(false);
   }
 
   return (
-    <Modal show={props.show} dialogClassName="modal-80w" style={{ zIndex: "2050" }}>
+    <Modal show={props.show} onHide={handleClose} dialogClassName="modal-80w" style={{ zIndex: "2050" }}>
       <Modal.Header>
         <Modal.Title>
           Clemson University<br />
@@ -212,18 +230,15 @@ export default function InformedConsentModal(props) {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Link to="/quit">
-          <Button variant="ersCancel">
-            Exit
-          </Button>
-        </Link>
+        <Button variant="ersCancel" onClick={handleClose}>
+          Exit
+        </Button>
         <Button 
           variant="ers" 
           disabled={!consentChoice || isLoading || !name || !date}
-          onClick={(e) => handleConsent(e)}
+          onClick={handleConsent}
         >
-          {!isLoading ? 'Continue'
-            :
+          {!isLoading ? 'Continue' : 
             <>
               <Spinner
                 as="span"

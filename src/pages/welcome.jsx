@@ -3,16 +3,16 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import Alert from 'react-bootstrap/Alert';
 import { useNavigate } from 'react-router-dom';
 import {
-  createTestUser, createUser, getFirstStudyStep,
+  createTestUser, getFirstStudyStep,
   getStudy, sendLog
 } from '../middleware/api-middleware';
 import InformedConsentModal from '../widgets/dialogs/informedConsent';
 import HeaderJumbotron from '../widgets/headerJumbotron';
 
 export default function Welcome(props) {
-
   const studyID = 2;
 
   const [show, setShowInformedConsent] = useState(false);
@@ -20,12 +20,14 @@ export default function Welcome(props) {
   const [study, setStudy] = useState({});
   const [studyStep, setStudyStep] = useState({});
   const [starttime, setStarttime] = useState(Date.now());
-
-  const showInformedConsent = () => {
-    setShowInformedConsent(!show);
-  }
+  const [showNoConsentMessage, setShowNoConsentMessage] = useState(false);
 
   const navigate = useNavigate();
+
+  const showInformedConsent = () => {
+    setShowInformedConsent(true);
+    setShowNoConsentMessage(false);
+  }
 
   useEffect(() => {
     const userProps = ['id', 'condition', 'user_type', 'seen_items'];
@@ -49,7 +51,6 @@ export default function Welcome(props) {
       setStudyStep(studyStepRes);
     });
     setStarttime(new Date());
-
   }, []);
 
   const consentCallbackHandler = (consent, condition) => {
@@ -66,10 +67,10 @@ export default function Welcome(props) {
           });
         })
         .catch((error) => console.log(error));
+    } else {
+      setShowNoConsentMessage(true);
     }
-    else {
-      navigate('/quit');
-    }
+    setShowInformedConsent(false);
   }
 
   return (
@@ -78,6 +79,14 @@ export default function Welcome(props) {
         <HeaderJumbotron title="Welcome!"
           content="Thank you for participating in The Peer Recommendation Platform study. Your involvement is crucial for our research." />
       </Row>
+
+      {showNoConsentMessage && (
+        <Row>
+          <Alert variant="warning">
+            You have chosen not to consent to the study. If you change your mind, you can click the "Get started" button again to review the consent form.
+          </Alert>
+        </Row>
+      )}
 
       <Row>
         <Card bg="light">
@@ -146,8 +155,16 @@ export default function Welcome(props) {
         </Card>
       </Row>
 
-      <InformedConsentModal show={show}
-        consentCallback={consentCallbackHandler} />
+      <InformedConsentModal 
+        show={show}
+        consentCallback={consentCallbackHandler}
+        onClose={(consented) => {
+          setShowInformedConsent(false);
+          if (!consented) {
+            setShowNoConsentMessage(true);
+          }
+        }}
+      />
       <Row>
         <div className="jumbotron jumbotron-footer d-flex justify-content-end align-items-center">
           <Button 
