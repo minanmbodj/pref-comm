@@ -131,6 +131,15 @@ export default function Survey(props) {
 			'surveyResponse', pageData.page_name, qid, val);
 	}
 
+	const getSpacingAfter = () => {
+		switch(pageData.id) {
+		  case 29:
+			return [253];
+		  default:
+			return [];
+		}
+	  };
+
 	return (
 		<Container>
 			<Row>
@@ -142,7 +151,8 @@ export default function Survey(props) {
 						surveyquestiongroup={pageData.page_name}
 						showUnanswered={showUnanswered}
 						submitCallback={submitHandler}
-						logginCallback={logHandler} />
+						logginCallback={logHandler} 
+						spacingAfter={getSpacingAfter()}/>
 					: ''
 				}
 			</Row>

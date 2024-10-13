@@ -1,9 +1,10 @@
 import FormGroup from "react-bootstrap/FormGroup";
 import Row from "react-bootstrap/Row";
 import LikertBar from "./likertBar";
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import DOMPurify from "dompurify";
 import parse from "html-react-parser";
+import Spacing from './spacing';
 
 export default function SurveyTemplate(props) {
 
@@ -71,26 +72,34 @@ export default function SurveyTemplate(props) {
 
 	return (
 		<Row>
-			{props.surveyquestions.map((question, i) => {
-				return (
-					<FormGroup key={props.surveyquestiongroup + '_' + i}
-						className={resBoolSet.has(i) ?
-							"survey-question-block-responded"
-							: showUnanswered ?
-								"survey-question-block-unanswered"
-								: "survey-question-block"}
-						ref={i === smallestUnanswered ? topUnanswered : null}>
-						<div>
-							<p className="surveyQuestionText">
-								{parseHTML(question.question)}
-							</p>
-						</div>
-						<LikertBar surveyquestiongroup={props.surveyquestiongroup}
-							qid={question.id} changeCallback={valueSelectHandler} />
-					</FormGroup>
-				)
-			})}
+		  {props.surveyquestions.map((question, i) => (
+			<React.Fragment key={props.surveyquestiongroup + '_' + i}>
+			  <FormGroup
+				className={resBoolSet.has(i) ?
+				  "survey-question-block-responded"
+				  : showUnanswered ?
+					"survey-question-block-unanswered"
+					: "survey-question-block"}
+				ref={i === smallestUnanswered ? topUnanswered : null}
+			  >
+				<div>
+				  <p className="surveyQuestionText">
+					{parseHTML(question.question)}
+				  </p>
+				</div>
+				<LikertBar
+				  surveyquestiongroup={props.surveyquestiongroup}
+				  qid={question.id}
+				  changeCallback={valueSelectHandler}
+				/>
+			  </FormGroup>
+			  
+			  {/* Add spacing if this question's ID is in the spacingAfter array */}
+			  {console.log("Spacing after:", props.spacingAfter)}
+			  {console.log("Question ID:", question.id)}
+			  {props.spacingAfter && props.spacingAfter.includes(question.id) && <Spacing height="40px" />}
+			</React.Fragment>
+		  ))}
 		</Row>
-
-	)
-}
+	  );
+	}
