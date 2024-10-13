@@ -141,6 +141,15 @@ export default function PostSurvey(props) {
 		}
 	};
 
+	// Static lists of page numbers for satisfaction questions
+	const satisfactionPages = [36, 38, 39];
+
+	// Function to determine the question type based on page number
+	const getQuestionType = (pageNumber) => {
+		if (satisfactionPages.includes(pageNumber)) return 'satisfaction';
+		return 'likelihood';
+	};
+
 	return (
 		<Container>
 			<Row>
@@ -152,12 +161,14 @@ export default function PostSurvey(props) {
 			</Row>
 			<Row>
 				{Object.entries(pageData).length !== 0 ?
-					<SurveyTemplate surveyquestions={pageData.questions}
+					<SurveyTemplate 
+						surveyquestions={pageData.questions}
 						surveyquestiongroup={pageData.page_name}
 						showUnanswered={showUnanswered}
 						submitCallback={submitHandler}
 						logginCallback={logHandler} 
-						spacingAfter={getSpacingAfter()}/>
+						spacingAfter={getSpacingAfter()}
+						questionType={getQuestionType(pageData.id)}/>
 					: ''
 				}
 			</Row>

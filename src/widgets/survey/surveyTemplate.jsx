@@ -91,6 +91,7 @@ export default function SurveyTemplate(props) {
 				  surveyquestiongroup={props.surveyquestiongroup}
 				  qid={question.id}
 				  changeCallback={valueSelectHandler}
+				  type={props.questionType}
 				/>
 			  </FormGroup>
 			  

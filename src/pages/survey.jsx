@@ -140,9 +140,15 @@ export default function Survey(props) {
 		}
 	};
 
-	// console.log(studyStep.step_name);
-	// console.log(pageData.page_name);
-	// console.log(pageData.page_instruction);
+	// Static lists of page numbers for satisfaction questions
+	const satisfactionPages = [31];
+
+	// Function to determine the question type based on page number
+	const getQuestionType = (pageNumber) => {
+		if (satisfactionPages.includes(pageNumber)) return 'satisfaction';
+		return 'likelihood';
+	};
+
 	return (
 		<Container>
 			<Row>
@@ -154,12 +160,14 @@ export default function Survey(props) {
 			</Row>
 			<Row>
 				{Object.entries(pageData).length !== 0 ?
-					<SurveyTemplate surveyquestions={pageData.questions}
+					<SurveyTemplate 
+						surveyquestions={pageData.questions}
 						surveyquestiongroup={pageData.page_name}
 						showUnanswered={showUnanswered}
 						submitCallback={submitHandler}
 						logginCallback={logHandler} 
-						spacingAfter={getSpacingAfter()}/>
+						spacingAfter={getSpacingAfter()}
+						questionType={getQuestionType(pageData.id)}/>
 					: ''
 				}
 			</Row>
