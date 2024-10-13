@@ -138,7 +138,7 @@ export default function Survey(props) {
 		  default:
 			return [];
 		}
-	  };
+	};
 
 	return (
 		<Container>
