@@ -26,20 +26,31 @@ export default function Survey(props) {
 	const getsurveypage = (studyid, stepid, pageid) => {
 		let path = '';
 		if (pageid !== null) {
-			path = 'study/' + studyid + '/step/' + stepid + '/page/' + pageid + '/next';
+			// If the current page is 30, modify the path to get the next page
+			if (pageid === 30) {
+				path = 'study/' + studyid + '/step/' + stepid + '/page/' + pageid + '/next';
+			} else {
+				path = 'study/' + studyid + '/step/' + stepid + '/page/' + pageid + '/next';
+			}
 		} else {
 			path = 'study/' + studyid + '/step/' + stepid + '/page/first/';
 		}
+	
 		get(path)
-			.then((response): Promise<page> => response.json())
-			.then((page: page) => {
-				setPageData(page);
-				setPageStarttime(new Date());
-				setShowUnanswered(false);
-				const pagevalidation = {};
-				pagevalidation[page.id] = false;
-				setServerValidation({ ...serverValidation, ...pagevalidation });
-				setNextButtonDisabled(true);
+			.then((response) => response.json())
+			.then((page) => {
+				// If the returned page is 30, call getsurveypage again to get the next page
+				if (page.id === 30) {
+					getsurveypage(studyid, stepid, page.id);
+				} else {
+					setPageData(page);
+					setPageStarttime(new Date());
+					setShowUnanswered(false);
+					const pagevalidation = {};
+					pagevalidation[page.id] = false;
+					setServerValidation({ ...serverValidation, ...pagevalidation });
+					setNextButtonDisabled(true);
+				}
 			})
 			.catch((error) => console.log(error));
 	}
