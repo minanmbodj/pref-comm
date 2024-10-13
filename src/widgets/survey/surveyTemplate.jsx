@@ -95,8 +95,6 @@ export default function SurveyTemplate(props) {
 			  </FormGroup>
 			  
 			  {/* Add spacing if this question's ID is in the spacingAfter array */}
-			  {console.log("Spacing after:", props.spacingAfter)}
-			  {console.log("Question ID:", question.id)}
 			  {props.spacingAfter && props.spacingAfter.includes(question.id) && <Spacing height="40px" />}
 			</React.Fragment>
 		  ))}

@@ -144,7 +144,11 @@ export default function PostSurvey(props) {
 	return (
 		<Container>
 			<Row>
-				<HeaderJumbotron title={studyStep.step_name} content={studyStep.step_description} />
+				<HeaderJumbotron 
+					title={studyStep.step_name} 
+					content={studyStep.step_description} 
+					pageInstruction={pageData.page_instruction}
+				/>
 			</Row>
 			<Row>
 				{Object.entries(pageData).length !== 0 ?
