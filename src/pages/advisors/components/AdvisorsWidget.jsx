@@ -7,8 +7,8 @@ import { Col, Row } from "react-bootstrap";
 import "./css/AdvisorsWidget.css";
 
 const anonymousAnimals = [
-  'Alligator', 'Buffalo', 'Coyote',
-  'Dolphin', 'Elephant', 'Frog', 'Giraffe'
+  'Anonymous Alligator', 'Anonymous Buffalo', 'Anonymous Coyote',
+  'Anonymous Dolphin', 'Anonymous Elephant', 'Anonymous Frog', 'Anonymous Giraffe'
 ];
 
 function mapReplace(arr, prop, propval, callback) {
@@ -29,7 +29,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
   const [recommendationSubmitted, setRecommendationSubmitted] = useState(false);
 
   const getAdvisorName = (advisorId) => {
-    return `${anonymousAnimals[advisorId % anonymousAnimals.length]}`;
+    return `${anonymousAnimals[(advisorId - 1) % anonymousAnimals.length]}`;
   };
 
   const handleSelect = (advisorId) => {

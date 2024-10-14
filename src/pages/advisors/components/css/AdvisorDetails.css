@@ -58,6 +58,12 @@
     height: 60px;
     margin-bottom: 10px;
   }
+
+  .advisor-image-about {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 10px;
+  }
   
   .profile-heading h5 {
     margin: 0;
