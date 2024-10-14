@@ -92,7 +92,6 @@ export default function AdvisorsWidget({ currentAdvisors }) {
             ratingCallback={handleRating}
             acceptCallback={handleAccept}
             rejectCallback={handleReject}
-            formData={formData}
             advisorName={getAdvisorName(activeSelection.id)}
           />
         </Col>
@@ -105,6 +104,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
             acceptCallback={handleAccept}
             rejectCallback={handleReject}
             advisorName={getAdvisorName(activeSelection.id)}
+            formData={formData}
           />
         )}
         {approvalPressed && !recommendationSubmitted && (
