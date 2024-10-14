@@ -3,6 +3,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import "./css/Recommendations.css";
 
 const AdvisorRecommendations = ({ advisor, acceptCallback, rejectCallback, advisorName, formData }) => {
+  // console.log("Formdata: ", formData);
   const [selectedButton, setSelectedButton] = useState(null);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
