@@ -26,20 +26,28 @@ export default function PostSurvey(props) {
 	const getsurveypage = (studyid, stepid, pageid) => {
 		let path = '';
 		if (pageid !== null) {
-			path = 'study/' + studyid + '/step/' + stepid + '/page/' + pageid + '/next';
+			if (pageid === 40) {
+				path = 'study/' + studyid + '/step/' + stepid + '/page/' + pageid + '/next';
+			} else {
+				path = 'study/' + studyid + '/step/' + stepid + '/page/' + pageid + '/next';
+			}
 		} else {
 			path = 'study/' + studyid + '/step/' + stepid + '/page/first/';
 		}
 		get(path)
 			.then((response): Promise<page> => response.json())
 			.then((page: page) => {
-				setPageData(page);
-				setPageStarttime(new Date());
-				setShowUnanswered(false);
-				const pagevalidation = {};
-				pagevalidation[page.id] = false;
-				setServerValidation({ ...serverValidation, ...pagevalidation });
-				setNextButtonDisabled(true);
+				if(page.id === 40) {
+					getsurveypage(studyid, stepid, page.id);
+				} else {
+					setPageData(page);
+					setPageStarttime(new Date());
+					setShowUnanswered(false);
+					const pagevalidation = {};
+					pagevalidation[page.id] = false;
+					setServerValidation({ ...serverValidation, ...pagevalidation });
+					setNextButtonDisabled(true);
+				}
 			})
 			.catch((error) => console.log(error));
 	}
@@ -120,18 +128,47 @@ export default function PostSurvey(props) {
 			'surveyResponse', pageData.page_name, qid, val);
 	}
 
+	const getSpacingAfter = () => {
+		switch(pageData.id) {
+		  case 35:
+			return [155, 160];
+		  case 37:
+			return [189, 194];
+		  case 38:
+			return [205, 212];
+		  default:
+			return [];
+		}
+	};
+
+	// Static lists of page numbers for satisfaction questions
+	const satisfactionPages = [36, 38, 39];
+
+	// Function to determine the question type based on page number
+	const getQuestionType = (pageNumber) => {
+		if (satisfactionPages.includes(pageNumber)) return 'satisfaction';
+		return 'likelihood';
+	};
+
 	return (
 		<Container>
 			<Row>
-				<HeaderJumbotron title={studyStep.step_name} content={studyStep.step_description} />
+				<HeaderJumbotron 
+					title={studyStep.step_name} 
+					content={studyStep.step_description} 
+					pageInstruction={pageData.page_instruction}
+				/>
 			</Row>
 			<Row>
 				{Object.entries(pageData).length !== 0 ?
-					<SurveyTemplate surveyquestions={pageData.questions}
+					<SurveyTemplate 
+						surveyquestions={pageData.questions}
 						surveyquestiongroup={pageData.page_name}
 						showUnanswered={showUnanswered}
 						submitCallback={submitHandler}
-						logginCallback={logHandler} />
+						logginCallback={logHandler} 
+						spacingAfter={getSpacingAfter()}
+						questionType={getQuestionType(pageData.id)}/>
 					: ''
 				}
 			</Row>

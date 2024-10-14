@@ -26,20 +26,31 @@ export default function Survey(props) {
 	const getsurveypage = (studyid, stepid, pageid) => {
 		let path = '';
 		if (pageid !== null) {
-			path = 'study/' + studyid + '/step/' + stepid + '/page/' + pageid + '/next';
+			// If the current page is 30, modify the path to get the next page
+			if (pageid === 30) {
+				path = 'study/' + studyid + '/step/' + stepid + '/page/' + pageid + '/next';
+			} else {
+				path = 'study/' + studyid + '/step/' + stepid + '/page/' + pageid + '/next';
+			}
 		} else {
 			path = 'study/' + studyid + '/step/' + stepid + '/page/first/';
 		}
+	
 		get(path)
-			.then((response): Promise<page> => response.json())
-			.then((page: page) => {
-				setPageData(page);
-				setPageStarttime(new Date());
-				setShowUnanswered(false);
-				const pagevalidation = {};
-				pagevalidation[page.id] = false;
-				setServerValidation({ ...serverValidation, ...pagevalidation });
-				setNextButtonDisabled(true);
+			.then((response) => response.json())
+			.then((page) => {
+				// If the returned page is 30, call getsurveypage again to get the next page
+				if (page.id === 30) {
+					getsurveypage(studyid, stepid, page.id);
+				} else {
+					setPageData(page);
+					setPageStarttime(new Date());
+					setShowUnanswered(false);
+					const pagevalidation = {};
+					pagevalidation[page.id] = false;
+					setServerValidation({ ...serverValidation, ...pagevalidation });
+					setNextButtonDisabled(true);
+				}
 			})
 			.catch((error) => console.log(error));
 	}
@@ -120,18 +131,43 @@ export default function Survey(props) {
 			'surveyResponse', pageData.page_name, qid, val);
 	}
 
+	const getSpacingAfter = () => {
+		switch(pageData.id) {
+		  case 29:
+			return [253];
+		  default:
+			return [];
+		}
+	};
+
+	// Static lists of page numbers for satisfaction questions
+	const satisfactionPages = [31];
+
+	// Function to determine the question type based on page number
+	const getQuestionType = (pageNumber) => {
+		if (satisfactionPages.includes(pageNumber)) return 'satisfaction';
+		return 'likelihood';
+	};
+
 	return (
 		<Container>
 			<Row>
-				<HeaderJumbotron title={studyStep.step_name} content={studyStep.step_description} />
+				<HeaderJumbotron 
+					title={studyStep.step_name} 
+					content={studyStep.step_description} 
+					pageInstruction={pageData.page_instruction}
+				/>			
 			</Row>
 			<Row>
 				{Object.entries(pageData).length !== 0 ?
-					<SurveyTemplate surveyquestions={pageData.questions}
+					<SurveyTemplate 
+						surveyquestions={pageData.questions}
 						surveyquestiongroup={pageData.page_name}
 						showUnanswered={showUnanswered}
 						submitCallback={submitHandler}
-						logginCallback={logHandler} />
+						logginCallback={logHandler} 
+						spacingAfter={getSpacingAfter()}
+						questionType={getQuestionType(pageData.id)}/>
 					: ''
 				}
 			</Row>

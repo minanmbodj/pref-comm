@@ -29,17 +29,6 @@
 	font-size: 1.25rem !important;
 }
 
-.App-header {
-	background-color: #282c34;
-	height: 3vh;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	justify-content: center;
-	font-size: calc(10px + 2vmin);
-	color: white;
-}
-
 .instructionblurb {
 	text-align: left;
 }

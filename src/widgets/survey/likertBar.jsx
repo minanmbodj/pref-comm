@@ -3,15 +3,28 @@ import FormLabel from "react-bootstrap/FormLabel";
 
 export default function LikertBar(props) {
 
-	const likert = [
-		{ id: 1, label: 'Strongly Disagree' },
-		{ id: 2, label: 'Disagree' },
-		{ id: 3, label: 'Neutral' },
-		{ id: 4, label: 'Agree' },
-		{ id: 5, label: 'Strongly Agree' }];
+	const likertLikelihood = [
+		{ id: 1, label: 'very slightly or not at all' },
+		{ id: 2, label: 'a little' },
+		{ id: 3, label: 'moderately' },
+		{ id: 4, label: 'quite a bit' },
+		{ id: 5, label: 'extremely' }];
 
-	const qgroup = props.surveyquestiongroup;
-	const qid = props.qid
+	const likertSatisfaction = [
+		{ id: 1, label: 'I strongly disagree' },
+		{ id: 2, label: 'I disagree' },
+		{ id: 3, label: 'I rather disagree' },
+		{ id: 4, label: 'It is indifferent to me' },
+		{ id: 5, label: 'I rather agree' },
+		{ id: 6, label: 'I agree' }, 
+		{ id: 7, label: 'I strongly agree' }];
+
+	// Choose the appropriate set based on props or default to agreement
+    const likert = props.type === 'likelihood' ? likertLikelihood :
+                   likertSatisfaction;
+
+    const qgroup = props.surveyquestiongroup;
+    const qid = props.qid;
 	const [selectedValue, setSelectedValue] = useState(undefined);
 
 	const handleRadioChange = (val) => {

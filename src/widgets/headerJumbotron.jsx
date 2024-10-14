@@ -3,7 +3,10 @@ import parse from "html-react-parser";
 
 export default function HeaderJumbotron(props) {
 
-	const clean = DOMPurify.sanitize(props.content);
+	const cleanContent = DOMPurify.sanitize(props.content);
+	const cleanPageDescription = DOMPurify.sanitize(props.pageInstruction);
+	console.log(cleanPageDescription);
+	const clean = `${cleanContent} ${cleanPageDescription}`;
 	const parsed = parse(clean);
 
 	return (
