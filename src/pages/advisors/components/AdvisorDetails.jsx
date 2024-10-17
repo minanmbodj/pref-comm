@@ -8,8 +8,8 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback, formData, adv
   const [advisorProfile, setAdvisorProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showAdvisorProfile, setShowAdvisorProfile] = useState(false);
-  const [showRating, setShowRating] = useState(false);
-  const [rationale, setRationale] = useState("");
+  // const [showRating, setShowRating] = useState(false);
+  // const [rationale, setRationale] = useState("");
 
   useEffect(() => {
     if (advisor) {
@@ -33,12 +33,12 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback, formData, adv
       });
   };
 
-  useEffect(() => {
-    if (formData) {
-      setShowRating(formData.rating !== undefined);
-      setRationale(formData.rationale);
-    }
-  }, [formData]);
+  // useEffect(() => {
+  //   if (formData) {
+  //     setShowRating(formData.rating !== undefined);
+  //     setRationale(formData.rationale);
+  //   }
+  // }, [formData]);
 
   const advisorProfileLabels = (key, value) => {
     switch (key) {
@@ -74,15 +74,14 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback, formData, adv
                 <div className="advisor-profile box">
                   <div className="profile-heading">
                     <Image 
-                      className="advisor-image" 
+                      className="advisor-image-about" 
                       src={imgurl(advisor.poster_identifier)} 
                       alt="profile description" 
                       roundedCircle
                     />
-                    <h5>{advisorName}</h5>
                   </div>
                   <div className="profile-details">
-                    <h6 className="section-title">Profile Details</h6>
+                    <h6 className="section-title">About {advisorName}</h6>
                     <ul className="profile-list">
                       {Object.entries(advisorProfile.profile).map(([key, value]) => (
                         <li key={key} className="profile-item">
@@ -107,12 +106,6 @@ const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback, formData, adv
                   </p>
                 </div>
               </div>
-              {showRating && (
-                <div className="user-recommendation box">
-                  <h6 className="section-title">Your Recommendation to {advisorName}</h6>
-                  <p>{rationale}</p>
-                </div>
-              )}
             </>
           )}
         </Col>
