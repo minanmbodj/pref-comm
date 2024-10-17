@@ -1,4 +1,4 @@
-export const API = process.env.NODE_ENV !== "production" ? "https://rssa.recsys.dev/newrs/api/v1/"
+export const API = process.env.NODE_ENV !== "production" ? "https://rssa.recsys.dev/rssa/api/"
 	: "http://localhost:8000/";
 
 // export const API = "http://localhost:3000/"
