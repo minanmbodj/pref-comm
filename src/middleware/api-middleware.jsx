@@ -1,66 +1,44 @@
-export const API = process.env.NODE_ENV !== "production" ? "https://rssa.recsys.dev/rssa/api/"
-	: "http://localhost:8000/";
+import { useStudy } from 'rssa-api';
 
-// export const API = "http://localhost:3000/"
-
-export const CORSHeaders = {
-	'Content-Type': 'application/json',
-	'Access-Control-Allow-Origin': '*',
-	'Access-Control-Allow-Headers': '*',
-	'Access-Control-Allow-Methods': 'OPTIONS,PUT,POST,GET',
-};
-
-function getHeaders(userdata) {
-	let headers = CORSHeaders;
-	if (userdata) {
-		headers = {
-			...CORSHeaders,
-			'study-id': userdata.study_id
-		}
-	}
-	return headers;
-}
-
-export function post(path: string, data: any, userdata) {
-	return bodyRequest('POST', path, data, getHeaders(userdata));
-}
-
-export function put(path: string, data: any, userdata) {
-	return bodyRequest('PUT', path, data, getHeaders(userdata));
-}
-
-function bodyRequest(method: string, path: string, data: any, headers) {
-	return fetch(API + path, {
-	  method: method,
-	  headers: headers,
-	  body: JSON.stringify(data)
-	}).then(response => {
-	  if (!response.ok) {
-		throw new Error(`HTTP error! status: ${response.status}`);
-	  }
-	  return response;
-	});
+export function getHeaders(userdata) {
+	return userdata ? { 'study-id': userdata.study_id } : {};
   }
+
+  export async function post(path, data, userdata) {
+	const { studyApi } = useStudy();
+	return studyApi.post(path, data);
+  }
+
+  export async function put(path, data, userdata) {
+	const { studyApi } = useStudy();
+	return studyApi.put(path, data);
+  }
+
+// function bodyRequest(method: string, path: string, data: any, headers) {
+// 	return fetch(API + path, {
+// 	  method: method,
+// 	  headers: headers,
+// 	  body: JSON.stringify(data)
+// 	}).then(response => {
+// 	  if (!response.ok) {
+// 		throw new Error(`HTTP error! status: ${response.status}`);
+// 	  }
+// 	  return response;
+// 	});
+//   }
   
-  export function get(path: string, userdata) {
-	return fetch(API + path, {
-	  method: 'GET',
-	  headers: getHeaders(userdata)
-	}).then(response => {
-	  if (!response.ok) {
-		throw new Error(`HTTP error! status: ${response.status}`);
-	  }
-	  return response;
-	});
+  export async function get(path, userdata) {
+	const { studyApi } = useStudy();
+	return studyApi.get(path);
   }
   
 
-export function createUser(userType: string, studyId: int) {
+  export function createUser(userType, studyId) {
 	return post('user/consent/', {
-		study_id: studyId,
-		user_type: 'prefComStudy'
-	}, { study_id: studyId })
-}
+	  study_id: studyId,
+	  user_type: 'prefComStudy'
+	}, { study_id: studyId });
+  }
 
 // FIXME: This is a temporary function to create a test user
 // Get rid of this function once the backend is fixed
@@ -68,7 +46,7 @@ export function createTestUser(userType, studyId, conditionId) {
 	return post('user/consent/' + conditionId + '/', {
 		study_id: studyId,
 		user_type: 'prefComStudy'
-	}, { study_id: studyId })
+	}, { study_id: studyId });
 }
 
 export function getStudy(studyid) {
