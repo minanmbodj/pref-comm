@@ -12,6 +12,7 @@ import Survey from './pages/survey';
 import SystemIntro from './pages/SystemIntro';
 import PostSurvey from './pages/postSurvey';
 import FeedbackPage from './pages/feedbackPage';
+import Demographics from './pages/demographics/DemographicsPage';
 
 import { STRINGS } from './constants/defaults';
 
@@ -95,7 +96,7 @@ function App() {
             <Routes>
               <Route path="/" element={
 								<Welcome
-									next="/presurvey"
+									next="/demographics"
 									checkpointUrl={checkpointUrl}
 									studyStep={studyStep}
 									setNewParticipant={setParticipant}
@@ -103,7 +104,7 @@ function App() {
 									sizeWarning={showWarning}
 								/>
 							} />
-              {/* <Route path="/demographics" element={
+              <Route path="/demographics" element={
 								<Demographics
 									next="/presurvey"
 									checkpointUrl={checkpointUrl}
@@ -112,7 +113,7 @@ function App() {
 									updateCallback={handleStepUpdate}
 									sizeWarning={showWarning}
 								/>
-							} /> */}
+							} />
               {/* <Route path="/presurvey" element={
 								<Survey
 									next="/systemintro"
