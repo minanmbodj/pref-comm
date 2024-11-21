@@ -1,7 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
+import { ThemeProvider } from 'react-bootstrap';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
+import { WarningDialog } from './widgets/dialogs/warningDialog';
+
 import AdvisorsPage from './pages/advisors/AdvisorsPage';
 import Welcome from './pages/welcome';
 import MovieRatingPage from './pages/ratemovies/MovieRatingPage';
@@ -9,29 +12,173 @@ import Survey from './pages/survey';
 import SystemIntro from './pages/SystemIntro';
 import PostSurvey from './pages/postSurvey';
 import FeedbackPage from './pages/feedbackPage';
-import { useStudy } from 'rssa-api';
 
-const App: React.FC = () => {
+import { STRINGS } from './constants/defaults';
 
+import { useStudy } from './rssa-api/StudyProvider';
+import { Participant, StudyStep, emptyParticipant, emptyStep, isEmptyParticipant, isEmptyStep } from './rssa-api/RssaApi.types';
+
+
+const customBreakpoints = {
+	xl: 1200,
+	xxl: 1400,
+	xxxl: 1800, // Custom breakpoint for viewport size greater than 1800px
+	xl4: 2000
+};
+
+function App() {
   const { studyApi } = useStudy();
+  const [showWarning, setShowWarning] = useState<boolean>(false);
+	const [participant, setParticipant] = useState<Participant>(emptyParticipant);
+	const [studyStep, setStudyStep] = useState<StudyStep>(emptyStep);
+	const [checkpointUrl, setCheckpointUrl] = useState<string>('/');
+	const [studyError, setStudyError] = useState<boolean>(false);
+
+  const handleStepUpdate = (step: StudyStep, referrer: string) => {
+		const newParticipant = { ...participant, current_step: step.id };
+		studyApi.put('participant/', newParticipant).then(() => {
+			localStorage.setItem('participant', JSON.stringify(newParticipant));
+			localStorage.setItem('studyStep', JSON.stringify(step));
+			localStorage.setItem('lastUrl', referrer);
+		});
+		setParticipant(newParticipant);
+		setStudyStep(step);
+		setCheckpointUrl(referrer);
+	}
+
+
+  useEffect(() => {
+		const participantCache = localStorage.getItem('participant');
+		const studyStepCache = localStorage.getItem('studyStep');
+		const checkpointUrl = localStorage.getItem('lastUrl');
+		if (participantCache && studyStepCache) {
+			const cparticipant = JSON.parse(participantCache);
+			if (!isEmptyParticipant(cparticipant)) {
+				setParticipant(cparticipant);
+			}
+			const cstudyStep = JSON.parse(studyStepCache);
+			if (!isEmptyStep(cstudyStep)) {
+				setStudyStep(cstudyStep);
+			}
+
+			if (checkpointUrl) {
+				setCheckpointUrl(checkpointUrl);
+			}
+		} else {
+			studyApi.get<StudyStep>('studystep/first').then((studyStep) => {
+				setStudyStep(studyStep);
+				setStudyError(false);
+			}).catch((error) => {
+				setStudyError(true);
+			});
+		}
+	}, [studyApi]);
+
+  useEffect(() => {
+		const handleResize = () => { setShowWarning(window.innerWidth < 1200); }
+		window.addEventListener('resize', handleResize);
+		return () => window.removeEventListener('resize', handleResize);
+	}, []);
 
   return (
-    <div className="App">
-      <Router basename='/preference-community'>
-        <Suspense fallback={<div>Loading...</div>}>
-          <Routes>
-            <Route path="/" element={<Welcome next="/presurvey"/>} />
-            {/* <Route path="/presurvey" element={<Survey next="/systemintro"/>} /> 
-            <Route path="/systemintro" element={<SystemIntro next="/ratemovies"/>} />
-            <Route path="/ratemovies" element={<MovieRatingPage next="/advisors"/>} />
-            <Route path="/advisors" element={<AdvisorsPage next="/postsurvey"/>} />
-            <Route path="/postsurvey" element={<PostSurvey next="/feedback"/>} />
-            <Route path="/feedback" element={<FeedbackPage next="/quit"/>} />
-            <Route path="/quit" element={<h1>Thank you for participating!</h1>} /> */}
-          </Routes>
-        </Suspense>
-      </Router>
-    </div>
+    <ThemeProvider breakpoints={Object.keys(customBreakpoints)}>
+      <div className="App">
+        {showWarning && <WarningDialog show={showWarning} title="Warning"
+            message={STRINGS.WINDOW_TOO_SMALL} disableHide={true} />
+          }
+          {
+            studyError && <WarningDialog show={studyError} title="Error"
+              message={STRINGS.STUDY_ERROR} />
+          }
+        <Router basename='/preference-community'>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Routes>
+              <Route path="/" element={
+								<Welcome
+									next="/presurvey"
+									checkpointUrl={checkpointUrl}
+									studyStep={studyStep}
+									setNewParticipant={setParticipant}
+									updateCallback={handleStepUpdate}
+									sizeWarning={showWarning}
+								/>
+							} />
+              {/* <Route path="/demographics" element={
+								<Demographics
+									next="/presurvey"
+									checkpointUrl={checkpointUrl}
+									participant={participant}
+									studyStep={studyStep}
+									updateCallback={handleStepUpdate}
+									sizeWarning={showWarning}
+								/>
+							} /> */}
+              <Route path="/presurvey" element={
+								<Survey
+									next="/systemintro"
+									checkpointUrl={checkpointUrl}
+									participant={participant}
+									studyStep={studyStep}
+									updateCallback={handleStepUpdate}
+									sizeWarning={showWarning}
+								/>
+							} />
+              <Route path="/systemintro" element={
+								<SystemIntro
+									next="/ratemovies"
+									checkpointUrl={checkpointUrl}
+									participant={participant}
+									studyStep={studyStep}
+									updateCallback={handleStepUpdate}
+									sizeWarning={showWarning}
+								/>
+							} />
+              <Route path="/ratemovies" element={
+								<MovieRatingPage
+									next="/advisors"
+									checkpointUrl={checkpointUrl}
+									participant={participant}
+									studyStep={studyStep}
+									updateCallback={handleStepUpdate}
+									sizeWarning={showWarning}
+								/>
+							} />
+              <Route path="/advisors" element={
+								<AdvisorsPage
+									next="/postsurvey"
+									checkpointUrl={checkpointUrl}
+									participant={participant}
+									studyStep={studyStep}
+									updateCallback={handleStepUpdate}
+									sizeWarning={showWarning}
+								/>
+							} />
+              <Route path="/postsurvey" element={
+								<PostSurvey
+									next="/feedback"
+									checkpointUrl={checkpointUrl}
+									participant={participant}
+									studyStep={studyStep}
+									updateCallback={handleStepUpdate}
+									sizeWarning={showWarning}
+								/>
+							} />
+              <Route path="/feedback" element={
+								<FeedbackPage
+									next="/quit"
+									checkpointUrl={checkpointUrl}
+									participant={participant}
+									studyStep={studyStep}
+									updateCallback={handleStepUpdate}
+									sizeWarning={showWarning}
+								/>
+							} />
+              <Route path="/quit" element={<h1>Thank you for participating!</h1>} />
+            </Routes>
+          </Suspense>
+        </Router>
+      </div>
+    </ThemeProvider>
   );
 }
 
