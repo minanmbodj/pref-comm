@@ -5,10 +5,10 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Alert from 'react-bootstrap/Alert';
 import { useNavigate } from 'react-router-dom';
-import {
-  createTestUser, getFirstStudyStep,
-  getStudy, sendLog
-} from '../middleware/api-middleware';
+// import {
+//   createTestUser, getFirstStudyStep,
+//   getStudy, sendLog
+// } from '../middleware/api-middleware';
 import InformedConsentModal from '../widgets/dialogs/informedConsent';
 import HeaderJumbotron from '../widgets/headerJumbotron';
 
@@ -29,64 +29,66 @@ export default function Welcome(props) {
     setShowNoConsentMessage(false);
   }
 
-  useEffect(() => {
-    const userProps = ['id', 'condition', 'user_type', 'seen_items'];
-    if (userProps.every(item => userdata.hasOwnProperty(item))) {
-      sendLog(userdata, studyStep.id, null, starttime - new Date(),
-        'user creation', 'study consent', null, null).then(() => {
-          navigate(props.next,
-            {
-              state: {
-                user: userdata,
-                studyStep: studyStep.id
-              }
-            });
-        })
-    }
-  }, [userdata, navigate, studyStep, props.next, starttime]);
+  // useEffect(() => {
+    
+  //   const userProps = ['id', 'condition', 'user_type', 'seen_items'];
+    
+  //   if (userProps.every(item => userdata.hasOwnProperty(item))) {
+  //     sendLog(userdata, studyStep.id, null, starttime - new Date(),
+  //       'user creation', 'study consent', null, null).then(() => {
+  //         navigate(props.next,
+  //           {
+  //             state: {
+  //               user: userdata,
+  //               studyStep: studyStep.id
+  //             }
+  //           });
+  //       })
+  //   }
+  // }, [userdata, navigate, studyStep, props.next, starttime]);
 
-  useEffect(() => {
-    getStudy(studyID).then((studyres) => { setStudy(studyres) });
-    getFirstStudyStep(studyID).then((studyStepRes) => {
-      setStudyStep(studyStepRes);
-    });
-    setStarttime(new Date());
-  }, []);
+  // useEffect(() => {
+  //   getStudy(studyID).then((studyres) => { setStudy(studyres) });
+  //   getFirstStudyStep(studyID).then((studyStepRes) => {
+  //     setStudyStep(studyStepRes);
+  //   });
+  //   setStarttime(new Date());
+  // }, []);
 
   const consentCallbackHandler = (consent, condition) => {
-    if (consent) {
-      createTestUser('prefCommStudy', study.id, condition)
-        .then((response) => response.json())
-        .then((user) => {
-          setUserdata(user);
-          navigate(props.next, { 
-            state: { 
-              user: user, 
-              studyStep: studyStep.id 
-            } 
-          });
-        })
-        .catch((error) => console.log(error));
-    } else {
-      setShowNoConsentMessage(true);
-    }
-    setShowInformedConsent(false);
+    // if (consent) {
+    //   createTestUser('prefCommStudy', study.id, condition)
+    //     .then((response) => response.json())
+    //     .then((user) => {
+    //       setUserdata(user);
+    //       navigate(props.next, { 
+    //         state: { 
+    //           user: user, 
+    //           studyStep: studyStep.id 
+    //         } 
+    //       });
+    //     })
+    //     .catch((error) => console.log(error));
+    // } else {
+    //   setShowNoConsentMessage(true);
+    // }
+    // setShowInformedConsent(false);
   }
 
   const handleSkipToMovies = () => {
     // Create a test user and navigate directly to the movie rating page
-    createTestUser('prefCommStudy', study.id, Math.floor(Math.random() * 2) + 12)
-      .then((response) => response.json())
-      .then((user) => {
-        setUserdata(user);
-        navigate('/ratemovies', { 
-          state: { 
-            user: user, 
-            studyStep: studyStep.id 
-          } 
-        });
-      })
-      .catch((error) => console.log(error));
+    // createTestUser('prefCommStudy', study.id, Math.floor(Math.random() * 2) + 12)
+    //   .then((response) => response.json())
+    //   .then((user) => {
+    //     setUserdata(user);
+    //     navigate('/ratemovies', { 
+    //       state: { 
+    //         user: user, 
+    //         studyStep: studyStep.id 
+    //       } 
+    //     });
+    //   })
+    //   .catch((error) => console.log(error));
   }
 
   return (
