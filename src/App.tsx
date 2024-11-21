@@ -113,7 +113,7 @@ function App() {
 									sizeWarning={showWarning}
 								/>
 							} /> */}
-              <Route path="/presurvey" element={
+              {/* <Route path="/presurvey" element={
 								<Survey
 									next="/systemintro"
 									checkpointUrl={checkpointUrl}
@@ -172,7 +172,7 @@ function App() {
 									updateCallback={handleStepUpdate}
 									sizeWarning={showWarning}
 								/>
-							} />
+							} /> */}
               <Route path="/quit" element={<h1>Thank you for participating!</h1>} />
             </Routes>
           </Suspense>
