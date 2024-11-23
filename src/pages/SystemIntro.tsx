@@ -1,33 +1,50 @@
 import { useEffect, useState } from 'react';
+import { StudyPageProps } from "./StudyPage.types"
+import { useStudy } from "../rssa-api/StudyProvider";
+import { CurrentStep, StudyStep } from "../rssa-api/RssaApi.types";
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getNextStudyStep, sendLog } from '../middleware/api-middleware';
 import NextButton from '../widgets/nextButton';
 import HeaderJumbotron from '../widgets/headerJumbotron';
 
-export default function SystemIntro(props) {
-    const userdata = useLocation().state.user;
-    const stepid = useLocation().state.studyStep;
-    const [studyStep, setStudyStep] = useState({});
-
-    const [starttime, setStarttime] = useState(new Date());
-    const [loading, setLoading] = useState(false);
-
+const SystemIntro: React.FC<StudyPageProps> = ({
+	next,
+	checkpointUrl,
+	participant,
+	studyStep,
+	updateCallback
+}) => {
+    const { studyApi } = useStudy();
     const navigate = useNavigate();
+	const location = useLocation();
 
-    useEffect(() => {
-        getNextStudyStep(userdata.study_id, stepid)
-            .then((value) => { setStudyStep(value) });
-        setStarttime(new Date());
-    }, []);
 
-    const handleNextClick = () => {
-        navigate(props.next, {
-            state: { user: userdata, studyStep: studyStep.id }
-        });
-    };
+    const [isUpdated, setIsUpdated] = useState<boolean>(false);
+
+	// Allowing for some simple checkpoint saving so the participant
+	// can return to the page in case of a browser/system crash
+	useEffect(() => {
+		if (checkpointUrl !== '/' && checkpointUrl !== location.pathname) {
+			navigate(checkpointUrl);
+		}
+	}, [checkpointUrl, location.pathname, navigate]);
+
+	const handleNextBtn = () => {
+		studyApi.post<CurrentStep, StudyStep>('studystep/next', {
+			current_step_id: participant.current_step
+		}).then((nextStep) => {
+			updateCallback(nextStep, next)
+			setIsUpdated(true);
+		});
+	}
+
+	useEffect(() => {
+		if (isUpdated) {
+			navigate(next);
+		}
+	}, [isUpdated, navigate, next]);
 
     return (
         <Container>
@@ -84,7 +101,7 @@ export default function SystemIntro(props) {
                         variant="ers"
                         size="lg"
                         className="footer-btn"
-                        onClick={handleNextClick}
+                        onClick={handleNextBtn}
                     >
                         Get started
                     </NextButton>
@@ -93,3 +110,5 @@ export default function SystemIntro(props) {
         </Container>
     )
 }
+
+export default SystemIntro;
