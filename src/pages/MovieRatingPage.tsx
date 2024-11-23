@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import MovieGrid from './components/MovieGrid';
-import Button from 'react-bootstrap/Button';
-import Spinner from 'react-bootstrap/Spinner';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Footer from '../../widgets/Footer';
-import Header from '../../widgets/Header';
-import { CurrentStep, StudyStep } from '../../rssa-api/RssaApi.types';
-import { useStudy } from '../../rssa-api/StudyProvider';
-import { StudyPageProps } from '../StudyPage.types';
+import Footer from '../widgets/Footer';
+import Header from '../widgets/Header';
+import { CurrentStep, StudyStep } from '../rssa-api/RssaApi.types';
+import { useStudy } from '../rssa-api/StudyProvider';
+import MovieGrid from '../widgets/moviegrid/MovieGrid';
+import { MovieRating } from '../widgets/moviegrid/moviegriditem/MovieGridItem.types';
+import { StudyPageProps } from './StudyPage.types';
 
 const MovieRatingPage: React.FC<StudyPageProps> = ({
 	next,

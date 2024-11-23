@@ -7,7 +7,7 @@ import { WarningDialog } from './widgets/dialogs/warningDialog';
 
 import AdvisorsPage from './pages/advisors/AdvisorsPage';
 import Welcome from './pages/welcome';
-import MovieRatingPage from './pages/ratemovies/MovieRatingPage';
+import MovieRatingPage from './pages/MovieRatingPage';
 import Survey from './pages/SurveyPage';
 import SystemIntro from './pages/SystemIntro';
 import FeedbackPage from './pages/feedbackPage';

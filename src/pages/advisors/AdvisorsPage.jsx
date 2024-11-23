@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import { post, getNextStudyStep, sendLog } from '../../middleware/api-middleware';
-import { LoadingScreen } from '../ratemovies/MovieRatingPage';
+import { LoadingScreen } from '../MovieRatingPage';
 import AdvisorsWidget from "./components/AdvisorsWidget";
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../ratemovies/components/MovieGrid.css';
