@@ -8,9 +8,8 @@ import { WarningDialog } from './widgets/dialogs/warningDialog';
 import AdvisorsPage from './pages/advisors/AdvisorsPage';
 import Welcome from './pages/welcome';
 import MovieRatingPage from './pages/ratemovies/MovieRatingPage';
-import Survey from './pages/survey';
+import Survey from './pages/SurveyPage';
 import SystemIntro from './pages/SystemIntro';
-import PostSurvey from './pages/postSurvey';
 import FeedbackPage from './pages/feedbackPage';
 import Demographics from './pages/demographics/DemographicsPage';
 
@@ -155,7 +154,7 @@ function App() {
 								/>
 							} />
               <Route path="/postsurvey" element={
-								<PostSurvey
+								<Survey
 									next="/feedback"
 									checkpointUrl={checkpointUrl}
 									participant={participant}
