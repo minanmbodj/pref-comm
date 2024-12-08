@@ -4,7 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Spinner from 'react-bootstrap/Spinner';
-import LoadingText from '../../components/LoadingText';
+import LoadingText from '../LoadingText';
 import { post } from '../../middleware/requests';
 import { mapKeyContainsAll } from '../../utils/helper';
 import './MovieGrid.css';

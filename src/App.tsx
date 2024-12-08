@@ -70,6 +70,7 @@ function App() {
 				setStudyError(false);
 			}).catch((error) => {
 				setStudyError(true);
+				console.error('Error fetching the first study step:', error);
 			});
 		}
 	}, [studyApi]);
