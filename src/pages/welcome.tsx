@@ -7,9 +7,9 @@ import Alert from 'react-bootstrap/Alert';
 
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
+  useStudy,
 	CurrentStep, isEmptyStep, NewParticipant, Participant, StudyStep
-} from '../rssa-api/RssaApi.types';
-import { useStudy } from '../rssa-api/StudyProvider';
+} from 'rssa-api';
 import { InitStudyPageProps } from './StudyPage.types';
 
 import Footer from '../widgets/Footer';

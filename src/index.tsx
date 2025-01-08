@@ -1,6 +1,6 @@
 import React from "react";
 import { createRoot } from 'react-dom/client';
-import { StudyProvider } from './rssa-api/StudyProvider';
+import { StudyProvider } from 'rssa-api';
 import App from './App';
 import './index.css';
 import reportWebVitals from './reportWebVitals';

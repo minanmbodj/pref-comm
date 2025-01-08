@@ -4,8 +4,7 @@ import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "../../widgets/Footer";
 import Header from "../../widgets/Header";
-import { CurrentStep, Demographic, StudyStep } from "../../rssa-api/RssaApi.types";
-import { useStudy } from "../../rssa-api/StudyProvider";
+import { useStudy, CurrentStep, Demographic, StudyStep } from "rssa-api";
 import { StudyPageProps } from "../StudyPage.types";
 import './DemographicsPage.css';
 

@@ -5,19 +5,26 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
 import { WarningDialog } from './widgets/dialogs/warningDialog';
 
-import AdvisorsPage from './pages/advisors/AdvisorsPage';
-import Welcome from './pages/welcome';
 import MovieRatingPage from './pages/MovieRatingPage';
 import Survey from './pages/SurveyPage';
 import SystemIntro from './pages/SystemIntro';
-import FeedbackPage from './pages/feedbackPage';
+import AdvisorsPage from './pages/advisors/AdvisorsPage';
 import Demographics from './pages/demographics/DemographicsPage';
+import Welcome from './pages/welcome';
 
 import { STRINGS } from './constants/defaults';
 
-import { useStudy } from './rssa-api/StudyProvider';
-import { Participant, StudyStep, emptyParticipant, emptyStep, isEmptyParticipant, isEmptyStep } from './rssa-api/RssaApi.types';
+import {
+	Participant,
+	StudyStep,
+	emptyParticipant,
+	emptyStep,
+	isEmptyParticipant,
+	isEmptyStep,
+	useStudy
+} from 'rssa-api';
 
+// TODO: Test the survey pages
 
 const customBreakpoints = {
 	xl: 1200,
@@ -27,14 +34,14 @@ const customBreakpoints = {
 };
 
 function App() {
-  const { studyApi } = useStudy();
-  const [showWarning, setShowWarning] = useState<boolean>(false);
+	const { studyApi } = useStudy();
+	const [showWarning, setShowWarning] = useState<boolean>(false);
 	const [participant, setParticipant] = useState<Participant>(emptyParticipant);
 	const [studyStep, setStudyStep] = useState<StudyStep>(emptyStep);
 	const [checkpointUrl, setCheckpointUrl] = useState<string>('/');
 	const [studyError, setStudyError] = useState<boolean>(false);
 
-  const handleStepUpdate = (step: StudyStep, referrer: string) => {
+	const handleStepUpdate = (step: StudyStep, referrer: string) => {
 		const newParticipant = { ...participant, current_step: step.id };
 		studyApi.put('participant/', newParticipant).then(() => {
 			localStorage.setItem('participant', JSON.stringify(newParticipant));
@@ -47,7 +54,7 @@ function App() {
 	}
 
 
-  useEffect(() => {
+	useEffect(() => {
 		const participantCache = localStorage.getItem('participant');
 		const studyStepCache = localStorage.getItem('studyStep');
 		const checkpointUrl = localStorage.getItem('lastUrl');
@@ -75,26 +82,26 @@ function App() {
 		}
 	}, [studyApi]);
 
-  useEffect(() => {
+	useEffect(() => {
 		const handleResize = () => { setShowWarning(window.innerWidth < 1200); }
 		window.addEventListener('resize', handleResize);
 		return () => window.removeEventListener('resize', handleResize);
 	}, []);
 
-  return (
-    <ThemeProvider breakpoints={Object.keys(customBreakpoints)}>
-      <div className="App">
-        {showWarning && <WarningDialog show={showWarning} title="Warning"
-            message={STRINGS.WINDOW_TOO_SMALL} disableHide={true} />
-          }
-          {
-            studyError && <WarningDialog show={studyError} title="Error"
-              message={STRINGS.STUDY_ERROR} />
-          }
-        <Router basename='/preference-community'>
-          <Suspense fallback={<div>Loading...</div>}>
-            <Routes>
-              <Route path="/" element={
+	return (
+		<ThemeProvider breakpoints={Object.keys(customBreakpoints)}>
+			<div className="App">
+				{showWarning && <WarningDialog show={showWarning} title="Warning"
+					message={STRINGS.WINDOW_TOO_SMALL} disableHide={true} />
+				}
+				{
+					studyError && <WarningDialog show={studyError} title="Error"
+						message={STRINGS.STUDY_ERROR} />
+				}
+				<Router basename='/preference-community'>
+					<Suspense fallback={<div>Loading...</div>}>
+						<Routes>
+							<Route path="/" element={
 								<Welcome
 									next="/demographics"
 									checkpointUrl={checkpointUrl}
@@ -104,17 +111,7 @@ function App() {
 									sizeWarning={showWarning}
 								/>
 							} />
-              <Route path="/demographics" element={
-								<Demographics
-									next="/presurvey"
-									checkpointUrl={checkpointUrl}
-									participant={participant}
-									studyStep={studyStep}
-									updateCallback={handleStepUpdate}
-									sizeWarning={showWarning}
-								/>
-							} />
-              {/* <Route path="/presurvey" element={
+							<Route path="/presurvey" element={
 								<Survey
 									next="/systemintro"
 									checkpointUrl={checkpointUrl}
@@ -124,7 +121,7 @@ function App() {
 									sizeWarning={showWarning}
 								/>
 							} />
-              <Route path="/systemintro" element={
+							<Route path="/systemintro" element={
 								<SystemIntro
 									next="/ratemovies"
 									checkpointUrl={checkpointUrl}
@@ -134,7 +131,7 @@ function App() {
 									sizeWarning={showWarning}
 								/>
 							} />
-              <Route path="/ratemovies" element={
+							<Route path="/ratemovies" element={
 								<MovieRatingPage
 									next="/advisors"
 									checkpointUrl={checkpointUrl}
@@ -144,7 +141,7 @@ function App() {
 									sizeWarning={showWarning}
 								/>
 							} />
-              <Route path="/advisors" element={
+							<Route path="/advisors" element={
 								<AdvisorsPage
 									next="/postsurvey"
 									checkpointUrl={checkpointUrl}
@@ -154,7 +151,17 @@ function App() {
 									sizeWarning={showWarning}
 								/>
 							} />
-              <Route path="/postsurvey" element={
+							<Route path="/demographics" element={
+								<Demographics
+									next="/presurvey"
+									checkpointUrl={checkpointUrl}
+									participant={participant}
+									studyStep={studyStep}
+									updateCallback={handleStepUpdate}
+									sizeWarning={showWarning}
+								/>
+							} />
+							<Route path="/postsurvey" element={
 								<Survey
 									next="/feedback"
 									checkpointUrl={checkpointUrl}
@@ -164,7 +171,9 @@ function App() {
 									sizeWarning={showWarning}
 								/>
 							} />
-              <Route path="/feedback" element={
+
+							{/*TODO: Fix the FeedbackPage */}
+							{/* <Route path="/feedback" element={
 								<FeedbackPage
 									next="/quit"
 									checkpointUrl={checkpointUrl}
@@ -173,14 +182,15 @@ function App() {
 									updateCallback={handleStepUpdate}
 									sizeWarning={showWarning}
 								/>
+
 							} /> */}
-              <Route path="/quit" element={<h1>Thank you for participating!</h1>} />
-            </Routes>
-          </Suspense>
-        </Router>
-      </div>
-    </ThemeProvider>
-  );
+							<Route path="/quit" element={<h1>Thank you for participating!</h1>} />
+						</Routes>
+					</Suspense>
+				</Router>
+			</div>
+		</ThemeProvider>
+	);
 }
 
 export default App;

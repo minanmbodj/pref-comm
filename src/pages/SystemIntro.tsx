@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { StudyPageProps } from "./StudyPage.types"
-import { useStudy } from "../rssa-api/StudyProvider";
-import { CurrentStep, StudyStep } from "../rssa-api/RssaApi.types";
+import { useStudy, CurrentStep, StudyStep } from "rssa-api";
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';

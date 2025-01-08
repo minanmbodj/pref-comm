@@ -10,7 +10,7 @@ import { mapKeyContainsAll } from '../../utils/helper';
 import './MovieGrid.css';
 import MovieGridItem from './moviegriditem/MovieGridItem';
 import { Movie, MovieRating } from './moviegriditem/MovieGridItem.types';
-import { useStudy } from '../../rssa-api/StudyProvider';
+import { useStudy } from 'rssa-api';
 
 interface MovieGridProps {
 	movieIds: string[];

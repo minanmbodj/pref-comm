@@ -2,11 +2,18 @@ import { useCallback, useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import { useLocation, useNavigate } from "react-router-dom";
+import {
+	CurrentStep,
+	isEmptyStep,
+	StudyStep,
+	SurveyItemResponse,
+	SurveyPage,
+	SurveyResponse,
+	useStudy
+} from "rssa-api";
 import Footer from "../widgets/Footer";
 import Header from "../widgets/Header";
 import SurveyTemplate from "../widgets/survey/surveyTemplate";
-import { CurrentStep, isEmptyStep, StudyStep, SurveyItemResponse, SurveyPage, SurveyResponse } from "../rssa-api/RssaApi.types";
-import { useStudy } from "../rssa-api/StudyProvider";
 import { StudyPageProps } from "./StudyPage.types";
 
 const Survey: React.FC<StudyPageProps> = ({
