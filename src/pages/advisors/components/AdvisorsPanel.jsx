@@ -33,7 +33,6 @@ const AdvisorListItem = ({ advisor, anonymousName, selected, selectCallback }) =
         roundedCircle
       />
       <div className="advisor-info">
-        <div className="advisor-anonymous">Anonymous</div>
         <div className="advisor-name">{anonymousName}</div>
       </div>
     </div>

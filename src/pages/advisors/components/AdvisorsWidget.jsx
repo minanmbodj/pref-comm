@@ -7,8 +7,8 @@ import { Col, Row } from "react-bootstrap";
 import "./css/AdvisorsWidget.css";
 
 const anonymousAnimals = [
-  'Alligator', 'Buffalo', 'Coyote',
-  'Dolphin', 'Elephant', 'Frog', 'Giraffe'
+  'Anonymous Alligator', 'Anonymous Buffalo', 'Anonymous Coyote',
+  'Anonymous Dolphin', 'Anonymous Elephant', 'Anonymous Frog', 'Anonymous Giraffe'
 ];
 
 function mapReplace(arr, prop, propval, callback) {
@@ -29,7 +29,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
   const [recommendationSubmitted, setRecommendationSubmitted] = useState(false);
 
   const getAdvisorName = (advisorId) => {
-    return `${anonymousAnimals[advisorId % anonymousAnimals.length]}`;
+    return `${anonymousAnimals[(advisorId - 1) % anonymousAnimals.length]}`;
   };
 
   const handleSelect = (advisorId) => {
@@ -86,25 +86,25 @@ export default function AdvisorsWidget({ currentAdvisors }) {
         />
       </Col>
       {activeSelection && (
-        <Col xs={8} className="advisors-widget-column">
+        <Col xs={6} className="advisors-widget-column">
           <AdvisorDetails
             advisor={activeSelection}
             ratingCallback={handleRating}
             acceptCallback={handleAccept}
             rejectCallback={handleReject}
-            formData={formData}
             advisorName={getAdvisorName(activeSelection.id)}
           />
         </Col>
       )}
       {activeSelection && (
-      <Col xs={2} className="advisors-widget-column">
+      <Col xs={4} className="advisors-widget-column">
         {!approvalPressed && (
           <AdvisorRecommendations
             advisor={activeSelection}
             acceptCallback={handleAccept}
             rejectCallback={handleReject}
             advisorName={getAdvisorName(activeSelection.id)}
+            formData={formData}
           />
         )}
         {approvalPressed && !recommendationSubmitted && (
