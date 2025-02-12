@@ -1,74 +1,40 @@
-import { useEffect, useState } from "react";
-import { Badge, Button, Image } from "react-bootstrap";
-import Row from "react-bootstrap/Row";
-import { default_movie_thumbnail } from "../../../constants/defaults";
-import { imgurl } from "../../../middleware/requests";
+import React from 'react';
+import { Image } from 'react-bootstrap';
+import './css/AdvisorsPanel.css';
 
-export default function AdvisorsPanel({ activeSelection, advisors, selectCallback }) {
-
-	// const [selectedAdvisor, setSelectedAdvisor] = useState(null);
-	// useEffect(() => {
-	// activeSelection && setSelectedAdvisor(activeSelection)
-	// }, [activeSelection]);
-
-	// const [advisors, setAdvisors] = useState(props.advisors);
-	// useEffect(() => { setAdvisors(props.advisors) }, [props.advisors]);
-
-	// const selectCallback = props.selectCallback || (() => { });
-
-	return (
-		<div style={{ border: "2px solid" }}>
-			<Row>
-				<h2>Advisors</h2>
-			</Row>
-			<Row>
-				<ul>
-					{advisors.map((advisor) =>
-						<AdvisorListItem advisor={advisor}
-							key={advisor.id}
-							selected={advisor.id === activeSelection}
-							selectCallback={selectCallback} />)}
-				</ul>
-			</Row>
-		</div>
-	)
+export default function AdvisorsPanel({ activeSelection, advisors, selectCallback, getAdvisorName }) {
+  return (
+    <div className="advisors-panel-container">
+      <h2>Your Advisors</h2>
+      <div className="advisors-list">
+        {advisors.map((advisor) => (
+          <AdvisorListItem
+            key={advisor.id}
+            advisor={advisor}
+            anonymousName={getAdvisorName(advisor.id)}
+            selected={advisor.id === activeSelection}
+            selectCallback={selectCallback}
+          />
+        ))}
+      </div>
+    </div>
+  );
 }
 
-const AdvisorListItem = ({ advisor, selected, selectCallback }) => {
-	// const [advisor, setAdvisor] = useState(props.advisor);
-	// useEffect(() => { setAdvisor(props.advisor) }, [props.advisor]);
-
-	const listClass = "AdvisorPanel-list-item";
-	// useEffect(() => {
-	// 	setListClass(
-	// 		props.selected ?
-	// 			"AdvisorPanel-list-item selected" : "AdvisorPanel-list-item"
-	// 	)
-	// }, [props.selected]);
-
-	// const [image, setImage] = useState(default_movie_thumbnail);
-	// useEffect(() => {
-	// 	advisor.image && setImage(advisor.image)
-	// }, [advisor.image]);
-
-	// const selectCallback = selectCallback || (() => { });
-
-	return (
-		<li className={listClass} onClick={() => selectCallback(advisor.id)}>
-			<Image className="AdvisorPanel-list-item-image"
-				src={imgurl(advisor.poster_identifier)} thumbnail />
-			<div className="AdvisorPanel-list-item-desc">
-				<h4>
-					{advisor.name}
-				</h4>
-				<p>
-					{advisor.advice_preview}
-				</p>
-			</div>
-			<div className={"AdvisorPanel-list-item-status-label " +
-				advisor.status.toLowerCase()}>
-				{advisor.status}
-			</div>
-		</li>
-	)
+const AdvisorListItem = ({ advisor, anonymousName, selected, selectCallback }) => {
+  return (
+    <div 
+      className={`advisor-item ${selected ? 'selected' : ''}`}
+      onClick={() => selectCallback(advisor.id)}
+    >
+      <Image
+        className="advisor-image"
+        src={advisor.poster_identifier ? `https://rssa.recsys.dev/movie/poster/${advisor.poster_identifier}` : '/api/placeholder/60/60'}
+        roundedCircle
+      />
+      <div className="advisor-info">
+        <div className="advisor-name">{anonymousName}</div>
+      </div>
+    </div>
+  );
 }

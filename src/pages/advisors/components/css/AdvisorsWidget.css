@@ -1,0 +1,72 @@
+.AdvisorPanel-list-item {
+	text-align: left;
+	display: flex;
+	border: 1px solid;
+	margin: 2px;
+	cursor: pointer;
+}
+
+.AdvisorPanel-list-item:hover {
+	background-color: #282c34;
+	color: white;
+}
+
+.selected {
+	background-color: #282c34;
+	color: white;
+}
+
+.AdvisorPanel-list-item-image {
+	height: 50px;
+	width: 32px;
+	margin-left: 5px;
+	margin-right: 1px;
+}
+
+.AdvisorPanel-list-item-desc {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.AdvisorsDetails-poster {
+	height: 150px;
+	width: 150px;
+	margin-left: 7px;
+}
+
+.AdvisorDetails-desc {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.AdvisorProfile-list-item {
+	text-align: left;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	grid-gap: 10px;
+	border: 1px solid;
+	margin: 3px;
+  }
+
+.profImg{
+	float: left;
+	width: 60px;
+	height: 60px;
+	background: #555;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.profHead {
+	float: left;
+	margin-left: 10px;
+}
+
+.profile-heading {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: calc(10px + 2vh); /* Adjust the base font size and scaling factor as needed */
+}

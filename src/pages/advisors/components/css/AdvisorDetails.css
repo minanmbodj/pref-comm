@@ -1,0 +1,105 @@
+.advisor-details-container {
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .advisor-details-header {
+    background-color: #e9ecef;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .advisor-details-header h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #333;
+  }
+  
+  .advisor-details-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 15px;
+  }
+  
+  .box {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #fff;
+  }
+  
+  .section-title {
+    background-color: #f8f9fa;
+    padding: 5px 10px;
+    margin: -15px -15px 15px -15px;
+    border-bottom: 1px solid #ddd;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  .advisor-profile {
+    margin-bottom: 20px;
+  }
+  
+  .profile-heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .advisor-image {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
+  }
+
+  .advisor-image-about {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 10px;
+  }
+  
+  .profile-heading h5 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  
+  .profile-list {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .profile-item {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    display: flex;
+  }
+  
+  .profile-item strong {
+    min-width: 200px;
+    margin-right: 10px;
+  }
+  
+  .recommendation-content {
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  .recommendation-poster {
+    width: 100px;
+    margin-right: 15px;
+  }
+  
+  .recommendation-description {
+    font-size: 0.9rem;
+  }
+  
+  .user-recommendation p {
+    font-size: 0.9rem;
+  }
