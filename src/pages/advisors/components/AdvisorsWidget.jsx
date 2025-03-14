@@ -22,18 +22,21 @@ function mapReplace(arr, prop, propval, callback) {
 }
 
 export default function AdvisorsWidget({ currentAdvisors }) {
-  const [advisors, setAdvisors] = useState(currentAdvisors || []);
+  // const [advisors, setAdvisors] = useState(currentAdvisors || []);
+  const [advisors, setAdvisors] = useState(new Map(currentAdvisors));
   const [activeSelection, setActiveSelection] = useState(null);
   const [approvalPressed, setApprovalPressed] = useState(false);
   const [formData, setFormData] = useState({});
   const [recommendationSubmitted, setRecommendationSubmitted] = useState(false);
+
+  console.log("Advisors:", advisors);
 
   const getAdvisorName = (advisorId) => {
     return `${anonymousAnimals[(advisorId - 1) % anonymousAnimals.length]}`;
   };
 
   const handleSelect = (advisorId) => {
-    const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorId);
+    const selectedAdvisor = advisors.get(advisorId);
     setActiveSelection(selectedAdvisor);
     setApprovalPressed(false);
     setFormData({});
@@ -41,7 +44,8 @@ export default function AdvisorsWidget({ currentAdvisors }) {
   };
 
   const handleRating = (rating, advisorId) => {
-    const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorId);
+    // const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorId);
+    const selectedAdvisor = advisors.get(advisorId);
     selectedAdvisor.rating = rating;
     const newAdvisors = mapReplace(advisors, "id", advisorId, (advisor) => {
       return selectedAdvisor;
@@ -50,7 +54,8 @@ export default function AdvisorsWidget({ currentAdvisors }) {
   };
 
   const handleAccept = (advisorId) => {
-    const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorId);
+    // const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorId);
+    const selectedAdvisor = advisors.get(advisorId);
     selectedAdvisor.status = "Accepted";
     setApprovalPressed(true);
     const newAdvisors = mapReplace(advisors, "id", advisorId, (advisor) => {
@@ -60,7 +65,8 @@ export default function AdvisorsWidget({ currentAdvisors }) {
   };
 
   const handleReject = (advisorId) => {
-    const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorId);
+    // const selectedAdvisor = advisors.find((advisor) => advisor.id === advisorId);
+    const selectedAdvisor = advisors.get(advisorId);
     selectedAdvisor.status = "Rejected";
     setApprovalPressed(true);
     const newAdvisors = mapReplace(advisors, "id", advisorId, (advisor) => {
@@ -83,7 +89,7 @@ export default function AdvisorsWidget({ currentAdvisors }) {
           activeSelection={activeSelection && activeSelection.id}
           selectCallback={handleSelect}
           getAdvisorName={getAdvisorName}
-        />
+          />
       </Col>
       {activeSelection && (
         <Col xs={6} className="advisors-widget-column">
@@ -93,11 +99,11 @@ export default function AdvisorsWidget({ currentAdvisors }) {
             acceptCallback={handleAccept}
             rejectCallback={handleReject}
             advisorName={getAdvisorName(activeSelection.id)}
-          />
+            />
         </Col>
       )}
       {activeSelection && (
-      <Col xs={4} className="advisors-widget-column">
+        <Col xs={4} className="advisors-widget-column">
         {!approvalPressed && (
           <AdvisorRecommendations
             advisor={activeSelection}

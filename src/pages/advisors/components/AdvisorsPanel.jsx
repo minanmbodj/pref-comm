@@ -3,15 +3,16 @@ import { Image } from 'react-bootstrap';
 import './css/AdvisorsPanel.css';
 
 export default function AdvisorsPanel({ activeSelection, advisors, selectCallback, getAdvisorName }) {
+
   return (
     <div className="advisors-panel-container">
       <h2>Your Advisors</h2>
       <div className="advisors-list">
-        {advisors.map((advisor) => (
+        {Array.from(advisors.entries()).map(([advisorId, advisor]) => (
           <AdvisorListItem
-            key={advisor.id}
+            key={`advisor-${advisor.id}`}
             advisor={advisor}
-            anonymousName={getAdvisorName(advisor.id)}
+            anonymousName={`advisor-${advisor.id}`}
             selected={advisor.id === activeSelection}
             selectCallback={selectCallback}
           />
@@ -23,13 +24,13 @@ export default function AdvisorsPanel({ activeSelection, advisors, selectCallbac
 
 const AdvisorListItem = ({ advisor, anonymousName, selected, selectCallback }) => {
   return (
-    <div 
+    <div
       className={`advisor-item ${selected ? 'selected' : ''}`}
       onClick={() => selectCallback(advisor.id)}
     >
       <Image
         className="advisor-image"
-        src={advisor.poster_identifier ? `https://rssa.recsys.dev/movie/poster/${advisor.poster_identifier}` : '/api/placeholder/60/60'}
+        src={advisor.recommendation.poster}
         roundedCircle
       />
       <div className="advisor-info">
