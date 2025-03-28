@@ -1,18 +1,17 @@
 import React from 'react';
 import { Image } from 'react-bootstrap';
-import './css/AdvisorsPanel.css';
 
-export default function AdvisorsPanel({ activeSelection, advisors, selectCallback, getAdvisorName }) {
+export default function AdvisorsNavigation({ activeSelection, advisors, selectCallback, getAdvisorAvatar }) {
 
   return (
     <div className="advisors-panel-container">
       <h2>Your Advisors</h2>
       <div className="advisors-list">
-        {Array.from(advisors.entries()).map(([advisorId, advisor]) => (
+        {Array.from(advisors.entries()).map(([advisorId, advisor], idx) => (
           <AdvisorListItem
             key={`advisor-${advisor.id}`}
             advisor={advisor}
-            anonymousName={`advisor-${advisor.id}`}
+            avatar={getAdvisorAvatar(advisorId)}
             selected={advisor.id === activeSelection}
             selectCallback={selectCallback}
           />
@@ -22,19 +21,24 @@ export default function AdvisorsPanel({ activeSelection, advisors, selectCallbac
   );
 }
 
-const AdvisorListItem = ({ advisor, anonymousName, selected, selectCallback }) => {
+const AdvisorListItem = ({ advisor, avatar, selected, selectCallback }) => {
+
+  const nameSplit = avatar.name.split(" ");
+
   return (
-    <div
-      className={`advisor-item ${selected ? 'selected' : ''}`}
+    <div className={`advisor-item ${selected ? 'selected' : ''}`}
       onClick={() => selectCallback(advisor.id)}
     >
       <Image
         className="advisor-image"
-        src={advisor.recommendation.poster}
+        src={avatar.src}
+        alt={avatar.alt}
         roundedCircle
       />
       <div className="advisor-info">
-        <div className="advisor-name">{anonymousName}</div>
+        <p className="advisor-name">
+          {nameSplit[0]}<br />{nameSplit[1]}
+        </p>
       </div>
     </div>
   );

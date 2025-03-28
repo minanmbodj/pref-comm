@@ -1,117 +1,62 @@
-import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Image } from "react-bootstrap";
-import parse from "html-react-parser";
-import { imgurl, post } from "../../../middleware/requests";
-import "./css/AdvisorDetails.css";
+import { useState } from "react";
+import { Container, Image, Row } from "react-bootstrap";
 
-const AdvisorDetails = ({ advisor, acceptCallback, rejectCallback, formData, advisorName }) => {
-  const [advisorProfile, setAdvisorProfile] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [showAdvisorProfile, setShowAdvisorProfile] = useState(false);
-  // const [showRating, setShowRating] = useState(false);
-  // const [rationale, setRationale] = useState("");
+const AdvisorDetails = ({ advisor, avatar }) => {
+	const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (advisor) {
-      getAdvisorProfile(advisor.movie_id);
-    }
-  }, [advisor]);
-
-  const getAdvisorProfile = (advisor_id) => {
-    setLoading(true);
-    post("prefComm/advisor/profile/", { advisor_id })
-      .then((response) => response.json())
-      .then((advisor) => {
-        setAdvisorProfile(advisor);
-        setShowAdvisorProfile(true);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  // useEffect(() => {
-  //   if (formData) {
-  //     setShowRating(formData.rating !== undefined);
-  //     setRationale(formData.rationale);
-  //   }
-  // }, [formData]);
-
-  const advisorProfileLabels = (key, value) => {
-    switch (key) {
-      case "likes":
-        return `<strong>The advisor likes</strong> ${value}`;
-      case "dislikes":
-        return `<strong>The advisor dislikes</strong> ${value}`;
-      case "most_rated_genre":
-        return `<strong>The advisor gave the highest rating to</strong> ${value.toLowerCase()} movies`;
-      case "genretopten":
-        return `<strong>Top ten movies rated highly by the advisor are</strong> ${value.toLowerCase()} movies`;
-      case "genre_with_least_rating":
-        return `<strong>The advisor's lowest rated movie was a${['a', 'e', 'i', 'o', 'u'].includes(value[0].toLowerCase()) ? 'n' : ''}</strong> ${value.toLowerCase()} movie`;
-      default:
-        return `The advisor's ${key} is ${value}`;
-    }
-  };
-
-  return (
-    <Container className="advisor-details-container">
-      <Row className="advisor-details-header">
-        <Col>
-          <h4>{advisorName}'s Profile</h4>
-        </Col>
-      </Row>
-      <Row className="advisor-details-content">
-        <Col>
-          {loading ? (
-            <div>Loading advisor details...</div>
-          ) : (
-            <>
-              {showAdvisorProfile && advisorProfile && (
-                <div className="advisor-profile box">
-                  <div className="profile-heading">
-                    <Image 
-                      className="advisor-image-about" 
-                      src={imgurl(advisor.poster_identifier)} 
-                      alt="profile description" 
-                      roundedCircle
-                    />
-                  </div>
-                  <div className="profile-details">
-                    <h6 className="section-title">About {advisorName}</h6>
-                    <ul className="profile-list">
-                      {Object.entries(advisorProfile.profile).map(([key, value]) => (
-                        <li key={key} className="profile-item">
-                          {parse(advisorProfileLabels(key, value))}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              )}
-              <div className="recommendation-section box">
-                <h6 className="section-title">{advisorName}'s Recommendation to You</h6>
-                <div className="recommendation-content">
-                  <Image
-                    className="recommendation-poster"
-                    src={imgurl(advisor.poster_identifier)}
-                    alt={advisor.name}
-                  />
-                  <p className="recommendation-description">
-                    Description of the advisor's recommendation to the user.
-                    Will include extra details specified later on.
-                  </p>
-                </div>
-              </div>
-            </>
-          )}
-        </Col>
-      </Row>
-    </Container>
-  );
+	return (
+		<Container className="advisor-details-container">
+			<Row className="advisor-details-header">
+				<h4>{avatar.name}'s Profile</h4>
+			</Row>
+			<Row className="advisor-details-content">
+				{loading ? (
+					<div>Loading advisor details...</div>
+				) : (
+					<>
+						<div className="advisor-profile box">
+							<div className="profile-heading">
+								<Image
+									className="advisor-image-about"
+									src={avatar.src}
+									alt={avatar.alt}
+									roundedCircle
+								/>
+							</div>
+							<div className="profile-details">
+								<h6 className="section-title">Top movies</h6>
+								<ul className="profile-list">
+									{Array.from(advisor.movies).map((movie, idx) => (
+										<li key={`{advisorName}-movies-${idx}`} className="profile-item">
+											<Image
+												className="advisor-image-about"
+												src={movie.poster}
+												alt="profile description"
+											/>
+											<p>{movie.title}</p>
+										</li>
+									))}
+								</ul>
+							</div>
+						</div>
+						<div className="recommendation-section box">
+							<h6 className="section-title">{avatar.name}'s Recommendation to You</h6>
+							<div className="recommendation-content">
+								<Image
+									className="recommendation-poster"
+									src={advisor.recommendation.poster}
+									alt={`${advisor.name} recommendation: ${advisor.recommendation.formal}`}
+								/>
+								<p className="recommendation-description">
+									{advisor.recommendation.formal}
+								</p>
+							</div>
+						</div>
+					</>
+				)}
+			</Row>
+		</Container>
+	);
 };
 
 export default AdvisorDetails;

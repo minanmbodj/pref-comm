@@ -2,7 +2,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Suspense, useEffect, useState } from 'react';
 import { ThemeProvider } from 'react-bootstrap';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import './App.css';
+import './styles/App.css';
+import './styles/components.css';
+import './styles/main.css';
 import { WarningDialog } from './widgets/dialogs/warningDialog';
 
 import MovieRatingPage from './pages/MovieRatingPage';
